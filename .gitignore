@@ -1,0 +1,73 @@
+############################################################
+# Git ignore for WordPress plugin with Vite/Vue frontend
+# Plugin: cartnail-wp
+# Adjust as needed for your team/release process.
+############################################################
+
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+*.sw?
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.iml
+
+# Node / Vite build artifacts
+node_modules/
+dist/
+dist-ssr/
+.vite/
+.cache/
+.turbo/
+coverage/
+.nyc_output/
+.eslintcache
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment files (keep examples)
+.env
+.env.*
+!.env.example
+
+# PHP / Composer (uncomment vendor/ if you don't commit vendor code)
+vendor/
+composer.lock
+composer.phar
+
+# PHPUnit / testing
+.phpunit.result.cache
+phpunit.xml
+
+# Temporary and local files
+tmp/
+temp/
+.tmp/
+*.local
+*.local.*
+
+# Output bundles/archives
+*.zip
+*.tar
+*.tar.gz
+
+# Optional plugin-local runtime folders (avoid committing runtime files)
+uploads/
+cache/
+
+# Notes:
+# - If distributing without a build step, you may want to commit dist/.
+#   Remove it from this ignore or create a separate export script.
+# - Consider committing composer.lock if you prefer deterministic installs.
