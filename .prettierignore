@@ -5,5 +5,4 @@ coverage/
 .idea/
 .vscode/
 *.min.*
-vite.config.*
 readme.txt
