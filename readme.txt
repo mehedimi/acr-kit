@@ -1,6 +1,6 @@
-=== Cartnail ===
-Contributors: cartnail
-Donate link: https://example.com/cartnail
+=== Abandoned Cart Recover ===
+Contributors: abandoned-cart-recover
+Donate link: https://example.com/abandoned-cart-recover
 Tags: woocommerce, abandoned cart, cart recovery, email, sms, reminders, marketing automation
 Requires at least: 6.0
 Tested up to: 6.7
@@ -13,7 +13,7 @@ Recover abandoned carts in WooCommerce with automated reminders, smart recovery 
 
 == Description ==
 
-Cartnail helps you win back lost sales by automatically detecting abandoned carts and sending timely reminders to customers. Use email (and optionally SMS/WhatsApp via addons or custom integrations) with unique recovery links that restore the shopper’s cart in a single click.
+Abandoned Cart Recover helps you win back lost sales by automatically detecting abandoned carts and sending timely reminders to customers. Use email (and optionally SMS/WhatsApp via addons or custom integrations) with unique recovery links that restore the shopper’s cart in a single click.
 
 Features:
 
@@ -33,9 +33,9 @@ Requirements:
 == Installation ==
 
 1. Make sure WooCommerce is installed and active.
-2. Upload the plugin folder `cartnail-wp` to `/wp-content/plugins/` or install it via the WordPress Plugins screen.
-3. Activate “Cartnail”.
-4. Go to Admin → Cartnail to configure reminder timings, email sender, and template.
+2. Upload the plugin folder `abandoned-cart-recover` to `/wp-content/plugins/` or install it via the WordPress Plugins screen.
+3. Activate “Abandoned Cart Recover”.
+4. Go to Admin → Abandoned Cart Recover to configure reminder timings, email sender, and template.
 
 Developer setup (optional):
 
@@ -46,31 +46,31 @@ Developer setup (optional):
 
 == Frequently Asked Questions ==
 
-= Does Cartnail work without WooCommerce? =
-No. Cartnail is designed specifically for WooCommerce carts and checkout.
+= Does Abandoned Cart Recover work without WooCommerce? =
+No. Abandoned Cart Recover is designed specifically for WooCommerce carts and checkout.
 
 = How are abandoned carts detected? =
 When a logged‑in user or a guest provides an email and does not complete checkout within your configured time window, the cart is marked as abandoned and scheduled for reminders.
 
 = Can I customize the reminder emails? =
-Yes. Go to Admin → Cartnail → Emails to edit the subject, content, logo, and button styles. You can use merge tags like {customer_name}, {cart_items}, and {recovery_link}.
+Yes. Go to Admin → Abandoned Cart Recover → Emails to edit the subject, content, logo, and button styles. You can use merge tags like {customer_name}, {cart_items}, and {recovery_link}.
 
 = Do you send SMS/WhatsApp? =
-Out of the box, Cartnail focuses on email. You can integrate SMS/WhatsApp via third‑party gateways or custom code using WordPress hooks and the public API.
+Out of the box, Abandoned Cart Recover focuses on email. You can integrate SMS/WhatsApp via third‑party gateways or custom code using WordPress hooks and the public API.
 
 = Is this GDPR compliant? =
-Cartnail includes opt‑out links and respects WooCommerce/WordPress privacy settings. You are responsible for configuring consent according to your region.
+Abandoned Cart Recover includes opt‑out links and respects WooCommerce/WordPress privacy settings. You are responsible for configuring consent according to your region.
 
 == Screenshots ==
 
-1. Cartnail dashboard with recovery metrics
+1. Abandoned Cart Recover dashboard with recovery metrics
 2. Email template editor
 3. Reminder schedule settings
 
 == Changelog ==
 
 = 0.1.0 =
-Initial release of Cartnail (abandoned cart recovery for WooCommerce).
+Initial release of Abandoned Cart Recover (abandoned cart recovery for WooCommerce).
 
 == Upgrade Notice ==
 
@@ -79,4 +79,4 @@ Initial public release with automated reminders, recovery links, and basic analy
 
 == Privacy ==
 
-Cartnail stores minimal cart and contact data required to send reminders and track recoveries. The plugin does not transmit data to third‑party servers by default. If you enable external email/SMS services, ensure you comply with applicable laws and update your privacy policy accordingly.
+Abandoned Cart Recover stores minimal cart and contact data required to send reminders and track recoveries. The plugin does not transmit data to third‑party servers by default. If you enable external email/SMS services, ensure you comply with applicable laws and update your privacy policy accordingly.
