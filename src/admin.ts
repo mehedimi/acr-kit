@@ -8,6 +8,6 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
 })
-const app = createApp(App);
-app.use(router);
+const app = createApp(App)
+app.use(router)
 app.mount('#acr-admin-app')

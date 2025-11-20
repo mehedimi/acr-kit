@@ -2,7 +2,6 @@
 
 namespace AbandonedCartRecover\Support;
 
-class Connection
-{
+class Connection {
 
 }

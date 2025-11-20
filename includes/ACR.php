@@ -3,6 +3,12 @@
 namespace AbandonedCartRecover;
 
 class ACR {
+
+	public static function defineConstants() {
+		if ( ! defined( 'ACR_APP_URL' ) ) {
+			define( 'ACR_APP_URL', 'https://app.abandonedcartrecover.com' );
+		}
+	}
 	public static function registerMenuPage() {
 		add_action(
 			'admin_menu',
@@ -21,5 +27,9 @@ class ACR {
 				);
 			}
 		);
+	}
+
+	public static function getAppUrl(): string {
+		return ACR_APP_URL;
 	}
 }

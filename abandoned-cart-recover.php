@@ -21,6 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+ACR::defineConstants();
+
 Loader::setDistUrl( plugin_dir_url( __FILE__ ) . 'dist/' );
 Loader::allowEsModule();
 
