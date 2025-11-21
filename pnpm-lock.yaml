@@ -10,6 +10,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.17
         version: 4.1.17(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2))
+      '@vueuse/core':
+        specifier: ^14.0.0
+        version: 14.0.0(vue@3.5.24(typescript@5.9.3))
       '@vueuse/integrations':
         specifier: ^14.0.0
         version: 14.0.0(async-validator@4.2.5)(axios@1.13.2)(change-case@5.4.4)(vue@3.5.24(typescript@5.9.3))

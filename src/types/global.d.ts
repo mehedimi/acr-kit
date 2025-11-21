@@ -4,6 +4,7 @@ declare global {
     nonce: string
     name: string
     homeUrl: string
+    assetUrl: string
   }
 
   const acrApp: AcrApp

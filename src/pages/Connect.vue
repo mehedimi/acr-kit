@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
-import { CircleCheckBig, Plug, Loader } from 'lucide-vue-next'
+import { CircleCheckBig, Plug } from 'lucide-vue-next'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { get } from '@/composables/useHttp.ts'
 import { ref } from 'vue'

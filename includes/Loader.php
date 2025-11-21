@@ -12,15 +12,20 @@ class Loader {
 		self::$distUrl = $url;
 	}
 
+	public static function setGlobalAssetLoader() {
+		wp_add_inline_script( 'acr-admin', 'function __acrAssetLoader(file){return acrApp.assetUrl + file}', 'before' );
+	}
+
 	public static function adminLocalizeScript() {
 		wp_localize_script(
 			'acr-admin',
 			'acrApp',
 			array(
-				'apiUrl'  => Rest::getApiUrl(),
-				'nonce'   => wp_create_nonce( 'wp_rest' ),
-				'name'    => get_bloginfo( 'name' ),
-				'homeUrl' => home_url(),
+				'apiUrl'   => Rest::getApiUrl(),
+				'nonce'    => wp_create_nonce( 'wp_rest' ),
+				'name'     => get_bloginfo( 'name' ),
+				'homeUrl'  => home_url(),
+				'assetUrl' => self::$distUrl,
 			)
 		);
 	}
@@ -28,7 +33,8 @@ class Loader {
 	public static function allowEsModule() {
 		add_filter(
 			'script_loader_tag',
-			function ( $tag, $handle, $src ) {
+			function ( $tag, $handle ) {
+
 				if ( strpos( $handle, 'acr-' ) === 0 ) {
 					// Ensure we only add a type module once and keep other attributes
 					if ( false === strpos( $tag, 'type=' ) ) {
@@ -61,14 +67,20 @@ class Loader {
 			null
 		);
 		self::adminLocalizeScript();
+		self::setGlobalAssetLoader();
 	}
 
 	public static function enqueueAdminProdScripts() {
+		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin.css', );
 		wp_enqueue_script(
 			'acr-admin',
 			self::$distUrl . 'assets/admin.js',
+			array(),
+			null,
+			true
 		);
 		self::adminLocalizeScript();
+		self::setGlobalAssetLoader();
 	}
 
 	public static function enqueueFrontendDevScripts() {
