@@ -2,6 +2,8 @@
 
 namespace AbandonedCartRecover;
 
+use AbandonedCartRecover\Support\Options;
+
 class Loader {
 	public static $distUrl;
 	public static function isDev(): bool {
@@ -26,6 +28,9 @@ class Loader {
 				'name'     => get_bloginfo( 'name' ),
 				'homeUrl'  => home_url(),
 				'assetUrl' => self::$distUrl,
+				'appToken' => Options::getAppToken(),
+				'appUrl'   => ACR::getAppUrl(),
+				'locale'   => get_locale(),
 			)
 		);
 	}
@@ -100,12 +105,18 @@ class Loader {
 	}
 
 	public static function loadDevScripts() {
-		add_action( 'admin_enqueue_scripts', array( self::class, 'enqueueAdminDevScripts' ) );
-		add_action( 'wp_enqueue_scripts', array( self::class, 'enqueueFrontendDevScripts' ) );
+		if ( is_admin() ) {
+			add_action( 'admin_enqueue_scripts', array( self::class, 'enqueueAdminDevScripts' ) );
+		} else {
+			// add_action( 'wp_enqueue_scripts', array( self::class, 'enqueueFrontendDevScripts' ) );
+		}
 	}
 
 	public static function loadProdScripts() {
-		add_action( 'admin_enqueue_scripts', array( self::class, 'enqueueAdminProdScripts' ) );
-		add_action( 'wp_enqueue_scripts', array( self::class, 'enqueueFrontendProdScripts' ) );
+		if ( is_admin() ) {
+			add_action( 'admin_enqueue_scripts', array( self::class, 'enqueueAdminProdScripts' ) );
+		} else {
+			// add_action( 'wp_enqueue_scripts', array( self::class, 'enqueueFrontendProdScripts' ) );
+		}
 	}
 }

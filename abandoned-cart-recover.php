@@ -14,6 +14,7 @@
 use AbandonedCartRecover\ACR;
 use AbandonedCartRecover\Loader;
 use AbandonedCartRecover\Rest;
+use AbandonedCartRecover\Support\Cart;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -32,6 +33,11 @@ if ( Loader::isDev() ) {
 	Loader::loadProdScripts();
 }
 
-ACR::registerMenuPage();
+if ( is_admin() ) {
+	ACR::registerMenuPage();
+} else {
+	Cart::registerHooks();
+}
+
 
 Rest::init();

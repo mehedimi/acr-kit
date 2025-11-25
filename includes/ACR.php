@@ -13,7 +13,8 @@ class ACR {
 		add_action(
 			'admin_menu',
 			function () {
-				add_menu_page(
+				add_submenu_page(
+					'woocommerce',
 					__( 'Abandoned Cart Recover', 'abandoned-cart-recover' ),
 					__( 'Abandoned Cart Recover', 'abandoned-cart-recover' ),
 					'manage_options',
@@ -22,8 +23,6 @@ class ACR {
 						// Keeping the mount point ID unchanged to match existing JS entry (src/admin.ts)
 						echo '<div style="margin-left: -20px" id="acr-admin-app"></div>';
 					},
-					'dashicons-cart',
-					56
 				);
 			}
 		);

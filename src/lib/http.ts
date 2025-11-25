@@ -8,3 +8,12 @@ export const wpHttp = axios.create({
     Accept: 'application/json',
   },
 })
+
+export const appHttp = axios.create({
+  baseURL: acrApp.appUrl,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    Authorization: `Bearer ${acrApp.appToken}`,
+  },
+})

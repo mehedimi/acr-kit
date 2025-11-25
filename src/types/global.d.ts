@@ -5,6 +5,9 @@ declare global {
     name: string
     homeUrl: string
     assetUrl: string
+    appToken?: string
+    appUrl: string
+    locale: string
   }
 
   const acrApp: AcrApp
