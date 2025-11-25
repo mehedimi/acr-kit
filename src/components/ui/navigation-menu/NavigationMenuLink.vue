@@ -18,7 +18,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     v-bind="forwarded"
     :class="
       cn(
-        'acr:focus:bg-accent acr:focus:text-accent-foreground acr:ring-ring/10 acr:dark:ring-ring/20 acr:dark:outline-ring/40 acr:outline-ring/50 acr:[&_svg:not([class*=\'text-\'])]:text-muted-foreground acr:flex acr:flex-col acr:gap-1 acr:rounded-sm acr:p-2 acr:text-sm acr:transition-[color,box-shadow] acr:focus-visible:ring-4 acr:focus-visible:outline-1 acr:[&_svg:not([class*=\'size-\'])]:size-4',
+        'acr:data-[active=true]:focus:bg-accent acr:data-[active=true]:hover:bg-accent acr:data-[active=true]:bg-accent/50 acr:data-[active=true]:text-accent-foreground acr:hover:bg-accent acr:hover:text-accent-foreground acr:focus:bg-accent acr:focus:text-accent-foreground acr:ring-ring/10 acr:dark:ring-ring/20 acr:dark:outline-ring/40 acr:outline-ring/50 acr:[&_svg:not([class*=\'text-\'])]:text-muted-foreground acr:flex acr:flex-col acr:gap-1 acr:rounded-sm acr:p-2 acr:text-sm acr:transition-[color,box-shadow] acr:focus-visible:ring-4 acr:focus-visible:outline-1 acr:[&_svg:not([class*=\'size-\'])]:size-4',
         props.class,
       )
     "

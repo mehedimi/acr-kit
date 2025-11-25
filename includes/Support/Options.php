@@ -38,4 +38,8 @@ class Options {
 	public static function getAppToken(): string {
 		return get_option( 'acr_app_token', '' );
 	}
+
+	public static function hasAppToken(): bool {
+		return ! empty( self::getAppToken() );
+	}
 }

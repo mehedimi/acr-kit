@@ -37,14 +37,14 @@ const links = [
 </script>
 
 <template>
-  <div class="acr:bg-white acr:px-4">
+  <div class="acr:bg-white acr:p-4">
     <NavigationMenu>
-      <NavigationMenuList class="acr:gap-x-5">
+      <NavigationMenuList class="acr:gap-x-2">
         <NavigationMenuItem class="acr:!mb-0" v-for="(link, index) in links" :key="index">
           <NavigationMenuLink as-child>
             <RouterLink
-              class="acr:py-3 acr:flex acr:flex-row acr:items-center acr:gap-x-1 acr:!transition-colors acr:rounded-b-none acr:hover:border-b-gray-500 acr:border-b-3 acr:border-b-transparent acr:!text-gray-500"
               :to="{ name: link.name }"
+              class="acr:flex-row acr:items-center acr:gap-2 acr:!text-gray-500 acr:px-4 acr:!rounded-full"
               ><component :is="link.icon" /> <span>{{ link.title }}</span></RouterLink
             >
           </NavigationMenuLink>

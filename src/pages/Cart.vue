@@ -54,10 +54,10 @@ cartStore.fetch()
         <TableRow v-for="cart in cartStore.data">
           <TableCell class="font-medium">{{ names([cart.firstName, cart.lastName]) }}</TableCell>
           <TableCell>
-            <template v-if="cart.phone || cart.email">
+            <div v-if="cart.phone || cart.email" class="acr:flex acr:flex-col">
               <a v-if="cart.email" :href="`mailto:${cart.email}`">{{ cart.email }}</a>
               <a v-if="cart.phone" :href="`tel:${cart.phone}`">{{ cart.phone }}</a>
-            </template>
+            </div>
             <span v-else>—</span>
           </TableCell>
           <TableCell>

@@ -19,13 +19,17 @@ class Api {
 		);
 	}
 
-	public static function sendCart( string $sessionId, array $content ) {
-		wp_remote_request(
-			sprintf( '%s/api/v1/carts/%s', ACR::getAppUrl(), $sessionId ),
+	public static function sendCart( ?string $carId, array $content ) {
+		if ( ! Options::hasAppToken() ) {
+			return;
+		}
+
+		$response = wp_remote_request(
+			sprintf( '%s/api/v1/carts/%s', ACR::getAppUrl(), $carId ),
 			array(
-				'method'   => 'PUT',
+				'method'   => is_null( $carId ) ? 'POST' : 'PATCH',
 				'body'     => wp_json_encode( array_filter( $content ) ),
-				'blocking' => false,
+				'blocking' => is_null( $carId ),
 				'headers'  => array(
 					'Content-Type'  => 'application/json',
 					'Authorization' => 'Bearer ' . Options::getAppToken(),
@@ -33,5 +37,19 @@ class Api {
 				),
 			)
 		);
+
+		if ( ! is_null( $carId ) ) {
+			return;
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+
+		if ( is_wp_error( $body ) ) {
+			return;
+		}
+
+		$id = json_decode( $body )->data->id;
+
+		WC()->session->set( 'acr_cart_id', $id );
 	}
 }

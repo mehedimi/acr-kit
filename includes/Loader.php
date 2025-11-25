@@ -94,6 +94,7 @@ class Loader {
 			'acr-frontend',
 			'http://localhost:5174/src/frontend.ts',
 			array( 'acr-vite-client' ),
+			null
 		);
 	}
 
@@ -108,7 +109,7 @@ class Loader {
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', array( self::class, 'enqueueAdminDevScripts' ) );
 		} else {
-			// add_action( 'wp_enqueue_scripts', array( self::class, 'enqueueFrontendDevScripts' ) );
+			add_action( 'wp_enqueue_scripts', array( self::class, 'enqueueFrontendDevScripts' ) );
 		}
 	}
 
@@ -116,7 +117,7 @@ class Loader {
 		if ( is_admin() ) {
 			add_action( 'admin_enqueue_scripts', array( self::class, 'enqueueAdminProdScripts' ) );
 		} else {
-			// add_action( 'wp_enqueue_scripts', array( self::class, 'enqueueFrontendProdScripts' ) );
+			add_action( 'wp_enqueue_scripts', array( self::class, 'enqueueFrontendProdScripts' ) );
 		}
 	}
 }
