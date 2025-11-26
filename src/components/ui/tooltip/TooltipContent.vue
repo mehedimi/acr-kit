@@ -29,7 +29,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       v-bind="{ ...forwarded, ...$attrs }"
       :class="
         cn(
-          'acr:bg-foreground acr:text-background acr:animate-in acr:fade-in-0 acr:zoom-in-95 acr:data-[state=closed]:animate-out acr:data-[state=closed]:fade-out-0 acr:data-[state=closed]:zoom-out-95 acr:data-[side=bottom]:slide-in-from-top-2 acr:data-[side=left]:slide-in-from-right-2 acr:data-[side=right]:slide-in-from-left-2 acr:data-[side=top]:slide-in-from-bottom-2 acr:z-50 acr:w-fit acr:rounded-md acr:px-3 acr:py-1.5 acr:text-xs acr:text-balance',
+          'acr:bg-foreground acr:text-background acr:animate-in acr:fade-in-0 acr:zoom-in-95 acr:data-[state=closed]:animate-out acr:data-[state=closed]:fade-out-0 acr:data-[state=closed]:zoom-out-95 acr:data-[side=bottom]:slide-in-from-top-2 acr:data-[side=left]:slide-in-from-right-2 acr:data-[side=right]:slide-in-from-left-2 acr:data-[side=top]:slide-in-from-bottom-2 acr:z-[99999] acr:w-fit acr:rounded-md acr:px-3 acr:py-1.5 acr:text-xs acr:text-balance',
           props.class,
         )
       "

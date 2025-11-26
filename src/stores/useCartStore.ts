@@ -4,7 +4,11 @@ import type { CursorPaginated } from '@/types/cursor.ts'
 import { appHttp } from '@/lib/http.ts'
 
 export const useCartStore = defineStore('cartStore', {
-  state: (): CursorPaginated<Cart> => ({ data: [], links: {}, meta: { per_page: 15, path: '/' } }),
+  state: (): CursorPaginated<Cart> => ({
+    data: [],
+    links: {},
+    meta: { per_page: 15, path: '/' },
+  }),
   actions: {
     fetch(cursor?: string) {
       appHttp

@@ -22,10 +22,20 @@ import {
 import { Button } from '@/components/ui/button'
 import { RefreshCcw, ShoppingCart } from 'lucide-vue-next'
 import { TooltipContent, TooltipProvider, TooltipTrigger, Tooltip } from '@/components/ui/tooltip'
+import type { Cart } from '@/types/cart.ts'
+import { useRouter } from 'vue-router'
+import { Badge } from '@/components/ui/badge'
+import { toStatusTitle, toStatusVariant } from '@/enum/cart-status.ts'
+import Date from '@/components/Date.vue'
 
 const cartStore = useCartStore()
 
 cartStore.fetch()
+const router = useRouter()
+
+function openCart(cart: Cart) {
+  router.push({ name: 'cart.show', params: { id: cart.id } })
+}
 </script>
 
 <template>
@@ -46,12 +56,12 @@ cartStore.fetch()
           <TableHead>Contact</TableHead>
           <TableHead class="acr:min-w-[150px]">Line Items</TableHead>
           <TableHead>Total</TableHead>
-          <TableHead>Created At</TableHead>
           <TableHead>Status</TableHead>
+          <TableHead>Created At</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-for="cart in cartStore.data">
+        <TableRow v-for="cart in cartStore.data" class="acr:cursor-pointer" @click="openCart(cart)">
           <TableCell class="font-medium">{{ names([cart.firstName, cart.lastName]) }}</TableCell>
           <TableCell>
             <div v-if="cart.phone || cart.email" class="acr:flex acr:flex-col">
@@ -81,8 +91,12 @@ cartStore.fetch()
             </div>
           </TableCell>
           <TableCell>{{ formatPrice(cart.totalPrice, cart.currency) }}</TableCell>
-          <TableCell>{{ cart.createdAt }}</TableCell>
-          <TableCell>{{ cart.updatedAt }}</TableCell>
+          <TableCell
+            ><Badge :variant="toStatusVariant(cart.status)">{{
+              toStatusTitle(cart.status)
+            }}</Badge></TableCell
+          >
+          <TableCell><Date :date="cart.createdAt" /></TableCell>
         </TableRow>
       </TableBody>
     </Table>
@@ -98,11 +112,12 @@ cartStore.fetch()
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Button variant="outline" size="sm" @click="cartStore.fetch()">
+        <Button variant="outline" @click="cartStore.fetch()">
           <RefreshCcw />
           Refresh
         </Button>
       </EmptyContent>
     </Empty>
+    <RouterView />
   </AppLayout>
 </template>

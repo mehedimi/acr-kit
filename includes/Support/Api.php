@@ -19,37 +19,97 @@ class Api {
 		);
 	}
 
-	public static function sendCart( ?string $carId, array $content ) {
+	/**
+	 * @param string|null $carId
+	 * @param array       $content
+	 * @return null|string
+	 */
+	public static function sendCart( ?string $carId, array $content ): ?string {
 		if ( ! Options::hasAppToken() ) {
-			return;
+			return null;
 		}
 
 		$response = wp_remote_request(
 			sprintf( '%s/api/v1/carts/%s', ACR::getAppUrl(), $carId ),
 			array(
 				'method'   => is_null( $carId ) ? 'POST' : 'PATCH',
-				'body'     => wp_json_encode( array_filter( $content ) ),
+				'body'     => wp_json_encode(
+					array_filter(
+						$content,
+						function ( $item ) {
+							return ! is_null( $item );
+						}
+					)
+				),
 				'blocking' => is_null( $carId ),
 				'headers'  => array(
-					'Content-Type'  => 'application/json',
-					'Authorization' => 'Bearer ' . Options::getAppToken(),
-					'Accept'        => 'application/json',
+					'Content-Type'    => 'application/json',
+					'Authorization'   => 'Bearer ' . Options::getAppToken(),
+					'Accept'          => 'application/json',
+					'X-Forwarded-For' => Helper::getIpAddress(),
 				),
 			)
 		);
 
 		if ( ! is_null( $carId ) ) {
-			return;
+			return null;
 		}
 
 		$body = wp_remote_retrieve_body( $response );
 
 		if ( is_wp_error( $body ) ) {
-			return;
+			error_log( $body );
+			return null;
 		}
 
-		$id = json_decode( $body )->data->id;
+		return json_decode( $body )->data->id;
+	}
 
-		WC()->session->set( 'acr_cart_id', $id );
+	public static function cartMarkAsCompleted( string $id ) {
+		if ( ! Options::hasAppToken() ) {
+			return null;
+		}
+
+		wp_remote_request(
+			sprintf( '%s/api/v1/carts/%s/completed', ACR::getAppUrl(), $id ),
+			array(
+				'method'  => 'PATCH',
+				'headers' => array(
+					'Content-Type'    => 'application/json',
+					'Authorization'   => 'Bearer ' . Options::getAppToken(),
+					'Accept'          => 'application/json',
+					'X-Forwarded-For' => Helper::getIpAddress(),
+				),
+			)
+		);
+	}
+
+	/**
+	 * @param string $id
+	 * @return object|\WP_Error
+	 */
+	public static function getCart( string $id ) {
+		if ( ! Options::hasAppToken() ) {
+			return new \WP_Error( 'no_token', 'No token found' );
+		}
+
+		$response = wp_remote_request(
+			sprintf( '%s/api/v1/carts/%s', ACR::getAppUrl(), $id ),
+			array(
+				'method'  => 'GET',
+				'headers' => array(
+					'Content-Type'    => 'application/json',
+					'Authorization'   => 'Bearer ' . Options::getAppToken(),
+					'Accept'          => 'application/json',
+					'X-Forwarded-For' => Helper::getIpAddress(),
+				),
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		return json_decode( wp_remote_retrieve_body( $response ) )->data;
 	}
 }

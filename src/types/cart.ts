@@ -1,6 +1,7 @@
+import type { CartStatus } from '@/enum/cart-status.ts'
+
 export interface Cart {
   id: string
-  idPlain: string
   firstName?: string | null
   lastName?: string | null
   email?: string | null
@@ -10,6 +11,7 @@ export interface Cart {
   ipAddress: string
   totalPrice: number
   currency: string
+  status: CartStatus
   createdAt: string // or Date if you convert it
   updatedAt: string // or Date if you convert it
 }
@@ -22,4 +24,6 @@ export interface LineItem {
   tax: number
   thumbnailMd: string
   thumbnailSm: string
+  variationId?: string
+  variation?: Record<string, string>
 }

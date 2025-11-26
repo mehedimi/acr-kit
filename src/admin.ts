@@ -12,7 +12,7 @@ app.use(
   createRouter({
     history: createWebHashHistory(),
     routes,
-    linkExactActiveClass: 'acr:!bg-primary acr:!text-white',
+    linkActiveClass: 'acr:!bg-primary acr:!text-white',
   }),
 )
 app.mount('#acr-admin-app')

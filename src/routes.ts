@@ -13,8 +13,15 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/carts',
-    component: () => import('./pages/Cart.vue'),
+    component: () => import('./pages/cart/Index.vue'),
     name: 'cart.index',
+    children: [
+      {
+        path: ':id',
+        component: () => import('./pages/cart/Show.vue'),
+        name: 'cart.show',
+      },
+    ],
   },
   {
     path: '/recovery-options',

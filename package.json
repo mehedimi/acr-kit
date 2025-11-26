@@ -13,6 +13,7 @@
     "format:check": "prettier . --check"
   },
   "dependencies": {
+    "@internationalized/date": "^3.10.0",
     "@tailwindcss/vite": "^4.1.17",
     "@tanstack/vue-table": "^8.21.3",
     "@vueuse/core": "^14.0.0",
