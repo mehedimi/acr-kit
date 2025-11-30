@@ -35,6 +35,17 @@ class Loader {
 		);
 	}
 
+	public static function frontendLocalizeScript() {
+		wp_localize_script(
+			'acr-frontend',
+			'acrApp',
+			array(
+				'apiUrl' => Rest::getApiUrl(),
+				'nonce'  => wp_create_nonce( 'wp_rest' ),
+			)
+		);
+	}
+
 	public static function allowEsModule() {
 		add_filter(
 			'script_loader_tag',
@@ -96,6 +107,8 @@ class Loader {
 			array( 'acr-vite-client' ),
 			null
 		);
+
+		self::frontendLocalizeScript();
 	}
 
 	public static function enqueueFrontendProdScripts() {
@@ -103,6 +116,7 @@ class Loader {
 			'acr-frontend',
 			self::$distUrl . 'assets/frontend.js',
 		);
+		self::frontendLocalizeScript();
 	}
 
 	public static function loadDevScripts() {

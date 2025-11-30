@@ -114,6 +114,10 @@ watch(open, () => {
               >
             </TableRow>
             <TableRow>
+              <TableCell class="acr:!font-semibold">Last Active At</TableCell>
+              <TableCell><Date :date="cart.lastActiveAt" /></TableCell>
+            </TableRow>
+            <TableRow>
               <TableCell class="acr:!font-semibold">Created At</TableCell>
               <TableCell><Date :date="cart.createdAt" /></TableCell>
             </TableRow>

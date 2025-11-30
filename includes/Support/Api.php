@@ -4,6 +4,7 @@ namespace AbandonedCartRecover\Support;
 
 use AbandonedCartRecover\ACR;
 use AbandonedCartRecover\Rest;
+use WP_Error;
 
 class Api {
 	public static function getConnectionUrl(): string {
@@ -28,6 +29,8 @@ class Api {
 		if ( ! Options::hasAppToken() ) {
 			return null;
 		}
+
+		error_log( json_encode( $content, JSON_PRETTY_PRINT ) );
 
 		$response = wp_remote_request(
 			sprintf( '%s/api/v1/carts/%s', ACR::getAppUrl(), $carId ),
@@ -73,8 +76,9 @@ class Api {
 		wp_remote_request(
 			sprintf( '%s/api/v1/carts/%s/completed', ACR::getAppUrl(), $id ),
 			array(
-				'method'  => 'PATCH',
-				'headers' => array(
+				'method'   => 'PATCH',
+				'blocking' => false,
+				'headers'  => array(
 					'Content-Type'    => 'application/json',
 					'Authorization'   => 'Bearer ' . Options::getAppToken(),
 					'Accept'          => 'application/json',
@@ -86,11 +90,11 @@ class Api {
 
 	/**
 	 * @param string $id
-	 * @return object|\WP_Error
+	 * @return object|WP_Error
 	 */
 	public static function getCart( string $id ) {
 		if ( ! Options::hasAppToken() ) {
-			return new \WP_Error( 'no_token', 'No token found' );
+			return new WP_Error( 'no_token', 'No token found' );
 		}
 
 		$response = wp_remote_request(
@@ -111,5 +115,28 @@ class Api {
 		}
 
 		return json_decode( wp_remote_retrieve_body( $response ) )->data;
+	}
+
+	/**
+	 * @param string $id
+	 * @return void|WP_Error
+	 */
+	public static function pingCart( string $id ) {
+		if ( ! Options::hasAppToken() ) {
+			return new WP_Error( 'no_token', 'No token found' );
+		}
+
+		wp_remote_request(
+			sprintf( '%s/api/v1/carts/%s/ping', ACR::getAppUrl(), $id ),
+			array(
+				'method'   => 'PATCH',
+				'blocking' => false,
+				'headers'  => array(
+					'Authorization'   => 'Bearer ' . Options::getAppToken(),
+					'Accept'          => 'application/json',
+					'X-Forwarded-For' => Helper::getIpAddress(),
+				),
+			)
+		);
 	}
 }

@@ -6,7 +6,7 @@ use WC_Product_Variation;
 
 class Cart {
 
-	protected static function getCartId() {
+	public static function getCartId() {
 		return WC()->session->get( 'acr_cart_id' );
 	}
 
@@ -41,8 +41,6 @@ class Cart {
 			'currency'   => get_woocommerce_currency(),
 			'totalPrice' => WC()->cart->get_total( 'edit' ) ?: 0,
 		);
-
-		error_log( json_encode( $payload, JSON_PRETTY_PRINT ) );
 
 		if ( empty( $payload['lineItems'] ) ) {
 			return;

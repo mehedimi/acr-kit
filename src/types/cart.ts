@@ -12,6 +12,7 @@ export interface Cart {
   totalPrice: number
   currency: string
   status: CartStatus
+  lastActiveAt: string
   createdAt: string // or Date if you convert it
   updatedAt: string // or Date if you convert it
 }
