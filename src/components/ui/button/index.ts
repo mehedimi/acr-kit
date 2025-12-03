@@ -12,7 +12,7 @@ export const buttonVariants = cva(
         destructive:
           'acr:bg-destructive acr:text-white acr:hover:bg-destructive/90 acr:focus-visible:ring-destructive/20 acr:dark:focus-visible:ring-destructive/40 acr:dark:bg-destructive/60',
         outline:
-          'acr:border acr:bg-background acr:shadow-xs acr:hover:bg-accent acr:hover:text-accent-foreground acr:dark:bg-input/30 acr:dark:border-input acr:dark:hover:bg-input/50',
+          'acr:border acr:!text-muted-foreground acr:bg-background acr:shadow-xs acr:hover:bg-accent acr:hover:text-accent-foreground acr:dark:bg-input/30 acr:dark:border-input acr:dark:hover:bg-input/50',
         secondary: 'acr:bg-secondary acr:text-secondary-foreground acr:hover:bg-secondary/80',
         ghost: 'acr:hover:bg-accent acr:hover:text-accent-foreground acr:dark:hover:bg-accent/50',
         link: 'acr:text-primary acr:underline-offset-4 acr:hover:underline',

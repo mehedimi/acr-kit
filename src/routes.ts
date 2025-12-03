@@ -25,8 +25,19 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/recovery-options',
-    component: () => import('./pages/RecoveryOption.vue'),
-    name: 'recovery.options',
+    component: () => import('./pages/recover/Recover.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('./pages/recover/Index.vue'),
+        name: 'recovery.options',
+      },
+      {
+        path: 'email',
+        component: () => import('./pages/recover/Email.vue'),
+        name: 'recovery.options.email',
+      },
+    ],
   },
   {
     path: '/utilities',

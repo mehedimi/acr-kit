@@ -6,7 +6,24 @@ use AbandonedCartRecover\ACR;
 use AbandonedCartRecover\Rest;
 use WP_Error;
 
+/**
+ * @method static AppHttp blocking(bool $state = true)
+ * @method static AppHttp noBlocking()
+ * @method static array|WP_Error get(string $path, array $query = [])
+ * @method static array|WP_Error post(string $path, array $data = [])
+ * @method static array|WP_Error patch(string $path, array $data = [])
+ * @method static array|WP_Error put(string $path, array $data = [])
+ *
+ * @see AppHttp
+ */
 class Api {
+    public static function __callStatic(string $name, array $arguments)
+    {
+        $http = new AppHttp();
+
+        return call_user_func_array([$http, $name], $arguments);
+    }
+
 	public static function getConnectionUrl(): string {
 		return ACR::getAppUrl() . '/stores/create?' . http_build_query(
 			array(
@@ -26,117 +43,41 @@ class Api {
 	 * @return null|string
 	 */
 	public static function sendCart( ?string $carId, array $content ): ?string {
-		if ( ! Options::hasAppToken() ) {
-			return null;
-		}
+        $http = new AppHttp;
 
-		error_log( json_encode( $content, JSON_PRETTY_PRINT ) );
+        $body = array_filter(
+            $content,
+            function ( $item ) {
+                return ! is_null( $item );
+            }
+        );
 
-		$response = wp_remote_request(
-			sprintf( '%s/api/v1/carts/%s', ACR::getAppUrl(), $carId ),
-			array(
-				'method'   => is_null( $carId ) ? 'POST' : 'PATCH',
-				'body'     => wp_json_encode(
-					array_filter(
-						$content,
-						function ( $item ) {
-							return ! is_null( $item );
-						}
-					)
-				),
-				'blocking' => is_null( $carId ),
-				'headers'  => array(
-					'Content-Type'    => 'application/json',
-					'Authorization'   => 'Bearer ' . Options::getAppToken(),
-					'Accept'          => 'application/json',
-					'X-Forwarded-For' => Helper::getIpAddress(),
-				),
-			)
-		);
+        if ( is_null( $carId ) ) {
+            $response = $http->blocking()->post('/api/v1/carts', $body);
 
-		if ( ! is_null( $carId ) ) {
-			return null;
-		}
+            $body = wp_remote_retrieve_body( $response );
 
-		$body = wp_remote_retrieve_body( $response );
+            if ( is_wp_error( $body ) ) {
+                error_log( $body );
+                return null;
+            }
 
-		if ( is_wp_error( $body ) ) {
-			error_log( $body );
-			return null;
-		}
-
-		return json_decode( $body )->data->id;
+            return json_decode( $body )->data->id;
+        } else {
+            $http->patch(sprintf('/api/v1/carts/%s', $carId), $body);
+            return null;
+        }
 	}
 
 	public static function cartMarkAsCompleted( string $id ) {
-		if ( ! Options::hasAppToken() ) {
-			return null;
-		}
-
-		wp_remote_request(
-			sprintf( '%s/api/v1/carts/%s/completed', ACR::getAppUrl(), $id ),
-			array(
-				'method'   => 'PATCH',
-				'blocking' => false,
-				'headers'  => array(
-					'Content-Type'    => 'application/json',
-					'Authorization'   => 'Bearer ' . Options::getAppToken(),
-					'Accept'          => 'application/json',
-					'X-Forwarded-For' => Helper::getIpAddress(),
-				),
-			)
-		);
+        Api::noBlocking()->patch(sprintf( '/api/v1/carts/%s/completed', $id ));
 	}
 
 	/**
 	 * @param string $id
-	 * @return object|WP_Error
-	 */
-	public static function getCart( string $id ) {
-		if ( ! Options::hasAppToken() ) {
-			return new WP_Error( 'no_token', 'No token found' );
-		}
-
-		$response = wp_remote_request(
-			sprintf( '%s/api/v1/carts/%s', ACR::getAppUrl(), $id ),
-			array(
-				'method'  => 'GET',
-				'headers' => array(
-					'Content-Type'    => 'application/json',
-					'Authorization'   => 'Bearer ' . Options::getAppToken(),
-					'Accept'          => 'application/json',
-					'X-Forwarded-For' => Helper::getIpAddress(),
-				),
-			)
-		);
-
-		if ( is_wp_error( $response ) ) {
-			return $response;
-		}
-
-		return json_decode( wp_remote_retrieve_body( $response ) )->data;
-	}
-
-	/**
-	 * @param string $id
-	 * @return void|WP_Error
+	 * @return void
 	 */
 	public static function pingCart( string $id ) {
-		if ( ! Options::hasAppToken() ) {
-			return new WP_Error( 'no_token', 'No token found' );
-		}
-
-		wp_remote_request(
-			sprintf( '%s/api/v1/carts/%s/ping', ACR::getAppUrl(), $id ),
-			array(
-				'method'   => 'PATCH',
-				'blocking' => false,
-				'headers'  => array(
-					'Authorization'   => 'Bearer ' . Options::getAppToken(),
-					'Accept'          => 'application/json',
-					'X-Forwarded-For' => Helper::getIpAddress(),
-				),
-			)
-		);
+        Api::patch(sprintf( '/api/v1/carts/%s/ping', $id ));
 	}
 }

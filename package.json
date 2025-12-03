@@ -16,6 +16,8 @@
     "@internationalized/date": "^3.10.0",
     "@tailwindcss/vite": "^4.1.17",
     "@tanstack/vue-table": "^8.21.3",
+    "@vue-email/components": "^0.0.21",
+    "@vue-email/render": "^0.0.9",
     "@vueuse/core": "^14.0.0",
     "@vueuse/integrations": "^14.0.0",
     "axios": "^1.13.2",

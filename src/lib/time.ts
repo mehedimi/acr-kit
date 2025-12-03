@@ -1,5 +1,3 @@
-import { getLocalTimeZone, toZoned, parseAbsolute } from '@internationalized/date'
-
 const intervals = [
   ['year', 31536000],
   ['month', 2592000],
@@ -26,10 +24,4 @@ export function timeAgo(date: Date) {
   }
 
   return 'just now'
-}
-
-export function formatUtcToHuman(utcDate: string) {
-  const zdt = parseAbsolute(utcDate, 'UTC')
-
-  return timeAgo(toZoned(zdt, getLocalTimeZone()).toDate())
 }
