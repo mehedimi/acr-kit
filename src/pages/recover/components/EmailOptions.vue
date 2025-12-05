@@ -13,6 +13,10 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import IFrame from '@/components/builder/IFrame.vue'
+import { Button } from '@/components/ui/button'
+import { ButtonGroup } from '@/components/ui/button-group'
+import { CircleCheckBig } from 'lucide-vue-next'
+import { RouterLink } from 'vue-router'
 
 defineProps<{
   email: EmailRecovery<RecoveryOption>
@@ -101,6 +105,18 @@ const emailScheduleOptions = [
             engaging to encourage them to open the email.</Help
           >
         </div>
+        <ButtonGroup>
+          <Button variant="outline" disabled>
+            <CircleCheckBig />
+            Preview
+          </Button>
+          <Button
+            :as="RouterLink"
+            :to="{ name: 'recovery.email.builder', params: { emailId: email.id } }"
+            variant="outline"
+            >Edit Email Template</Button
+          >
+        </ButtonGroup>
         <IFrame />
       </div>
     </Col>

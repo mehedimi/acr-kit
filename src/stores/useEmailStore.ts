@@ -76,5 +76,18 @@ export const useEmailStore = defineStore('email', {
 
       this.data.push(data)
     },
+
+    async find(id: string) {
+      const {
+        data: { data },
+      } = await appHttp.get<{ data: EmailRecovery<RecoveryOption> }>(`${BASE_ENDPOINT}/${id}`)
+
+      this.data = [data]
+    },
+  },
+  getters: {
+    firstEmail() {
+      return this.data[0]
+    },
   },
 })

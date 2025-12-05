@@ -33,9 +33,14 @@ export const routes: RouteRecordRaw[] = [
         name: 'recovery.options',
       },
       {
-        path: 'email',
+        path: 'emails',
         component: () => import('./pages/recover/Email.vue'),
         name: 'recovery.options.email',
+      },
+      {
+        path: 'emails/:emailId',
+        component: () => import('./pages/recover/Builder.vue'),
+        name: 'recovery.email.builder',
       },
     ],
   },

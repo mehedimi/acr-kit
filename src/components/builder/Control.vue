@@ -1,9 +1,27 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { ControlAction, ControlData } from '@/enum/control.ts'
+import { Control } from '@/enum/control.ts'
+
+const { index } = defineProps<{
+  index: number
+}>()
+
+function emit(action: ControlAction) {
+  window.parent.postMessage(
+    {
+      name: 'acr:action',
+      action,
+      index,
+    } satisfies ControlData,
+    '*',
+  )
+}
+</script>
 
 <template>
   <div class="control-wrapper">
     <div class="control-buttons">
-      <button class="button" title="Move element up">
+      <button @click="emit(Control.MOVE_UP)" class="button" title="Move element up">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -19,7 +37,7 @@
           <path d="m18 15-6-6-6 6" />
         </svg>
       </button>
-      <button class="button" title="Move element down">
+      <button class="button" title="Move element down" @click="emit(Control.MOVE_DOWN)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -35,7 +53,7 @@
           <path d="m6 9 6 6 6-6" />
         </svg>
       </button>
-      <button class="button" title="Edit element">
+      <button @click="emit(Control.EDIT)" class="button" title="Edit element">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -46,25 +64,15 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="lucide lucide-cog-icon lucide-cog"
+          class="lucide lucide-square-pen-icon lucide-square-pen"
         >
-          <path d="M11 10.27 7 3.34" />
-          <path d="m11 13.73-4 6.93" />
-          <path d="M12 22v-2" />
-          <path d="M12 2v2" />
-          <path d="M14 12h8" />
-          <path d="m17 20.66-1-1.73" />
-          <path d="m17 3.34-1 1.73" />
-          <path d="M2 12h2" />
-          <path d="m20.66 17-1.73-1" />
-          <path d="m20.66 7-1.73 1" />
-          <path d="m3.34 17 1.73-1" />
-          <path d="m3.34 7 1.73 1" />
-          <circle cx="12" cy="12" r="2" />
-          <circle cx="12" cy="12" r="8" />
+          <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+          <path
+            d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"
+          />
         </svg>
       </button>
-      <button class="button" title="Delete element">
+      <button @click="emit(Control.DELETE)" class="button" title="Delete element">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -86,5 +94,39 @@
       </button>
     </div>
     <slot></slot>
+    <button @click="emit(Control.ADD_BEFORE)" class="el-before" title="Add element before">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-plus-icon lucide-plus"
+      >
+        <path d="M5 12h14" />
+        <path d="M12 5v14" />
+      </svg>
+    </button>
+    <button @click="emit(Control.ADD_AFTER)" class="el-after" title="Add element after">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-plus-icon lucide-plus"
+      >
+        <path d="M5 12h14" />
+        <path d="M12 5v14" />
+      </svg>
+    </button>
   </div>
 </template>

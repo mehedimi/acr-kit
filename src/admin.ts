@@ -12,6 +12,7 @@ app.use(
   createRouter({
     history: createWebHashHistory(),
     routes,
+    scrollBehavior: () => ({ top: 0, behavior: 'smooth' }),
   }),
 )
 app.mount('#acr-admin-app')

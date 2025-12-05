@@ -5,7 +5,7 @@ defineProps<TextElement>()
 </script>
 
 <template>
-  <Section>
-    <Text :style="style">{{ text }}</Text>
+  <Section :style="sectionStyle">
+    <Text :style="style" v-html="text"></Text>
   </Section>
 </template>

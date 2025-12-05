@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Toaster } from 'vue-sonner'
 import 'vue-sonner/style.css'
+import 'vue3-colorpicker/style.css'
 import { useRouter } from 'vue-router'
 
 if (!acrApp.appToken) {
@@ -12,3 +13,9 @@ if (!acrApp.appToken) {
   <router-view />
   <Toaster position="top-center" />
 </template>
+
+<style>
+.vc-color-wrap {
+  margin-right: 0 !important;
+}
+</style>
