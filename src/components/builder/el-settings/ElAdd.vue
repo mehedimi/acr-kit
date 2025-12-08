@@ -27,7 +27,7 @@ const items: Array<{ title: ElementType; icon: any }> = [
 </script>
 
 <template>
-  <div class="acr:grid acr:grid-cols-3 acr:gap-4">
+  <div class="acr:grid acr:grid-cols-3 acr:gap-4 acr:m-4">
     <Button
       class="acr:cursor-pointer"
       size="lg"

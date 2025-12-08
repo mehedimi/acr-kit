@@ -15,6 +15,12 @@ import {
   ListIcon,
   TextQuoteIcon,
   ListOrderedIcon,
+  TypeIcon,
+  ChevronDownIcon,
+  RulerIcon,
+  PaletteIcon,
+  ArrowUpDownIcon,
+  HeadingIcon,
 } from 'lucide-vue-next'
 import Document from '@tiptap/extension-document'
 import Typography from '@tiptap/extension-typography'
@@ -36,6 +42,15 @@ import StrikeExtension from '@tiptap/extension-strike'
 import UnderlineExtension from '@tiptap/extension-underline'
 import TextAlignExtension from '@tiptap/extension-text-align'
 import Blockquote from '@tiptap/extension-blockquote'
+import Heading, { type Level } from '@tiptap/extension-heading'
+import {
+  TextStyle,
+  FontFamily,
+  FontSize,
+  Color,
+  BackgroundColor,
+  LineHeight,
+} from '@tiptap/extension-text-style'
 import { BulletList, ListItem, OrderedList } from '@tiptap/extension-list'
 import {
   DropdownMenu,
@@ -43,6 +58,10 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu'
+import { emailSafeFonts, fontSizes, lineHeights, textTypes } from '@/components/data.ts'
+import { ColorPicker } from 'vue3-colorpicker'
+import { Tabs, TabsContent, TabsTrigger, TabsList } from '@/components/ui/tabs'
+import { computed } from 'vue'
 
 const props = defineProps<{
   modelValue?: string
@@ -74,10 +93,17 @@ const editor = useEditor({
     ListItem,
     OrderedList,
     Blockquote,
+    TextStyle,
+    FontFamily,
+    FontSize,
+    Color,
+    BackgroundColor,
+    LineHeight,
+    Heading,
   ],
   editorProps: {
     attributes: {
-      class: 'acr:px-4 acr:border-y acr:!prose',
+      class: 'acr:px-4 acr:border-y acr:!prose acr:min-h-60',
     },
   },
   onUpdate() {
@@ -110,12 +136,252 @@ const textAlignButtons = [
     text: 'Align justify',
   },
 ]
+
+function toggleFontFamily(fontFamily: string) {
+  let style = editor.value?.getAttributes('textStyle')
+
+  if (style && style.fontFamily === fontFamily) {
+    editor.value?.chain().focus().unsetFontFamily().run()
+  } else {
+    editor.value?.chain().focus().setFontFamily(fontFamily).run()
+  }
+}
+
+const color = computed({
+  set(value: string) {
+    editor.value?.chain().focus().setColor(value).run()
+  },
+  get() {
+    return editor.value?.getAttributes('textStyle')['color'] ?? '#000'
+  },
+})
+
+const background = computed({
+  set(value: string) {
+    editor.value?.chain().focus().setBackgroundColor(value).run()
+  },
+  get() {
+    return editor.value?.getAttributes('textStyle')['backgroundColor'] ?? '#fff'
+  },
+})
+
+function toggleTextType(type: string | number) {
+  if (type === 'p') {
+    editor.value?.chain().focus().setParagraph().run()
+  } else {
+    editor.value
+      ?.chain()
+      .focus()
+      .toggleHeading({ level: type as number as Level })
+      .run()
+  }
+}
+
+function isTextTypeActive(type: string | number) {
+  if (type === 'p') {
+    return editor.value?.isActive('paragraph')
+  }
+
+  return editor.value?.isActive('heading', { level: type })
+}
 </script>
 <template>
   <div v-if="editor" class="acr:m-2">
     <TooltipProvider>
-      <ButtonGroup>
+      <ButtonGroup class="acr:mb-2">
         <ButtonGroup>
+          <DropdownMenu v-slot="{ open }">
+            <Tooltip>
+              <DropdownMenuTrigger asChild>
+                <TooltipTrigger asChild>
+                  <Button
+                    :class="{
+                      'acr:bg-accent acr:text-accent-foreground':
+                        editor.isActive('heading') || editor.isActive('paragraph') || open,
+                    }"
+                    variant="outline"
+                    size="sm"
+                  >
+                    <HeadingIcon />
+                    <ChevronDownIcon />
+                  </Button>
+                </TooltipTrigger>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  v-for="textType in textTypes"
+                  class="acr:text-xs acr:text-gray-600"
+                  :class="{
+                    'acr:!bg-accent acr:!text-accent-foreground': isTextTypeActive(textType.value),
+                  }"
+                  @click="toggleTextType(textType.value)"
+                >
+                  {{ textType.label }}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+              <TooltipContent>
+                <p class="acr:!my-0 acr:!text-xs">Heading</p>
+              </TooltipContent>
+            </Tooltip>
+          </DropdownMenu>
+          <DropdownMenu v-slot="{ open }">
+            <Tooltip>
+              <DropdownMenuTrigger asChild>
+                <TooltipTrigger asChild>
+                  <Button
+                    :class="{
+                      'acr:bg-accent acr:text-accent-foreground':
+                        (editor.isActive('textStyle') &&
+                          editor.getAttributes('textStyle').fontFamily) ||
+                        open,
+                    }"
+                    variant="outline"
+                    size="sm"
+                  >
+                    <TypeIcon />
+                    <ChevronDownIcon />
+                  </Button>
+                </TooltipTrigger>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  v-for="font in emailSafeFonts"
+                  @click="toggleFontFamily(font.value)"
+                  class="acr:text-xs acr:text-gray-600"
+                  :class="{
+                    'acr:!bg-accent acr:!text-accent-foreground': editor.isActive('textStyle', {
+                      fontFamily: font.value,
+                    }),
+                  }"
+                  :style="{ fontFamily: font.value }"
+                >
+                  {{ font.label }}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+              <TooltipContent>
+                <p class="acr:!my-0 acr:!text-xs">Font</p>
+              </TooltipContent>
+            </Tooltip>
+          </DropdownMenu>
+          <DropdownMenu v-slot="{ open }">
+            <Tooltip>
+              <DropdownMenuTrigger asChild>
+                <TooltipTrigger asChild>
+                  <Button
+                    :class="{
+                      'acr:bg-accent acr:text-accent-foreground':
+                        (editor.isActive('textStyle') &&
+                          editor.getAttributes('textStyle').fontSize) ||
+                        open,
+                    }"
+                    variant="outline"
+                    size="sm"
+                  >
+                    <RulerIcon />
+                    <ChevronDownIcon />
+                  </Button>
+                </TooltipTrigger>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  v-for="fontSize in fontSizes"
+                  class="acr:text-xs acr:text-gray-600"
+                  :class="{
+                    'acr:!bg-accent acr:!text-accent-foreground': editor.isActive('textStyle', {
+                      fontSize,
+                    }),
+                  }"
+                  @click="editor.chain().focus().setFontSize(fontSize).run()"
+                >
+                  {{ fontSize }}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+              <TooltipContent>
+                <p class="acr:!my-0 acr:!text-xs">Font Size</p>
+              </TooltipContent>
+            </Tooltip>
+          </DropdownMenu>
+          <Popover v-slot="{ open }">
+            <Tooltip>
+              <PopoverTrigger asChild>
+                <TooltipTrigger asChild>
+                  <Button
+                    :class="{
+                      'acr:bg-accent acr:text-accent-foreground': open,
+                    }"
+                    variant="outline"
+                    size="icon-sm"
+                  >
+                    <PaletteIcon />
+                  </Button>
+                </TooltipTrigger>
+              </PopoverTrigger>
+              <PopoverContent class="acr:p-0">
+                <Tabs default-value="color">
+                  <TabsList>
+                    <TabsTrigger value="color"> Color </TabsTrigger>
+                    <TabsTrigger value="highlight"> Highlight </TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="color">
+                    <ColorPicker
+                      v-model:pure-color="color"
+                      class="acr:!mr-0"
+                      isWidget
+                      disableAlpha
+                      format="hex6"
+                    />
+                  </TabsContent>
+                  <TabsContent value="highlight">
+                    <ColorPicker
+                      v-model:pure-color="background"
+                      class="acr:!mr-0"
+                      isWidget
+                      disableAlpha
+                      format="hex6"
+                    />
+                  </TabsContent>
+                </Tabs>
+              </PopoverContent>
+              <TooltipContent>
+                <p class="acr:!my-0 acr:!text-xs">Color</p>
+              </TooltipContent>
+            </Tooltip>
+          </Popover>
+          <DropdownMenu v-slot="{ open }">
+            <Tooltip>
+              <DropdownMenuTrigger asChild>
+                <TooltipTrigger asChild>
+                  <Button
+                    :class="{
+                      'acr:bg-accent acr:text-accent-foreground': open,
+                    }"
+                    variant="outline"
+                    size="sm"
+                  >
+                    <ArrowUpDownIcon />
+                    <ChevronDownIcon />
+                  </Button>
+                </TooltipTrigger>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  v-for="lineHeight in lineHeights"
+                  class="acr:text-xs acr:text-gray-600"
+                  :class="{
+                    'acr:!bg-accent acr:!text-accent-foreground': editor.isActive('textStyle', {
+                      lineHeight,
+                    }),
+                  }"
+                  @click="editor.chain().focus().setLineHeight(lineHeight).run()"
+                >
+                  {{ lineHeight }}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+              <TooltipContent>
+                <p class="acr:!my-0 acr:!text-xs">Line height</p>
+              </TooltipContent>
+            </Tooltip>
+          </DropdownMenu>
           <DropdownMenu v-slot="{ open }">
             <Tooltip>
               <DropdownMenuTrigger asChild>
@@ -126,9 +392,11 @@ const textAlignButtons = [
                         editor.isActive('bulletList') || editor.isActive('orderedList') || open,
                     }"
                     variant="outline"
-                    size="icon-sm"
-                    ><ListIcon
-                  /></Button>
+                    size="sm"
+                  >
+                    <ListIcon />
+                    <ChevronDownIcon />
+                  </Button>
                 </TooltipTrigger>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
@@ -156,7 +424,10 @@ const textAlignButtons = [
               </TooltipContent>
             </Tooltip>
           </DropdownMenu>
-
+        </ButtonGroup>
+      </ButtonGroup>
+      <ButtonGroup>
+        <ButtonGroup>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -169,12 +440,10 @@ const textAlignButtons = [
                 ><TextQuoteIcon
               /></Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p class="acr:!my-0 acr:!text-xs">Blockquote</p>
             </TooltipContent>
           </Tooltip>
-        </ButtonGroup>
-        <ButtonGroup>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -185,7 +454,7 @@ const textAlignButtons = [
                 ><Bold
               /></Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p class="acr:!my-0 acr:!text-xs">Bold</p>
             </TooltipContent>
           </Tooltip>
@@ -199,7 +468,7 @@ const textAlignButtons = [
                 ><Italic
               /></Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p class="acr:!my-0 acr:!text-xs">Italic</p>
             </TooltipContent>
           </Tooltip>
@@ -213,7 +482,7 @@ const textAlignButtons = [
                 ><Strikethrough
               /></Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p class="acr:!my-0 acr:!text-xs">Strikethrough</p>
             </TooltipContent>
           </Tooltip>
@@ -229,14 +498,14 @@ const textAlignButtons = [
                 ><Underline
               /></Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p class="acr:!my-0 acr:!text-xs">Underline</p>
             </TooltipContent>
           </Tooltip>
           <Popover v-model:open="openLinkInput">
             <Tooltip>
-              <PopoverTrigger asChild
-                ><TooltipTrigger asChild>
+              <PopoverTrigger asChild>
+                <TooltipTrigger asChild>
                   <Button
                     :class="{
                       'acr:bg-accent acr:text-accent-foreground':
@@ -244,9 +513,10 @@ const textAlignButtons = [
                     }"
                     variant="outline"
                     size="icon-sm"
-                    ><LinkIcon
-                  /></Button> </TooltipTrigger
-              ></PopoverTrigger>
+                    ><LinkIcon />
+                  </Button>
+                </TooltipTrigger>
+              </PopoverTrigger>
               <PopoverContent class="acr:p-0">
                 <InputGroup class="acr:h-8">
                   <InputGroupInput
@@ -282,7 +552,7 @@ const textAlignButtons = [
                   </InputGroupAddon>
                 </InputGroup>
               </PopoverContent>
-              <TooltipContent>
+              <TooltipContent side="bottom">
                 <p class="acr:!my-0 acr:!text-xs">Link</p>
               </TooltipContent>
             </Tooltip>
@@ -300,10 +570,11 @@ const textAlignButtons = [
                 @click="editor.chain().focus().setTextAlign(button.align).run()"
                 variant="outline"
                 size="icon-sm"
-                ><component :is="button.icon"
-              /></Button>
+              >
+                <component :is="button.icon" />
+              </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="bottom">
               <p class="acr:!my-0 acr:!text-xs">{{ button.text }}</p>
             </TooltipContent>
           </Tooltip>

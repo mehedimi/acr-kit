@@ -8,11 +8,11 @@ const store = useBuilderStore()
 const text = computed(() => {
   switch (store.action?.action) {
     case Control.ADD_AFTER:
-      return 'Select element to add after: ' + store.currentElement?.type.replace('Email', '')
+      return 'Select element to add after: ' + store.currentElement?.type
     case Control.ADD_BEFORE:
-      return 'Select element to add before: ' + store.currentElement?.type.replace('Email', '')
+      return 'Select element to add before: ' + store.currentElement?.type
     case Control.EDIT:
-      return 'Edit element of: ' + store.currentElement?.type.replace('Email', '')
+      return store.currentElement?.type
     default:
       return 'Edit email body style'
   }
@@ -20,9 +20,11 @@ const text = computed(() => {
 </script>
 
 <template>
-  <h2
-    class="acr:!my-0 acr:bg-white acr:!font-medium acr:p-4 acr:border-b acr:!text-muted-foreground"
-  >
-    {{ text }}
-  </h2>
+  <div>
+    <h2
+      class="acr:!my-0 acr:text-center acr:bg-white acr:!font-medium acr:p-4 acr:border-b acr:!text-muted-foreground"
+    >
+      {{ text }}
+    </h2>
+  </div>
 </template>

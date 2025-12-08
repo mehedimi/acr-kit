@@ -29,7 +29,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       v-bind="{ ...$attrs, ...forwarded }"
       :class="
         cn(
-          'acr:bg-popover acr:text-popover-foreground acr:data-[state=open]:animate-in acr:data-[state=closed]:animate-out acr:data-[state=closed]:fade-out-0 acr:data-[state=open]:fade-in-0 acr:data-[state=closed]:zoom-out-95 acr:data-[state=open]:zoom-in-95 acr:data-[side=bottom]:slide-in-from-top-2 acr:data-[side=left]:slide-in-from-right-2 acr:data-[side=right]:slide-in-from-left-2 acr:data-[side=top]:slide-in-from-bottom-2 acr:z-50 acr:max-h-(--reka-dropdown-menu-content-available-height) acr:min-w-[8rem] acr:origin-(--reka-dropdown-menu-content-transform-origin) acr:overflow-x-hidden acr:overflow-y-auto acr:rounded-md acr:border acr:p-1 acr:shadow-md',
+          'acr:bg-popover acr:z-[99999] acr:text-popover-foreground acr:data-[state=open]:animate-in acr:data-[state=closed]:animate-out acr:data-[state=closed]:fade-out-0 acr:data-[state=open]:fade-in-0 acr:data-[state=closed]:zoom-out-95 acr:data-[state=open]:zoom-in-95 acr:data-[side=bottom]:slide-in-from-top-2 acr:data-[side=left]:slide-in-from-right-2 acr:data-[side=right]:slide-in-from-left-2 acr:data-[side=top]:slide-in-from-bottom-2 acr:max-h-(--reka-dropdown-menu-content-available-height) acr:min-w-[8rem] acr:origin-(--reka-dropdown-menu-content-transform-origin) acr:overflow-x-hidden acr:overflow-y-auto acr:rounded-md acr:border acr:p-1 acr:shadow-md',
           props.class,
         )
       "

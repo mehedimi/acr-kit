@@ -10,7 +10,7 @@ defineOptions({
 })
 
 const props = withDefaults(
-  defineProps<TooltipContentProps & { class?: HTMLAttributes['class'] }>(),
+  defineProps<Partial<TooltipContentProps> & { class?: HTMLAttributes['class'] }>(),
   {
     sideOffset: 4,
   },

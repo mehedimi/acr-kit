@@ -49,10 +49,12 @@ export const elements: Array<AnyElement> = [
       fontFamily: 'Arial, sans-serif',
       fontWeight: 'bold',
       margin: '16px 0 8px 0',
+      textAlign: 'left',
     },
     sectionStyle: {
       padding: '0',
       margin: '16px 0 8px 0',
+      backgroundColor: 'transparent',
     },
   },
   {

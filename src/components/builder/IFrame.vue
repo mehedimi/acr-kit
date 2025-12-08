@@ -54,6 +54,8 @@ function mountIframe() {
     childList: true,
     subtree: true,
   })
+
+  setTimeout(resizeIframe, 100)
 }
 
 function resizeIframe() {

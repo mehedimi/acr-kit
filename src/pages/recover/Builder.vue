@@ -2,7 +2,7 @@
 import Header from '@/components/Header.vue'
 import { type RouteLocationRaw, RouterLink, useRoute } from 'vue-router'
 import { useEmailStore } from '@/stores/useEmailStore.ts'
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Check, Monitor, Tablet, Smartphone } from 'lucide-vue-next'
 import { ButtonGroup } from '@/components/ui/button-group'
@@ -172,7 +172,14 @@ function handleAction(action: ControlAction, index: number) {
   />
 
   <div class="acr:flex acr:justify-between acr:px-4 acr:my-4">
-    <Button size="icon" variant="outline" :as="RouterLink" :to="{ name: 'recovery.options.email' }">
+    <Button
+      size="icon"
+      variant="outline"
+      :as="RouterLink"
+      :to="{
+        name: 'recovery.options.email',
+      }"
+    >
       <ArrowLeft />
     </Button>
     <ButtonGroup>
