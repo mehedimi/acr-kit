@@ -7,10 +7,27 @@ import { Label } from '@/components/ui/label'
 import Spacing from '@/components/builder/controls/Spacing.vue'
 import { Slider } from '@/components/ui/slider'
 import { ALargeSmallIcon, PaletteIcon } from 'lucide-vue-next'
+import { storeToRefs } from 'pinia'
+import { type ComputedRef, ref, watch } from 'vue'
 
 const store = useBuilderStore()
 
-const currentElement: TextElement = store.currentElement as TextElement
+const renderEditor = ref(true)
+
+const { currentElement } = storeToRefs(store) as {
+  currentElement: ComputedRef<TextElement>
+}
+
+watch(
+  () => store.action,
+  () => {
+    renderEditor.value = false
+    setTimeout(() => (renderEditor.value = true), 100)
+  },
+  {
+    deep: true,
+  },
+)
 </script>
 
 <template>
@@ -20,7 +37,7 @@ const currentElement: TextElement = store.currentElement as TextElement
       <TabsTrigger value="style"><PaletteIcon /> Style</TabsTrigger>
     </TabsList>
     <TabsContent value="content">
-      <Editor v-model="currentElement.text" />
+      <Editor v-if="renderEditor" v-model="currentElement.text" />
     </TabsContent>
     <TabsContent value="style" class="acr:w-full acr:space-y-6">
       <div class="acr:space-y-2">

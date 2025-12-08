@@ -5,7 +5,7 @@ namespace AbandonedCartRecover;
 use AbandonedCartRecover\Support\Options;
 
 class Loader {
-	public static $distUrl;
+	public static string $distUrl;
 	public static function isDev(): bool {
 		return defined( 'ACR_DEV' ) && ACR_DEV;
 	}
@@ -84,6 +84,7 @@ class Loader {
 		);
 		self::adminLocalizeScript();
 		self::setGlobalAssetLoader();
+        wp_enqueue_media();
 	}
 
 	public static function enqueueAdminProdScripts() {
@@ -97,6 +98,7 @@ class Loader {
 		);
 		self::adminLocalizeScript();
 		self::setGlobalAssetLoader();
+        wp_enqueue_media();
 	}
 
 	public static function enqueueFrontendDevScripts() {

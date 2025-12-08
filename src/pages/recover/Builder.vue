@@ -90,9 +90,8 @@ builderStore.setTemplate({
       src: '',
       alt: 'Cart items preview',
       style: {
-        width: '100%',
-        maxWidth: '600px',
-        display: 'block',
+        maxWidth: '100%',
+        display: 'inline-block',
         border: '0',
       },
       sectionStyle: {

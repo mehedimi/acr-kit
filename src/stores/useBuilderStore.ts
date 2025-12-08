@@ -34,7 +34,9 @@ export const useBuilderStore = defineStore('builder', {
     },
 
     setAction(action: ControlAction, index: number) {
-      this.action = { action, index }
+      this.$patch((store) => {
+        store.action = { action, index }
+      })
     },
 
     closeAction() {
@@ -65,12 +67,12 @@ export const useBuilderStore = defineStore('builder', {
   },
 
   getters: {
-    currentElement(): AnyElement | undefined {
-      if (!this.action) {
+    currentElement(state): AnyElement | undefined {
+      if (!state.action) {
         return
       }
 
-      return this.elements[this.action.index]
+      return state.elements[state.action.index]
     },
   },
 })
