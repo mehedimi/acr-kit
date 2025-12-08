@@ -1,0 +1,30 @@
+{
+  "autoload": {
+    "psr-4": {
+      "AbandonedCartRecover\\": "includes/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Mehedi Hasan",
+      "email": "mehedihasansabbirmi@gmail.com"
+    }
+  ],
+  "require-dev": {
+    "wp-coding-standards/wpcs": "^3.2"
+  },
+  "require": {
+    "php": ">=7.4"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+      "php": "7.4"
+    }
+  },
+  "scripts": {
+    "format": "phpcbf"
+  }
+}

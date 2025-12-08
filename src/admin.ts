@@ -1,5 +1,18 @@
 import { createApp } from 'vue'
 import './admin.css'
 import App from './App.vue'
+import { createRouter, createWebHashHistory } from 'vue-router'
+import { routes } from '@/routes.ts'
+import { createPinia } from 'pinia'
 
-createApp(App).mount('#cartnail-admin-app')
+const app = createApp(App)
+
+app.use(createPinia())
+app.use(
+  createRouter({
+    history: createWebHashHistory(),
+    routes,
+    scrollBehavior: () => ({ top: 0, behavior: 'smooth' }),
+  }),
+)
+app.mount('#acr-admin-app')

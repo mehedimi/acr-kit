@@ -1,9 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { Toaster } from 'vue-sonner'
+import 'vue-sonner/style.css'
+import 'vue3-colorpicker/style.css'
+import { useRouter } from 'vue-router'
+
+if (!acrApp.appToken) {
+  useRouter().push({ name: 'connect' })
+}
+</script>
 
 <template>
-  <div>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi consequatur impedit iure
-    laudantium odit quibusdam ratione? Aperiam distinctio hic quos sint. Autem cum eum nobis porro.
-    In laborum quasi voluptas.
-  </div>
+  <router-view />
+  <Toaster position="top-center" />
 </template>
+
+<style>
+.vc-color-wrap {
+  margin-right: 0 !important;
+}
+</style>

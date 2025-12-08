@@ -7,7 +7,7 @@
     "css": "src/admin.css",
     "baseColor": "slate",
     "cssVariables": true,
-    "prefix": "cn"
+    "prefix": "acr"
   },
   "iconLibrary": "lucide",
   "aliases": {
