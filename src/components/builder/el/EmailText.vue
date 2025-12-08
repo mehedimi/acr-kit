@@ -6,6 +6,6 @@ defineProps<TextElement>()
 
 <template>
   <Section :style="sectionStyle">
-    <div v-html="text"></div>
+    <div :style="style" v-html="text"></div>
   </Section>
 </template>

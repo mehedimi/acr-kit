@@ -39,5 +39,4 @@ if ( is_admin() ) {
 	Cart::registerHooks();
 }
 
-
 Rest::init();

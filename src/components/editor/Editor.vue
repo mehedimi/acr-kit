@@ -103,7 +103,7 @@ const editor = useEditor({
   ],
   editorProps: {
     attributes: {
-      class: 'acr:px-4 acr:border-y acr:!prose acr:min-h-60',
+      class: 'acr:border-t acr:!prose acr:min-h-60',
     },
   },
   onUpdate() {
