@@ -86,8 +86,8 @@ export const useEmailStore = defineStore('email', {
     },
   },
   getters: {
-    firstEmail() {
-      return this.data[0]
+    firstEmail(store) {
+      return store.data[0]
     },
   },
 })

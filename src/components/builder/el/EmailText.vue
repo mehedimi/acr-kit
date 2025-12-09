@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Section } from '@vue-email/components'
 import type { TextElement } from '@/types/builder.ts'
 defineProps<TextElement>()
 </script>

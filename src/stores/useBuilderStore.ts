@@ -6,6 +6,7 @@ type Action = { action: ControlAction; index: number }
 export const useBuilderStore = defineStore('builder', {
   state(): Template & { action?: Action } {
     return {
+      bodyStyle: {},
       style: {},
       elements: [],
       action: undefined,
@@ -15,6 +16,7 @@ export const useBuilderStore = defineStore('builder', {
   actions: {
     setTemplate(template: Template) {
       this.$patch((state) => {
+        state.bodyStyle = template.bodyStyle
         state.style = template.style
         state.elements = template.elements
       })

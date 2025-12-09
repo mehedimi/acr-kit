@@ -38,29 +38,16 @@ emailStore.find(route.params.emailId as string).then(() => {
 const builderStore = useBuilderStore()
 
 builderStore.setTemplate({
-  style: {
+  bodyStyle: {
     backgroundColor: '#ddd',
+  },
+  style: {
+    backgroundColor: '#fff',
   },
   elements: [
     {
-      type: 'Heading',
-      heading: 'h2',
-      text: 'You Left Something Behind!',
-      style: {
-        fontSize: '22px',
-        fontWeight: 'bold',
-        color: '#111111',
-        fontFamily: 'Arial, sans-serif',
-        margin: '0 0 12px 0',
-      },
-      sectionStyle: {
-        margin: '0 0 20px 0',
-      },
-    },
-
-    {
       type: 'Text',
-      text: 'Looks like you added some items to your cart but didn’t complete your purchase.',
+      text: '<p>Looks like you added some items to your cart but didn’t complete your purchase.</p>',
       style: {
         fontSize: '14px',
         lineHeight: '1.5',
@@ -74,17 +61,18 @@ builderStore.setTemplate({
 
     {
       type: 'Text',
-      text: 'Don’t worry—your items are still waiting for you!',
+      text: '<p>Don’t worry—your items are still waiting for you!</p>',
       style: {
         fontSize: '14px',
         lineHeight: '1.5',
         fontFamily: 'Arial, sans-serif',
       },
       sectionStyle: {
-        margin: '0 0 20px 0',
+        marginTop: '10px',
+        marginBottom: '10px',
+        backgroundColor: '#fff',
       },
     },
-
     {
       type: 'Image',
       src: '',
@@ -96,7 +84,8 @@ builderStore.setTemplate({
       },
       sectionStyle: {
         textAlign: 'center',
-        margin: '20px 0',
+        marginTop: '10px',
+        marginBottom: '10px',
       },
     },
 

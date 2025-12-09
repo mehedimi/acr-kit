@@ -17,6 +17,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import TextAlign from '@/components/builder/controls/TextAlign.vue'
 import { useWpMediaPicker } from '@/composables/useWpMediaPicker.ts'
+import { ref } from 'vue'
+
+const openedTab = ref('content')
 
 const store = useBuilderStore()
 
@@ -37,13 +40,14 @@ const selectImage = () => {
 
       e.src = image.url
       e.alt = (image.alt ?? image.title) || 'Image'
+      openedTab.value = 'style'
     })
   })
 }
 </script>
 
 <template>
-  <Tabs default-value="content" class="acr:m-4 acr:items-center">
+  <Tabs v-model="openedTab" class="acr:m-4 acr:items-center">
     <TabsList>
       <TabsTrigger value="content"><ALargeSmallIcon /> Content</TabsTrigger>
       <TabsTrigger value="style"><PaletteIcon /> Style</TabsTrigger>
@@ -76,7 +80,7 @@ const selectImage = () => {
       </div>
       <div class="acr:space-y-2">
         <Label>Padding</Label>
-        <Spacing v-model="currentElement.style.padding" />
+        <Spacing v-model="currentElement.style.padding as string" />
       </div>
       <div class="acr:space-y-2.5">
         <Label class="acr:justify-between"
@@ -88,7 +92,7 @@ const selectImage = () => {
         <Slider
           :min="0"
           :max="100"
-          :modelValue="[parseInt(currentElement.style.maxWidth || '0', 10)]"
+          :modelValue="[parseInt((currentElement.style.maxWidth as string) || '0', 10)]"
           @update:model-value="(v) => (currentElement.style.maxWidth = v?.[0] + '%')"
         />
       </div>
@@ -102,7 +106,7 @@ const selectImage = () => {
         <Slider
           :min="0"
           :max="100"
-          :modelValue="[parseInt(currentElement.sectionStyle.marginTop || '0', 10)]"
+          :modelValue="[parseInt((currentElement.sectionStyle.marginTop as string) || '0', 10)]"
           @update:model-value="(v) => (currentElement.sectionStyle.marginTop = v?.[0] + 'px')"
         />
       </div>
@@ -116,7 +120,7 @@ const selectImage = () => {
         <Slider
           :min="0"
           :max="100"
-          :modelValue="[parseInt(currentElement.sectionStyle.marginBottom || '0', 10)]"
+          :modelValue="[parseInt((currentElement.sectionStyle.marginBottom as string) || '0', 10)]"
           @update:model-value="(v) => (currentElement.sectionStyle.marginBottom = v?.[0] + 'px')"
         />
       </div>

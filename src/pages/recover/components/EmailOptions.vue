@@ -17,6 +17,8 @@ import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { CircleCheckBig } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
+import type { AnyElement, Template } from '@/types/builder.ts'
+import { elements } from '@/stores/elements.ts'
 
 defineProps<{
   email: EmailRecovery<RecoveryOption>
@@ -57,6 +59,12 @@ const emailScheduleOptions = [
   { label: '2 months', value: 86400 },
   { label: '3 months', value: 129600 },
 ]
+
+const t: Template = {
+  style: {},
+  bodyStyle: {},
+  elements: [elements[0] as AnyElement],
+}
 </script>
 
 <template>
@@ -117,7 +125,7 @@ const emailScheduleOptions = [
             >Edit Email Template</Button
           >
         </ButtonGroup>
-        <IFrame />
+        <IFrame :is-editing="false" :template="t" />
       </div>
     </Col>
   </form>

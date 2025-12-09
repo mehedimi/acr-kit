@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Item, ItemContent, ItemDescription } from '@/components/ui/item'
+import { Item, ItemContent } from '@/components/ui/item'
 import { type RouteLocationRaw, RouterLink } from 'vue-router'
 import {
   Breadcrumb,

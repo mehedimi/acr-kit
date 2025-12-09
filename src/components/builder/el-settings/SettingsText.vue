@@ -42,7 +42,7 @@ watch(
     <TabsContent value="style" class="acr:w-full acr:space-y-6">
       <div class="acr:space-y-2">
         <Label>Padding</Label>
-        <Spacing v-model="currentElement.style.padding" />
+        <Spacing v-model="currentElement.style.padding as string" />
       </div>
       <div class="acr:space-y-2.5">
         <Label class="acr:justify-between"
@@ -54,7 +54,7 @@ watch(
         <Slider
           :min="0"
           :max="100"
-          :modelValue="[parseInt(currentElement.sectionStyle.marginTop || '0', 10)]"
+          :modelValue="[parseInt((currentElement.sectionStyle.marginTop as string) || '0', 10)]"
           @update:model-value="(v) => (currentElement.sectionStyle.marginTop = v?.[0] + 'px')"
         />
       </div>
@@ -68,7 +68,7 @@ watch(
         <Slider
           :min="0"
           :max="100"
-          :modelValue="[parseInt(currentElement.sectionStyle.marginBottom || '0', 10)]"
+          :modelValue="[parseInt((currentElement.sectionStyle.marginBottom as string) || '0', 10)]"
           @update:model-value="(v) => (currentElement.sectionStyle.marginBottom = v?.[0] + 'px')"
         />
       </div>

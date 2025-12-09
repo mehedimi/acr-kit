@@ -34,7 +34,7 @@ function mountIframe() {
     })
 
     watch(
-      props.template.style,
+      props.template.bodyStyle,
       (value) => {
         body.style.backgroundColor = value.backgroundColor || '#eee'
       },

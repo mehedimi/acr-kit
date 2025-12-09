@@ -34,13 +34,13 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       :class="
         cn(
           'acr:bg-background acr:data-[state=open]:animate-in acr:data-[state=closed]:animate-out acr:fixed acr:z-50 acr:flex acr:flex-col acr:gap-4 acr:shadow-lg acr:transition acr:ease-in-out acr:data-[state=closed]:duration-300 acr:data-[state=open]:duration-500',
-          side === 'acr:right' &&
+          side === 'right' &&
             'acr:data-[state=closed]:slide-out-to-right acr:data-[state=open]:slide-in-from-right acr:inset-y-0 acr:right-0 acr:h-full acr:w-3/4 acr:border-l acr:sm:max-w-sm',
-          side === 'acr:left' &&
+          side === 'left' &&
             'acr:data-[state=closed]:slide-out-to-left acr:data-[state=open]:slide-in-from-left acr:inset-y-0 acr:left-0 acr:h-full acr:w-3/4 acr:border-r acr:sm:max-w-sm',
-          side === 'acr:top' &&
+          side === 'top' &&
             'acr:data-[state=closed]:slide-out-to-top acr:data-[state=open]:slide-in-from-top acr:inset-x-0 acr:top-0 acr:h-auto acr:border-b',
-          side === 'acr:bottom' &&
+          side === 'bottom' &&
             'acr:data-[state=closed]:slide-out-to-bottom acr:data-[state=open]:slide-in-from-bottom acr:inset-x-0 acr:bottom-0 acr:h-auto acr:border-t',
           props.class,
         )

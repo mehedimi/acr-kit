@@ -31,30 +31,11 @@ export const elements: Array<AnyElement> = [
       lineHeight: '1.5',
       color: '#333333',
       fontFamily: 'Arial, sans-serif',
-      margin: '0 0 12px 0',
+      padding: '0 10px 0 10px',
     },
     sectionStyle: {
-      padding: '0',
-      margin: '0 0 12px 0',
-    },
-  },
-  {
-    type: 'Heading',
-    heading: 'h2',
-    text: 'Your Heading',
-    style: {
-      fontSize: '20px',
-      lineHeight: '1.3',
-      color: '#111111',
-      fontFamily: 'Arial, sans-serif',
-      fontWeight: 'bold',
-      margin: '16px 0 8px 0',
-      textAlign: 'left',
-    },
-    sectionStyle: {
-      padding: '0',
-      margin: '16px 0 8px 0',
-      backgroundColor: 'transparent',
+      marginTop: '10px',
+      marginBottom: '10px',
     },
   },
   {
