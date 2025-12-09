@@ -18,6 +18,17 @@ import {
 import TextAlign from '@/components/builder/controls/TextAlign.vue'
 import { useWpMediaPicker } from '@/composables/useWpMediaPicker.ts'
 import { ref } from 'vue'
+import { ColorPicker } from 'vue3-colorpicker'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 
 const openedTab = ref('content')
 
@@ -44,6 +55,8 @@ const selectImage = () => {
     })
   })
 }
+
+const imageUrlModalOpen = ref(false)
 </script>
 
 <template>
@@ -66,14 +79,56 @@ const selectImage = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" class="w-52">
               <DropdownMenuGroup>
-                <DropdownMenuItem> <LinkIcon /> Insert image from link </DropdownMenuItem>
+                <DropdownMenuItem @click="imageUrlModalOpen = true">
+                  <LinkIcon /> Insert image from link
+                </DropdownMenuItem>
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
         </ButtonGroup>
       </ButtonGroup>
+      <Dialog
+        v-model:open="imageUrlModalOpen"
+        class="acr:w-full"
+        @close="imageUrlModalOpen = false"
+      >
+        <DialogContent class="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle class="acr:!my-0">Add Image from URL</DialogTitle>
+            <DialogDescription
+              >Provide the URL of the image you want to upload. The image must be publicly
+              accessible.</DialogDescription
+            >
+          </DialogHeader>
+          <div class="flex items-center gap-2">
+            <div class="acr:space-y-1.5">
+              <Label for="image-url" class="sr-only">Image Url </Label>
+              <Input
+                id="image-url"
+                v-model="currentElement.src"
+                placeholder="https://example.com/image.jpg"
+              />
+            </div>
+          </div>
+          <DialogFooter class="sm:justify-start">
+            <DialogClose as-child>
+              <Button type="button" variant="outline"> Close </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </TabsContent>
     <TabsContent value="style" class="acr:w-full acr:space-y-6">
+      <div class="acr:space-y-2">
+        <Label>Background Color</Label>
+        <div class="acr:p-1 acr:border acr: acr:rounded acr:inline-block">
+          <ColorPicker
+            v-model:pure-color="currentElement.sectionStyle.backgroundColor"
+            format="hex6"
+            class="acr:w-full"
+          />
+        </div>
+      </div>
       <div class="acr:space-y-2">
         <Label>Align</Label>
         <TextAlign v-model="currentElement.sectionStyle.textAlign" />

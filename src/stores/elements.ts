@@ -3,8 +3,8 @@ import type { AnyElement } from '@/types/builder.ts'
 export const elements: Array<AnyElement> = [
   {
     type: 'Button',
-    href: '#',
-    text: 'Click here',
+    href: '[cart-url]',
+    text: 'Go to your cart!',
     style: {
       display: 'inline-block',
       padding: '12px 20px',
@@ -14,18 +14,17 @@ export const elements: Array<AnyElement> = [
       borderRadius: '4px',
       fontSize: '14px',
       fontWeight: 'bold',
-      textAlign: 'center',
       lineHeight: '1.2',
-      fontFamily: 'Arial, sans-serif',
     },
     sectionStyle: {
       textAlign: 'left',
-      margin: '16px 0',
+      marginTop: '10px',
+      marginBottom: '10px',
     },
   },
   {
     type: 'Text',
-    text: 'Your default text goes here.',
+    text: '<p>Your default text goes here.</p>',
     style: {
       fontSize: '14px',
       lineHeight: '1.5',
@@ -43,14 +42,13 @@ export const elements: Array<AnyElement> = [
     src: '',
     alt: 'Image description',
     style: {
-      width: '100%',
-      maxWidth: '600px',
-      display: 'block',
-      border: '0',
+      maxWidth: '100%',
+      display: 'inline-block',
     },
     sectionStyle: {
       textAlign: 'center',
-      margin: '0 0 16px 0',
+      marginTop: '10px',
+      marginBottom: '10px',
     },
   },
 ]

@@ -9,6 +9,7 @@ import { Slider } from '@/components/ui/slider'
 import { ALargeSmallIcon, PaletteIcon } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
 import { type ComputedRef, ref, watch } from 'vue'
+import { ColorPicker } from 'vue3-colorpicker'
 
 const store = useBuilderStore()
 
@@ -40,6 +41,26 @@ watch(
       <Editor v-if="renderEditor" v-model="currentElement.text" />
     </TabsContent>
     <TabsContent value="style" class="acr:w-full acr:space-y-6">
+      <div class="acr:space-y-2">
+        <Label>Color</Label>
+        <div class="acr:p-1 acr:border acr: acr:rounded acr:inline-block">
+          <ColorPicker
+            v-model:pure-color="currentElement.style.color"
+            format="hex6"
+            class="acr:w-full"
+          />
+        </div>
+      </div>
+      <div class="acr:space-y-2">
+        <Label>Background Color</Label>
+        <div class="acr:p-1 acr:border acr: acr:rounded acr:inline-block">
+          <ColorPicker
+            v-model:pure-color="currentElement.style.backgroundColor"
+            format="hex6"
+            class="acr:w-full"
+          />
+        </div>
+      </div>
       <div class="acr:space-y-2">
         <Label>Padding</Label>
         <Spacing v-model="currentElement.style.padding as string" />
