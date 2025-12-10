@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { Container } from '@vue-email/components'
 import Control from '@/components/builder/Control.vue'
+import { Control as ControlEnum } from '@/enum/control.ts'
 import type { ElementType, Template } from '@/types/builder.ts'
 // @ts-ignore
 import EmailText from '@/components/builder/el/EmailText.vue'
 import EmailButton from '@/components/builder/el/EmailButton.vue'
 import EmailImage from '@/components/builder/el/EmailImage.vue'
+import { useBuilderStore } from '@/stores/useBuilderStore.ts'
 
 function getComponent(type: ElementType) {
   switch (type) {
@@ -22,6 +24,8 @@ defineProps<{
   template: Template
   isEditing: boolean
 }>()
+
+const store = useBuilderStore()
 </script>
 
 <template>
@@ -32,5 +36,8 @@ defineProps<{
       </Control>
       <component v-else :is="getComponent(element.type)" v-bind="element" />
     </template>
+    <div class="empty-el" v-if="isEditing && template.elements.length === 0">
+      <button @click="store.setAction(ControlEnum.ADD_AFTER, 0)">Add element</button>
+    </div>
   </Container>
 </template>

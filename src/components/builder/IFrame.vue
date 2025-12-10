@@ -7,7 +7,7 @@ import type { ControlAction, ControlData } from '@/enum/control.ts'
 const iframeEl = ref<HTMLIFrameElement>()
 
 const props = defineProps<{
-  isEditing: boolean
+  isEditing?: boolean
   template: Template
 }>()
 
@@ -63,7 +63,7 @@ function resizeIframe() {
     return
   }
 
-  iframeEl.value.style.height =
+  iframeEl.value.style.minHeight =
     (iframeEl.value?.contentDocument?.body?.scrollHeight || 0) + 1 + 'px'
 }
 

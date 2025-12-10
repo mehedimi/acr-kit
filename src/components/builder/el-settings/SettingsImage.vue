@@ -47,7 +47,7 @@ const selectImage = () => {
     if (!image) return
 
     store.$patch((innerStore) => {
-      let e = innerStore.elements.find((el) => currentElement === el) as ImageElement
+      let e = innerStore.elements[innerStore.action?.index as number] as ImageElement
 
       e.src = image.url
       e.alt = (image.alt ?? image.title) || 'Image'

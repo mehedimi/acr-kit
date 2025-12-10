@@ -17,12 +17,11 @@ use WP_Error;
  * @see AppHttp
  */
 class Api {
-    public static function __callStatic(string $name, array $arguments)
-    {
-        $http = new AppHttp();
+	public static function __callStatic( string $name, array $arguments ) {
+		$http = new AppHttp();
 
-        return call_user_func_array([$http, $name], $arguments);
-    }
+		return call_user_func_array( array( $http, $name ), $arguments );
+	}
 
 	public static function getConnectionUrl(): string {
 		return ACR::getAppUrl() . '/stores/create?' . http_build_query(
@@ -43,34 +42,34 @@ class Api {
 	 * @return null|string
 	 */
 	public static function sendCart( ?string $carId, array $content ): ?string {
-        $http = new AppHttp;
+		$http = new AppHttp();
 
-        $body = array_filter(
-            $content,
-            function ( $item ) {
-                return ! is_null( $item );
-            }
-        );
+		$body = array_filter(
+			$content,
+			function ( $item ) {
+				return ! is_null( $item );
+			}
+		);
 
-        if ( is_null( $carId ) ) {
-            $response = $http->blocking()->post('/api/v1/carts', $body);
+		if ( is_null( $carId ) ) {
+			$response = $http->blocking()->post( '/api/v1/carts', $body );
 
-            $body = wp_remote_retrieve_body( $response );
+			$body = wp_remote_retrieve_body( $response );
 
-            if ( is_wp_error( $body ) ) {
-                error_log( $body );
-                return null;
-            }
+			if ( is_wp_error( $body ) ) {
+				error_log( $body );
+				return null;
+			}
 
-            return json_decode( $body )->data->id;
-        } else {
-            $http->patch(sprintf('/api/v1/carts/%s', $carId), $body);
-            return null;
-        }
+			return json_decode( $body )->data->id;
+		} else {
+			$http->patch( sprintf( '/api/v1/carts/%s', $carId ), $body );
+			return null;
+		}
 	}
 
 	public static function cartMarkAsCompleted( string $id ) {
-        Api::noBlocking()->patch(sprintf( '/api/v1/carts/%s/completed', $id ));
+		self::noBlocking()->patch( sprintf( '/api/v1/carts/%s/completed', $id ) );
 	}
 
 	/**
@@ -78,6 +77,6 @@ class Api {
 	 * @return void
 	 */
 	public static function pingCart( string $id ) {
-        Api::patch(sprintf( '/api/v1/carts/%s/ping', $id ));
+		self::patch( sprintf( '/api/v1/carts/%s/ping', $id ) );
 	}
 }

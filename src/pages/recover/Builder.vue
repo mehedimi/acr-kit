@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Header from '@/components/Header.vue'
-import { type RouteLocationRaw, RouterLink, useRoute } from 'vue-router'
+import { type RouteLocationRaw, RouterLink, useRoute, useRouter } from 'vue-router'
 import { useEmailStore } from '@/stores/useEmailStore.ts'
-import { reactive } from 'vue'
+import { reactive, ref, toRef } from 'vue'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Check, Monitor, Tablet, Smartphone } from 'lucide-vue-next'
 import { ButtonGroup } from '@/components/ui/button-group'
@@ -13,6 +13,7 @@ import ControlBody from '@/components/builder/ControlBody.vue'
 import { useBuilderStore } from '@/stores/useBuilderStore.ts'
 
 const route = useRoute()
+const router = useRouter()
 
 const emailStore = useEmailStore()
 
@@ -27,105 +28,15 @@ const urls: Array<{ title: string; href: RouteLocationRaw }> = reactive([
   },
 ])
 
+const builderStore = useBuilderStore()
+
 emailStore.find(route.params.emailId as string).then(() => {
   if (!emailStore.firstEmail) {
     return
   }
 
+  builderStore.setTemplate(emailStore.firstEmail.template)
   ;(urls[urls.length - 1] as { title: string }).title = emailStore.firstEmail.title
-})
-
-const builderStore = useBuilderStore()
-
-builderStore.setTemplate({
-  bodyStyle: {
-    backgroundColor: '#ddd',
-  },
-  style: {
-    backgroundColor: '#fff',
-  },
-  elements: [
-    {
-      type: 'Text',
-      text: '<p>Looks like you added some items to your cart but didn’t complete your purchase.</p>',
-      style: {
-        fontSize: '14px',
-        lineHeight: '1.5',
-        color: '#333333',
-        fontFamily: 'Arial, sans-serif',
-      },
-      sectionStyle: {
-        margin: '0 0 12px 0',
-      },
-    },
-
-    {
-      type: 'Text',
-      text: '<p>Don’t worry—your items are still waiting for you!</p>',
-      style: {
-        fontSize: '14px',
-        lineHeight: '1.5',
-        fontFamily: 'Arial, sans-serif',
-      },
-      sectionStyle: {
-        marginTop: '10px',
-        marginBottom: '10px',
-        backgroundColor: '#fff',
-      },
-    },
-    {
-      type: 'Image',
-      src: '',
-      alt: 'Cart items preview',
-      style: {
-        maxWidth: '100%',
-        display: 'inline-block',
-        border: '0',
-      },
-      sectionStyle: {
-        textAlign: 'center',
-        marginTop: '10px',
-        marginBottom: '10px',
-      },
-    },
-
-    {
-      type: 'Button',
-      href: '#',
-      text: 'Return to Cart',
-      style: {
-        display: 'inline-block',
-        padding: '12px 20px',
-        backgroundColor: '#007bff',
-        color: '#ffffff',
-        textDecoration: 'none',
-        borderRadius: '4px',
-        fontSize: '14px',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        fontFamily: 'Arial, sans-serif',
-        lineHeight: '1.2',
-      },
-      sectionStyle: {
-        textAlign: 'center',
-        margin: '20px 0',
-      },
-    },
-
-    {
-      type: 'Text',
-      text: 'If you have any questions or need help, feel free to reach out to us anytime.',
-      style: {
-        fontSize: '13px',
-        lineHeight: '1.5',
-        color: '#555',
-        fontFamily: 'Arial, sans-serif',
-      },
-      sectionStyle: {
-        margin: '20px 0 0 0',
-      },
-    },
-  ],
 })
 
 function handleAction(action: ControlAction, index: number) {
@@ -146,6 +57,25 @@ function handleAction(action: ControlAction, index: number) {
       builderStore.moveElement(index, index + 1)
       break
   }
+}
+
+const isSaving = ref(false)
+
+async function handleSave() {
+  isSaving.value = true
+
+  await emailStore.updateTemplate({
+    style: builderStore.style,
+    bodyStyle: builderStore.bodyStyle,
+    elements: builderStore.elements,
+  })
+  isSaving.value = false
+  await router.push({
+    name: 'recovery.options.email',
+    query: {
+      emailId: emailStore.firstEmail?.id as string,
+    },
+  })
 }
 </script>
 
@@ -175,11 +105,18 @@ function handleAction(action: ControlAction, index: number) {
       <Button title="Tablet" size="icon" variant="outline"><Tablet /></Button>
       <Button title="Mobile" size="icon" variant="outline"><Smartphone /></Button>
     </ButtonGroup>
-    <Button variant="outline"> <Check /> Save & Exit </Button>
+    <Button :disabled="isSaving" @click="handleSave" variant="outline">
+      <Check /> Save & Exit
+    </Button>
   </div>
   <div class="acr:flex">
     <div class="acr:flex-1">
-      <IFrame @action="handleAction" :isEditing="true" :template="builderStore" />
+      <IFrame
+        v-if="emailStore.firstEmail"
+        @action="handleAction"
+        isEditing
+        :template="builderStore"
+      />
     </div>
     <div
       class="acr:w-[400px] acr:flex-col acr:justify-between acr:bg-white acr:border-l acr:border-gray-200 acr:flex-shrink-0 acr:flex"

@@ -24,12 +24,12 @@ const currentElement = store.currentElement as ButtonElement
     </TabsList>
     <TabsContent value="content" class="acr:space-y-4 acr:w-full">
       <div class="acr:space-y-2">
-        <Label>Text</Label>
-        <Input placeholder="Button Text" v-model="currentElement.text" />
+        <Label for="button-text">Text</Label>
+        <Input id="button-text" placeholder="Button Text" v-model="currentElement.text" />
       </div>
       <div class="acr:space-y-2">
-        <Label>Href</Label>
-        <Input placeholder="Enter url" v-model="currentElement.href" />
+        <Label for="button-href">Href</Label>
+        <Input id="button-href" placeholder="Enter url" v-model="currentElement.href" />
         <Help>Use <code>[cart-link]</code> as the value to insert the dynamic cart URL here.</Help>
       </div>
     </TabsContent>

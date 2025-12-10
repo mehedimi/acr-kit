@@ -8,7 +8,11 @@ const store = useBuilderStore()
 const text = computed(() => {
   switch (store.action?.action) {
     case Control.ADD_AFTER:
-      return 'Select element to add after: ' + store.currentElement?.type
+      if (store.currentElement?.type) {
+        return 'Select element to add after: ' + store.currentElement?.type
+      } else {
+        return 'Select element to add after'
+      }
     case Control.ADD_BEFORE:
       return 'Select element to add before: ' + store.currentElement?.type
     case Control.EDIT:

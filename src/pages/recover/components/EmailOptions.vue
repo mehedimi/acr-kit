@@ -15,12 +15,25 @@ import { Input } from '@/components/ui/input'
 import IFrame from '@/components/builder/IFrame.vue'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
-import { CircleCheckBig } from 'lucide-vue-next'
+import { CircleCheckBig, Trash2Icon, SaveAllIcon } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
 import type { AnyElement, Template } from '@/types/builder.ts'
 import { elements } from '@/stores/elements.ts'
+import {
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialog,
+} from '@/components/ui/alert-dialog'
+import { useEmailStore } from '@/stores/useEmailStore.ts'
+import { ref } from 'vue'
 
-defineProps<{
+const { email } = defineProps<{
   email: EmailRecovery<RecoveryOption>
 }>()
 
@@ -60,10 +73,14 @@ const emailScheduleOptions = [
   { label: '3 months', value: 129600 },
 ]
 
-const t: Template = {
-  style: {},
-  bodyStyle: {},
-  elements: [elements[0] as AnyElement],
+const emailStore = useEmailStore()
+
+const isDeleting = ref(false)
+
+async function handleDelete() {
+  isDeleting.value = true
+  await emailStore.delete(email.id)
+  isDeleting.value = false
 }
 </script>
 
@@ -125,7 +142,33 @@ const t: Template = {
             >Edit Email Template</Button
           >
         </ButtonGroup>
-        <IFrame :is-editing="false" :template="t" />
+        <IFrame :template="email.template" />
+        <div class="acr:flex acr:justify-between acr:mt-4">
+          <Button><SaveAllIcon /> Save Changes</Button>
+
+          <AlertDialog>
+            <AlertDialogTrigger as-child>
+              <Button variant="destructive"><Trash2Icon /> Delete email!</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Remove Email?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This email will be deleted permanently. This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  :disabled="isDeleting"
+                  variant="destructive"
+                  @click="handleDelete"
+                  >Continue</AlertDialogAction
+                >
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       </div>
     </Col>
   </form>

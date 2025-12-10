@@ -84,7 +84,7 @@ class Loader {
 		);
 		self::adminLocalizeScript();
 		self::setGlobalAssetLoader();
-        wp_enqueue_media();
+		wp_enqueue_media();
 	}
 
 	public static function enqueueAdminProdScripts() {
@@ -98,7 +98,7 @@ class Loader {
 		);
 		self::adminLocalizeScript();
 		self::setGlobalAssetLoader();
-        wp_enqueue_media();
+		wp_enqueue_media();
 	}
 
 	public static function enqueueFrontendDevScripts() {
