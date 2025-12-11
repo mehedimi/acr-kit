@@ -4,6 +4,7 @@ namespace AbandonedCartRecover;
 
 use AbandonedCartRecover\Controllers\CartController;
 use AbandonedCartRecover\Controllers\ConnectionController;
+use AbandonedCartRecover\Controllers\EmailController;
 use AbandonedCartRecover\Support\Options;
 use WP_REST_Request;
 
@@ -17,6 +18,7 @@ class Rest {
 			function () {
 				ConnectionController::register();
 				CartController::register();
+				EmailController::register();
 			}
 		);
 	}
