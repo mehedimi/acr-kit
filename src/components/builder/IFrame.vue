@@ -32,21 +32,21 @@ function mountIframe() {
 
       emit('action', e.data.action, e.data.index)
     })
-
-    watch(
-      props.template.bodyStyle,
-      (value) => {
-        body.style.backgroundColor = value.backgroundColor || '#eee'
-      },
-      {
-        immediate: true,
-      },
-    )
   }
 
   const iframeApp = createApp(EmailApp, props)
 
   iframeApp.mount(body)
+
+  watch(
+    () => props.template.bodyStyle,
+    (value) => {
+      body.style.backgroundColor = value.backgroundColor || '#eee'
+    },
+    {
+      immediate: true,
+    },
+  )
 
   resizeIframe()
 

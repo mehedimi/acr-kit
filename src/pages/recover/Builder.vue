@@ -11,6 +11,8 @@ import { Control, type ControlAction } from '@/enum/control.ts'
 import ControlHeading from '@/components/builder/ControlHeading.vue'
 import ControlBody from '@/components/builder/ControlBody.vue'
 import { useBuilderStore } from '@/stores/useBuilderStore.ts'
+import { render } from '@vue-email/render'
+import EmailPreview from '@/components/builder/EmailPreview.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -63,12 +65,21 @@ const isSaving = ref(false)
 
 async function handleSave() {
   isSaving.value = true
-
-  await emailStore.updateTemplate({
+  const template = {
     style: builderStore.style,
     bodyStyle: builderStore.bodyStyle,
     elements: builderStore.elements,
+  }
+
+  const body = await render(EmailPreview, {
+    template,
   })
+
+  await emailStore.updateTemplate({
+    template,
+    body,
+  })
+
   isSaving.value = false
   await router.push({
     name: 'recovery.options.email',

@@ -22,7 +22,7 @@ function getComponent(type: ElementType) {
 
 defineProps<{
   template: Template
-  isEditing: boolean
+  isEditing?: boolean
 }>()
 
 const store = useBuilderStore()

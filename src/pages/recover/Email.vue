@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Heading from '@/pages/recover/components/Heading.vue'
+
 import {
   Accordion,
   AccordionItem,
@@ -69,7 +70,7 @@ async function createEmail() {
         <AccordionItem :value="email.id" v-for="email in store.data" :key="email.id">
           <AccordionTrigger>
             <div>
-              <p class="acr:!my-0 acr:!text-lg acr:capitalize">{{ email.title }}</p>
+              <p class="acr:my-0! acr:text-lg! acr:capitalize">{{ email.title }}</p>
               <span class="acr:text-xs acr:font-normal acr:text-muted-foreground"
                 >After {{ minutesToHumanReadable(email.recovery.runAfter) }}</span
               >

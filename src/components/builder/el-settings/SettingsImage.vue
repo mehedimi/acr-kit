@@ -94,7 +94,7 @@ const imageUrlModalOpen = ref(false)
       >
         <DialogContent class="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle class="acr:!my-0">Add Image from URL</DialogTitle>
+            <DialogTitle class="acr:my-0!">Add Image from URL</DialogTitle>
             <DialogDescription
               >Provide the URL of the image you want to upload. The image must be publicly
               accessible.</DialogDescription

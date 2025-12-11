@@ -2,10 +2,10 @@ import { defineStore } from 'pinia'
 import type {
   EmailRecovery,
   EmailRecoveryCreatePayload,
+  EmailRecoveryTemplateUpdatePayload,
   RecoveryOption,
 } from '@/types/recovery-option.ts'
 import { appHttp } from '@/lib/http.ts'
-import type { Template } from '@/types/builder.ts'
 
 const BASE_ENDPOINT = '/api/v1/recovery/emails' as const
 
@@ -94,17 +94,23 @@ export const useEmailStore = defineStore('email', {
       }
     },
 
-    async updateTemplate(template: Template) {
+    async updateTemplate(data: EmailRecoveryTemplateUpdatePayload) {
       if (!this.firstEmail) {
         return
       }
 
       return appHttp.patch<{ data: EmailRecovery<RecoveryOption> }>(
         `${BASE_ENDPOINT}/${this.firstEmail.id}`,
-        {
-          template,
-        } satisfies { template: Template },
+        data,
       )
+    },
+
+    updateEmail(data: EmailRecovery<RecoveryOption>) {
+      return appHttp.patch<{ data: EmailRecovery<RecoveryOption> }>(`${BASE_ENDPOINT}/${data.id}`, {
+        title: data.title,
+        recovery: data.recovery,
+        subject: data.subject,
+      } satisfies EmailRecoveryCreatePayload)
     },
   },
   getters: {

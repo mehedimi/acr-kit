@@ -29,7 +29,12 @@ export interface EmailRecovery<R = undefined> {
 export interface EmailRecoveryCreatePayload {
   title: string
   subject: string
-  body: string
+  body?: string
   template?: Template
   recovery: Pick<RecoveryOption, 'runAfter'>
+}
+
+export interface EmailRecoveryTemplateUpdatePayload {
+  body: string
+  template: Template
 }

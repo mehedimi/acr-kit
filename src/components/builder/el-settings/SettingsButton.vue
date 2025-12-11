@@ -10,6 +10,15 @@ import TextAlign from '@/components/builder/controls/TextAlign.vue'
 import { ColorPicker } from 'vue3-colorpicker'
 import { Input } from '@/components/ui/input'
 import Help from '@/pages/recover/components/Help.vue'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { emailSafeFonts } from '@/components/data.ts'
 
 const store = useBuilderStore()
 
@@ -35,9 +44,10 @@ const currentElement = store.currentElement as ButtonElement
     </TabsContent>
     <TabsContent value="style" class="acr:w-full acr:space-y-6">
       <div class="acr:space-y-2">
-        <Label>Color</Label>
+        <Label for="button-color">Color</Label>
         <div class="acr:p-1 acr:border acr: acr:rounded acr:inline-block">
           <ColorPicker
+            id="button-color"
             v-model:pure-color="currentElement.style.color"
             format="hex6"
             class="acr:w-full"
@@ -45,14 +55,33 @@ const currentElement = store.currentElement as ButtonElement
         </div>
       </div>
       <div class="acr:space-y-2">
-        <Label>Background Color</Label>
+        <Label for="button-bg-color">Background Color</Label>
         <div class="acr:p-1 acr:border acr: acr:rounded acr:inline-block">
           <ColorPicker
+            id="button-bg-color"
             v-model:pure-color="currentElement.style.backgroundColor"
             format="hex6"
             class="acr:w-full"
           />
         </div>
+      </div>
+      <div class="acr:space-y-2">
+        <Label for="button-font">Font Family</Label>
+        <Select id="button-font" v-model="currentElement.style.fontFamily">
+          <SelectTrigger>
+            <SelectValue placeholder="Select a font" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem
+                :style="{ fontFamily: font.value }"
+                v-for="font in emailSafeFonts"
+                :value="font.value"
+                >{{ font.label }}</SelectItem
+              >
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
       <div class="acr:space-y-2">
         <Label>Align</Label>

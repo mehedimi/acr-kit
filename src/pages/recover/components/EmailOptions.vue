@@ -17,8 +17,6 @@ import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { CircleCheckBig, Trash2Icon, SaveAllIcon } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
-import type { AnyElement, Template } from '@/types/builder.ts'
-import { elements } from '@/stores/elements.ts'
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -32,6 +30,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useEmailStore } from '@/stores/useEmailStore.ts'
 import { ref } from 'vue'
+import { toast } from 'vue-sonner'
 
 const { email } = defineProps<{
   email: EmailRecovery<RecoveryOption>
@@ -79,8 +78,33 @@ const isDeleting = ref(false)
 
 async function handleDelete() {
   isDeleting.value = true
-  await emailStore.delete(email.id)
-  isDeleting.value = false
+  toast.promise(emailStore.delete(email.id), {
+    loading: 'Deleting',
+    success() {
+      isDeleting.value = false
+      return 'The email has been deleted.'
+    },
+    error() {
+      isDeleting.value = false
+      return 'Failed to delete the email'
+    },
+  })
+}
+
+const isSaving = ref(false)
+async function saveEmail() {
+  isSaving.value = true
+  toast.promise(emailStore.updateEmail(email), {
+    loading: 'Saving',
+    success() {
+      isSaving.value = false
+      return 'The email has been updated.'
+    },
+    error() {
+      isSaving.value = false
+      return 'Failed to update email'
+    },
+  })
 }
 </script>
 
@@ -88,7 +112,7 @@ async function handleDelete() {
   <form>
     <Col class="acr:py-4">
       <template v-slot:left>
-        <h3 class="acr:!my-0 acr:!text-lg">General</h3>
+        <h3 class="acr:my-0! acr:text-lg!">General</h3>
         <Help
           >Set up the basics of this recovery option. Turn it on or off, choose when it should run,
           and pick what kind of action it performs.</Help
@@ -102,7 +126,6 @@ async function handleDelete() {
           </div>
           <Help>Toggle to enable or disable this recovery option.</Help>
         </div>
-
         <div class="acr:space-y-1.5">
           <Label :for="`${email.id}-run-after`">Send after</Label>
           <Select :id="`${email.id}-run-after`" v-model="email.recovery.runAfter">
@@ -130,7 +153,19 @@ async function handleDelete() {
             engaging to encourage them to open the email.</Help
           >
         </div>
-        <ButtonGroup>
+      </div>
+    </Col>
+    <Col class="acr:py-4">
+      <template v-slot:left>
+        <h3 class="acr:my-0! acr:text-lg!">Template Overview</h3>
+        <Help
+          >This preview displays the final output of your email, including layout, text, images, and
+          styling. Use the editor to modify any part of the template and instantly update the
+          customer-facing version.</Help
+        >
+      </template>
+      <div>
+        <ButtonGroup class="acr:mb-2">
           <Button variant="outline" disabled>
             <CircleCheckBig />
             Preview
@@ -139,20 +174,19 @@ async function handleDelete() {
             :as="RouterLink"
             :to="{ name: 'recovery.email.builder', params: { emailId: email.id } }"
             variant="outline"
-            >Edit Email Template</Button
+            >Edit Template</Button
           >
         </ButtonGroup>
         <IFrame :template="email.template" />
         <div class="acr:flex acr:justify-between acr:mt-4">
-          <Button><SaveAllIcon /> Save Changes</Button>
-
+          <Button @click="saveEmail" :disabled="isSaving"><SaveAllIcon /> Save Changes</Button>
           <AlertDialog>
             <AlertDialogTrigger as-child>
               <Button variant="destructive"><Trash2Icon /> Delete email!</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Remove Email?</AlertDialogTitle>
+                <AlertDialogTitle>Delete Email?</AlertDialogTitle>
                 <AlertDialogDescription>
                   This email will be deleted permanently. This action cannot be undone.
                 </AlertDialogDescription>
