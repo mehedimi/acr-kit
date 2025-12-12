@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input'
 import IFrame from '@/components/builder/IFrame.vue'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
-import { CircleCheckBig, Trash2Icon, SaveAllIcon } from 'lucide-vue-next'
+import { CircleCheckBig, Trash2Icon, SaveAllIcon, MailsIcon } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
 import {
   AlertDialogAction,
@@ -127,6 +127,19 @@ async function saveEmail() {
           <Help>Toggle to enable or disable this recovery option.</Help>
         </div>
         <div class="acr:space-y-1.5">
+          <Label :for="`${email.id}-title`">Name</Label>
+          <Input
+            v-model="email.title"
+            :id="`${email.id}-title`"
+            type="text"
+            placeholder="Enter name"
+          />
+          <Help
+            >Provide a name to help you recognize this email in your dashboard. This value is for
+            internal reference only and will not appear in the email sent to customers.</Help
+          >
+        </div>
+        <div class="acr:space-y-1.5">
           <Label :for="`${email.id}-run-after`">Send after</Label>
           <Select :id="`${email.id}-run-after`" v-model="email.recovery.runAfter">
             <SelectTrigger class="acr:bg-white acr:w-full">
@@ -165,7 +178,7 @@ async function saveEmail() {
         >
       </template>
       <div>
-        <ButtonGroup class="acr:mb-2">
+        <ButtonGroup class="acr:mb-2 acr:mx-auto">
           <Button variant="outline" disabled>
             <CircleCheckBig />
             Preview
@@ -174,10 +187,10 @@ async function saveEmail() {
             :as="RouterLink"
             :to="{ name: 'recovery.email.builder', params: { emailId: email.id } }"
             variant="outline"
-            >Edit Template</Button
+            ><MailsIcon /> Edit Template</Button
           >
         </ButtonGroup>
-        <IFrame :template="email.template" />
+        <IFrame class="acr:rounded" :template="email.template" />
         <div class="acr:flex acr:justify-between acr:mt-4">
           <Button @click="saveEmail" :disabled="isSaving"><SaveAllIcon /> Save Changes</Button>
           <AlertDialog>

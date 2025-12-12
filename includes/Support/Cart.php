@@ -2,6 +2,7 @@
 
 namespace AbandonedCartRecover\Support;
 
+use AbandonedCartRecover\CartStatus;
 use WC_Product_Variation;
 
 class Cart {
@@ -22,6 +23,8 @@ class Cart {
 		add_action( 'woocommerce_cart_updated', array( self::class, 'handleCartChanges' ) );
 		add_action( 'woocommerce_store_api_checkout_order_processed', array( self::class, 'afterCheckout' ) );
 		add_action( 'woocommerce_checkout_order_created', array( self::class, 'afterCheckout' ) );
+
+		add_action( 'template_redirect', array( self::class, 'restoreCart' ) );
 	}
 
 	public static function handleCartChanges() {
@@ -96,5 +99,41 @@ class Cart {
 		self::resetCartId();
 		WC()->session->set( 'acr_cart_hash', null );
 		Api::cartMarkAsCompleted( $id );
+	}
+
+	public static function restoreCart() {
+		if ( empty( $_GET['acr_rc_id'] ) || ! WC()->cart ) {
+			return;
+		}
+
+		$cartId = sanitize_text_field( $_GET['acr_rc_id'] );
+
+		$response = Api::blocking()->get( '/api/v1/carts/' . $cartId );
+
+		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+			return;
+		}
+
+		$cart = json_decode( wp_remote_retrieve_body( $response ), true )['data'];
+
+		if ( $cart['status'] !== CartStatus::ABANDONED ) {
+			return;
+		}
+
+		WC()->cart->empty_cart();
+
+		foreach ( $cart['lineItems'] as $item ) {
+			WC()->cart->add_to_cart(
+				$item['id'],
+				$item['quantity'],
+				isset( $item['variationId'] ) ? (int) $item['variationId'] : 0,
+				$item['variation'] ?? array()
+			);
+		}
+
+		WC()->session->set( 'acr_cart_restore', true );
+
+		wp_safe_redirect( wc_get_checkout_url() );
+		exit;
 	}
 }

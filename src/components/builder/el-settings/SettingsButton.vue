@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ALargeSmallIcon, PaletteIcon } from 'lucide-vue-next'
+import { ALargeSmallIcon, PaletteIcon, LayoutTemplateIcon } from 'lucide-vue-next'
 import { Label } from '@/components/ui/label'
 import Spacing from '@/components/builder/controls/Spacing.vue'
 import { Slider } from '@/components/ui/slider'
@@ -30,6 +30,7 @@ const currentElement = store.currentElement as ButtonElement
     <TabsList>
       <TabsTrigger value="content"><ALargeSmallIcon /> Content</TabsTrigger>
       <TabsTrigger value="style"><PaletteIcon /> Style</TabsTrigger>
+      <TabsTrigger value="section-style"><LayoutTemplateIcon /> Section Style</TabsTrigger>
     </TabsList>
     <TabsContent value="content" class="acr:space-y-4 acr:w-full">
       <div class="acr:space-y-2">
@@ -104,6 +105,23 @@ const currentElement = store.currentElement as ButtonElement
       <div class="acr:space-y-2">
         <Label>Padding</Label>
         <Spacing v-model="currentElement.style.padding as string" />
+      </div>
+    </TabsContent>
+    <TabsContent value="section-style" class="acr:w-full acr:space-y-6">
+      <div class="acr:space-y-2">
+        <Label for="button-section-bg-color">Background Color</Label>
+        <div class="acr:p-1 acr:border acr: acr:rounded acr:inline-block">
+          <ColorPicker
+            id="button-section-bg-color"
+            v-model:pure-color="currentElement.sectionStyle.backgroundColor"
+            format="hex6"
+            class="acr:w-full"
+          />
+        </div>
+      </div>
+      <div class="acr:space-y-2">
+        <Label>Padding</Label>
+        <Spacing v-model="currentElement.sectionStyle.padding as string" />
       </div>
       <div class="acr:space-y-2.5">
         <Label class="acr:justify-between"

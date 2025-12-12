@@ -23,5 +23,9 @@ export const useCartStore = defineStore('cartStore', {
           this.meta = data.meta
         })
     },
+    async destroy(id: string) {
+      await appHttp.delete(`/api/v1/carts/${id}`)
+      this.fetch()
+    },
   },
 })

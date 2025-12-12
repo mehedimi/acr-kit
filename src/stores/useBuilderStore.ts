@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { AnyElement, ElementType, Template } from '@/types/builder.ts'
 import { Control, type ControlAction } from '@/enum/control.ts'
 import { elements } from '@/stores/elements.ts'
+import { cloneDeep } from 'lodash'
 type Action = { action: ControlAction; index: number }
 export const useBuilderStore = defineStore('builder', {
   state(): Template & { action?: Action } {
@@ -58,9 +59,9 @@ export const useBuilderStore = defineStore('builder', {
 
       this.$patch((store) => {
         if (store.action?.action === Control.ADD_BEFORE) {
-          this.elements.splice(store.action.index, 0, elValue)
+          this.elements.splice(store.action.index, 0, cloneDeep(elValue))
         } else {
-          this.elements.splice((store.action?.index as number) + 1, 0, elValue)
+          this.elements.splice((store.action?.index as number) + 1, 0, cloneDeep(elValue))
         }
 
         ;(store.action as Action).action = Control.EDIT

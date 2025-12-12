@@ -18,7 +18,7 @@ import {
   EmptyTitle,
 } from '@/components/ui/empty'
 import { Button } from '@/components/ui/button'
-import { MailQuestionMark, MailPlus } from 'lucide-vue-next'
+import { MailQuestionMark, MailPlus, MailsIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
 import { toast } from 'vue-sonner'
 import { minutesToHumanReadable } from '@/lib/utils'

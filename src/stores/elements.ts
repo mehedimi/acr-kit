@@ -17,7 +17,7 @@ export const elements: Array<AnyElement> = [
       lineHeight: '1.2',
     },
     sectionStyle: {
-      textAlign: 'left',
+      textAlign: 'center',
       marginTop: '10px',
       marginBottom: '10px',
     },

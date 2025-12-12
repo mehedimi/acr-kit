@@ -9,6 +9,7 @@ const iframeEl = ref<HTMLIFrameElement>()
 const props = defineProps<{
   isEditing?: boolean
   template: Template
+  width?: string
 }>()
 
 const emit = defineEmits<{
@@ -71,5 +72,11 @@ const iframeSrc = acrApp.assetUrl.replace('dist/', 'assets/email.html')
 </script>
 
 <template>
-  <iframe @load="mountIframe" :src="iframeSrc" width="100%" height="100%" ref="iframeEl" />
+  <iframe
+    @load="mountIframe"
+    :src="iframeSrc"
+    :width="width || '100%'"
+    height="100%"
+    ref="iframeEl"
+  />
 </template>

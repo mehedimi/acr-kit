@@ -8,7 +8,7 @@ use WP_Error;
 
 /**
  * @method static AppHttp blocking(bool $state = true)
- * @method static AppHttp noBlocking()
+ * @method static AppHttp nonBlocking()
  * @method static array|WP_Error get(string $path, array $query = [])
  * @method static array|WP_Error post(string $path, array $data = [])
  * @method static array|WP_Error patch(string $path, array $data = [])
@@ -56,7 +56,7 @@ class Api {
 
 			$body = wp_remote_retrieve_body( $response );
 
-			if ( is_wp_error( $body ) ) {
+			if ( is_wp_error( $body ) || ! ( wp_remote_retrieve_response_code( $response ) < 300 ) ) {
 				error_log( $body );
 				return null;
 			}
@@ -69,7 +69,7 @@ class Api {
 	}
 
 	public static function cartMarkAsCompleted( string $id ) {
-		self::noBlocking()->patch( sprintf( '/api/v1/carts/%s/completed', $id ) );
+		self::nonBlocking()->patch( sprintf( '/api/v1/carts/%s/completed', $id ) );
 	}
 
 	/**

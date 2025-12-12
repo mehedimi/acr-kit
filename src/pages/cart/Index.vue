@@ -19,7 +19,7 @@ import {
   EmptyTitle,
 } from '@/components/ui/empty'
 import { Button } from '@/components/ui/button'
-import { RefreshCcw, ShoppingCart } from 'lucide-vue-next'
+import { RefreshCcw, ShoppingCart, EllipsisIcon } from 'lucide-vue-next'
 import { TooltipContent, TooltipProvider, TooltipTrigger, Tooltip } from '@/components/ui/tooltip'
 import type { Cart } from '@/types/cart.ts'
 import { useRouter } from 'vue-router'
@@ -28,6 +28,24 @@ import { toStatusTitle, toStatusVariant } from '@/enum/cart-status.ts'
 import Date from '@/components/Date.vue'
 import Header from '@/components/Header.vue'
 import Content from '@/components/Content.vue'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import { ref } from 'vue'
+import { toast } from 'vue-sonner'
 
 const cartStore = useCartStore()
 
@@ -36,6 +54,18 @@ const router = useRouter()
 
 function openCart(cart: Cart) {
   router.push({ name: 'cart.show', params: { id: cart.id } })
+}
+
+const deleteCartId = ref<string | undefined>()
+
+async function deleteCart() {
+  if (!deleteCartId.value) {
+    return
+  }
+
+  await cartStore.destroy(deleteCartId.value)
+  toast.success('The cart is successfully deleted.')
+  deleteCartId.value = undefined
 }
 </script>
 
@@ -57,6 +87,7 @@ function openCart(cart: Cart) {
             <TableHead>Total</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Created At</TableHead>
+            <TableHead>—</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -100,6 +131,20 @@ function openCart(cart: Cart) {
               }}</Badge></TableCell
             >
             <TableCell><Date :date="cart.createdAt" /></TableCell>
+            <TableCell class="acr:text-right">
+              <DropdownMenu>
+                <DropdownMenuTrigger @click.stop asChild>
+                  <Button size="icon-sm" variant="outline"><EllipsisIcon /></Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem @click="openCart(cart)">View details</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem @click="deleteCartId = cart.id" variant="destructive"
+                    >Delete!</DropdownMenuItem
+                  >
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>
@@ -122,7 +167,20 @@ function openCart(cart: Cart) {
         </EmptyContent>
       </Empty>
     </Content>
-
+    <AlertDialog :open="deleteCartId !== undefined">
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete this cart.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel @click="deleteCartId = undefined">Cancel</AlertDialogCancel>
+          <Button variant="destructive" @click="deleteCart"> Delete it! </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
     <RouterView />
   </AppLayout>
 </template>

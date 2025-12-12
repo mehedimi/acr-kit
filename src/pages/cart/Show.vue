@@ -47,7 +47,9 @@ watch(open, () => {
         <DialogHeader>
           <DialogTitle>Cart Summary</DialogTitle>
           <DialogDescription
-            >Review the items currently in your cart before proceeding.</DialogDescription
+            >Take a quick look at what the customer was planning to buy before leaving. These
+            insights help you personalize recovery emails and improve the shopping
+            experience.</DialogDescription
           >
         </DialogHeader>
         <Table>
