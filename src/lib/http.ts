@@ -17,3 +17,7 @@ export const appHttp = axios.create({
     Authorization: `Bearer ${acrApp.appToken}`,
   },
 })
+
+export const wpEndpoint = function (path: string) {
+  return acrApp.apiUrl.replace(/\/wp-json\/.*$/, '/wp-json' + path)
+}

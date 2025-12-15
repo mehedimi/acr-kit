@@ -5,6 +5,7 @@ namespace AbandonedCartRecover\Controllers;
 use AbandonedCartRecover\Enum\ClientAction;
 use AbandonedCartRecover\Rest;
 use AbandonedCartRecover\Support\Api;
+use AbandonedCartRecover\Support\Email;
 use AbandonedCartRecover\Support\Encryptor;
 use DOMDocument;
 use WP_Error;
@@ -12,7 +13,7 @@ use WP_REST_Request;
 use WP_REST_Response;
 
 class EmailController extends Controller {
-	static function register() {
+	public static function register() {
 		register_rest_route(
 			Rest::NAMESPACE,
 			'/email/send',
@@ -69,13 +70,21 @@ class EmailController extends Controller {
 		$subject = $request->get_param( 'subject' );
 		$content = $request->get_param( 'content' );
 
-		// Set email headers for HTML
+		$emailOptions = Email::getEmailOptions();
+
 		$headers = array(
 			'Content-Type: text/html; charset=UTF-8',
-			'From: ' . get_bloginfo( 'name' ) . ' <' . get_bloginfo( 'admin_email' ) . '>',
+			'From: ' . ( empty( $emailOptions['from_name'] ) ? get_bloginfo( 'name' ) : $emailOptions['from_name'] ) . ' <' . ( empty( $emailOptions['from_email'] ) ? get_bloginfo( 'admin_email' ) : $emailOptions['from_email'] ) . '>',
 		);
 
-		// Send email using wp_mail
+		if ( ! empty( $emailOptions['reply_to_email'] ) ) {
+			$headers[] = sprintf(
+				'Reply-To: %s <%s>',
+				empty( $emailOptions['reply_to_name'] ) ? get_bloginfo( 'name' ) : $emailOptions['reply_to_name'],
+				$emailOptions['reply_to_email']
+			);
+		}
+
 		$sent = wp_mail( $to, $subject, $content, $headers );
 
 		if ( $sent ) {
@@ -95,9 +104,9 @@ class EmailController extends Controller {
 
 		$baseUrl = get_home_url() . '?' . http_build_query(
 			array(
-				'acr_action' => ClientAction::CLICK_EMAIL,
-				'acr_cart_id'    => '__ACR_CART_ID__',
-                'acr_email_id'   => $emailId
+				'acr_action'   => ClientAction::CLICK_EMAIL,
+				'acr_cart_id'  => '__ACR_CART_ID__',
+				'acr_email_id' => $emailId,
 			)
 		);
 

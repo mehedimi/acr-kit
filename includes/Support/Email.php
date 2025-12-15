@@ -2,7 +2,7 @@
 
 namespace AbandonedCartRecover\Support;
 
-use AbandonedCartRecover\Enum\ClientAction;
+use Mehedi\WPQueryBuilder\DB;
 
 class Email {
 
@@ -11,8 +11,8 @@ class Email {
 			return;
 		}
 
-		$cartId = sanitize_text_field( $_GET['acr_cart_id'] );
-        $emailId = sanitize_text_field( $_GET['acr_email_id'] );
+		$cartId  = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
+		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
 
 		Api::trackEmailOpen( $emailId, $cartId );
 
@@ -31,17 +31,72 @@ class Email {
 			return;
 		}
 
-		$cartId  = sanitize_text_field( $_GET['acr_cart_id'] );
-		$emailId = sanitize_text_field( $_GET['acr_email_id'] );
-		$url     = Encryptor::decryptQueryParam( urldecode( $_GET['next'] ) );
+		$cartId  = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
+		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
+		$url     = Encryptor::decryptQueryParam( urldecode( sanitize_text_field( wp_unslash( $_GET['next'] ) ) ) );
 
-        if( empty( $url ) ){
-            $url = home_url();
-        } else {
-            Api::trackEmailClick( $emailId, $cartId );
-        }
+		if ( empty( $url ) ) {
+			$url = home_url();
+		} else {
+			Api::trackEmailClick( $emailId, $cartId );
+		}
 
 		wp_safe_redirect( $url );
 		exit;
+	}
+
+	public static function unsubscribe() {
+		if ( empty( $_GET['acr_cart_id'] ) || empty( $_GET['acr_email_id'] ) ) {
+			return;
+		}
+
+		$cartId  = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
+		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
+
+		Api::nonBlocking()
+			->patch( "/api/v1/recovery-emails/$emailId/carts/$cartId/unsubscribe" );
+
+		$url = home_url();
+
+		$unsubscribePageId = get_option( 'acr_unsubscribe_page_id' );
+
+		if ( ! empty( $unsubscribePageId ) ) {
+			$pageUrl = get_permalink( $unsubscribePageId );
+			if ( ! empty( $pageUrl ) ) {
+				$url = $pageUrl;
+			}
+		}
+
+		wp_safe_redirect( $url );
+		exit;
+	}
+
+	public static function getEmailOptions(): array {
+		$options = DB::table( 'options' )
+			->whereIn( 'option_name', array_map( fn( $attr ) => 'acr_' . $attr, self::getEmailAttrs() ) )
+			->get();
+
+		return array_column(
+			array_map(
+				function ( $option ) {
+					$option->option_name = str_replace( 'acr_', '', $option->option_name );
+					return (array) $option;
+				},
+				$options
+			),
+			'option_value',
+			'option_name'
+		);
+	}
+
+
+	public static function getEmailAttrs(): array {
+		return array(
+			'unsubscribe_page_id',
+			'from_email',
+			'from_name',
+			'reply_to_email',
+			'reply_to_name',
+		);
 	}
 }

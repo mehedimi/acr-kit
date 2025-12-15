@@ -7,6 +7,10 @@ use AbandonedCartRecover\Rest;
 use WP_Error;
 
 /**
+ * Wrapper for the AppHttp class.
+ *
+ * We use this class to make the code more readable.
+ *
  * @method static AppHttp blocking(bool $state = true)
  * @method static AppHttp nonBlocking()
  * @method static array|WP_Error get(string $path, array $query = [])
@@ -36,11 +40,6 @@ class Api {
 		);
 	}
 
-	/**
-	 * @param string|null $carId
-	 * @param array       $content
-	 * @return null|string
-	 */
 	public static function sendCart( ?string $carId, array $content ): ?string {
 		$http = new AppHttp();
 
@@ -57,7 +56,6 @@ class Api {
 			$body = wp_remote_retrieve_body( $response );
 
 			if ( is_wp_error( $body ) || ! ( wp_remote_retrieve_response_code( $response ) < 300 ) ) {
-				error_log( $body );
 				return null;
 			}
 

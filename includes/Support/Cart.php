@@ -50,15 +50,17 @@ class Cart {
 			return;
 		}
 
-		$hash = md5( json_encode( $payload ) );
+		$hash = md5( wp_json_encode( $payload ) );
 
-		if ( $hash === WC()->session->get( 'acr_cart_hash' ) ) {
+		if ( WC()->session->get( 'acr_cart_hash' ) === $hash ) {
 			return;
 		}
 
 		WC()->session->set( 'acr_cart_hash', $hash );
 
-		if ( $id = Api::sendCart( $cartId, $payload ) ) {
+		$id = Api::sendCart( $cartId, $payload );
+
+		if ( ! empty( $id ) ) {
 			self::setCartId( $id );
 		}
 	}
@@ -90,9 +92,7 @@ class Cart {
 	}
 
 	public static function afterCheckout() {
-		error_log( 'afterCheckout' );
 		$id = self::getCartId();
-		error_log( 'afterCheckout: ' . $id );
 		if ( is_null( $id ) ) {
 			return;
 		}
@@ -103,11 +103,11 @@ class Cart {
 	}
 
 	public static function restoreCart() {
-		if ( empty( $_GET['acr_rc_id'] ) || ! WC()->cart ) {
+		if ( empty( $_GET['acr_cart_id'] ) || ! WC()->cart ) {
 			return;
 		}
 
-		$cartId = sanitize_text_field( $_GET['acr_rc_id'] );
+		$cartId = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
 
 		$response = Api::blocking()->get( '/api/v1/carts/' . $cartId );
 
@@ -117,8 +117,14 @@ class Cart {
 
 		$cart = json_decode( wp_remote_retrieve_body( $response ), true )['data'];
 
-		if ( $cart['status'] !== CartStatus::ABANDONED ) {
+		if ( CartStatus::ABANDONED !== $cart['status'] ) {
 			return;
+		}
+
+		if ( ! empty( $_GET['acr_email_id'] ) ) {
+			$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
+
+			Api::trackEmailOpen( $emailId, $cartId );
 		}
 
 		WC()->cart->empty_cart();
@@ -152,6 +158,9 @@ class Cart {
 				break;
 			case ClientAction::CLICK_EMAIL:
 				Email::clickTrack();
+				break;
+			case ClientAction::UNSUBSCRIBE:
+				Email::unsubscribe();
 				break;
 		}
 	}

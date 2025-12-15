@@ -50,8 +50,19 @@ export const routes: RouteRecordRaw[] = [
     name: 'utilities',
   },
   {
-    path: '/configurations',
-    component: () => import('./pages/Configuration.vue'),
-    name: 'configurations',
+    path: '/settings',
+    component: () => import('./pages/settings/Configuration.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('./pages/settings/Index.vue'),
+        name: 'configurations',
+      },
+      {
+        path: 'email',
+        name: 'configurations.email',
+        component: () => import('./pages/settings/Email.vue'),
+      },
+    ],
   },
 ]

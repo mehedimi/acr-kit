@@ -80,7 +80,8 @@ class Loader {
 			'acr-admin',
 			'http://localhost:5174/src/admin.ts',
 			array( 'acr-vite-client' ),
-			null
+			null,
+			true
 		);
 		self::adminLocalizeScript();
 		self::setGlobalAssetLoader();

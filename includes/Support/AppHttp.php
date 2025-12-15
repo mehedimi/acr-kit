@@ -37,7 +37,7 @@ class AppHttp {
 			return new WP_Error( 'no_api_key', 'There is no API key set.' );
 		}
 
-		if ( $name === 'get' && isset( $arguments[1] ) ) {
+		if ( 'get' === $name && isset( $arguments[1] ) ) {
 			$arguments[0] .= '?' . http_build_query( $arguments[1] );
 		}
 
@@ -45,7 +45,7 @@ class AppHttp {
 			ACR::getAppUrl() . $arguments[0],
 			array(
 				'method'   => strtoupper( $name ),
-				'body'     => ( isset( $arguments[1] ) && $name !== 'get' ) ? wp_json_encode( $arguments[1] ) : null,
+				'body'     => ( isset( $arguments[1] ) && 'get' !== $name ) ? wp_json_encode( $arguments[1] ) : null,
 				'blocking' => $this->isBlocking,
 				'headers'  => array(
 					'Accept'          => 'application/json',
