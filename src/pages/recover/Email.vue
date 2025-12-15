@@ -18,7 +18,7 @@ import {
   EmptyTitle,
 } from '@/components/ui/empty'
 import { Button } from '@/components/ui/button'
-import { MailQuestionMark, MailPlus, MailsIcon } from 'lucide-vue-next'
+import { MailQuestionMark, MailPlus } from 'lucide-vue-next'
 import { ref } from 'vue'
 import { toast } from 'vue-sonner'
 import { minutesToHumanReadable } from '@/lib/utils'
@@ -100,7 +100,7 @@ async function createEmail() {
     </Empty>
   </Content>
   <div class="acr:text-center acr:my-4" v-if="store.data.length">
-    <Button @click="createEmail" :disabled="isCreating" variant="outline"
+    <Button @click="createEmail" :disabled="isCreating" variant="outline" size="lg"
       ><MailPlus /> Add New Email</Button
     >
   </div>

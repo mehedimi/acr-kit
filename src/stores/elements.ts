@@ -3,7 +3,7 @@ import type { AnyElement } from '@/types/builder.ts'
 export const elements: Array<AnyElement> = [
   {
     type: 'Button',
-    href: '[cart-url]',
+    href: '[cart-link]',
     text: 'Go to your cart!',
     style: {
       display: 'inline-block',

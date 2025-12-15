@@ -2,8 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Ensures proper mobile scaling -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Prevents iOS from auto-linking phone numbers, dates, addresses -->
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+    <!-- Outlook-specific -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Prevents Gmail iOS font resizing -->
+    <meta name="x-apple-disable-message-reformatting" />
+
+    <title>Email</title>
 
     <style>
       /* GLOBAL BOX-SIZING */
@@ -189,7 +197,6 @@
         cursor: pointer;
       }
     </style>
-    <title></title>
   </head>
 
   <body></body>

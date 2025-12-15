@@ -5,7 +5,7 @@ import type {
   EmailRecoveryTemplateUpdatePayload,
   RecoveryOption,
 } from '@/types/recovery-option.ts'
-import { appHttp } from '@/lib/http.ts'
+import { appHttp, wpHttp } from '@/lib/http.ts'
 
 const BASE_ENDPOINT = '/api/v1/recovery/emails' as const
 
@@ -99,10 +99,7 @@ export const useEmailStore = defineStore('email', {
         return
       }
 
-      return appHttp.patch<{ data: EmailRecovery<RecoveryOption> }>(
-        `${BASE_ENDPOINT}/${this.firstEmail.id}`,
-        data,
-      )
+      return wpHttp.patch(`emails/${this.firstEmail.id}`, data)
     },
 
     updateEmail(data: EmailRecovery<RecoveryOption>) {

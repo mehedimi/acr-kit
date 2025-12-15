@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Html, Style, Head } from '@vue-email/components'
+import { Html, Style, Head, Body } from '@vue-email/components'
 import type { Template } from '@/types/builder.ts'
 import EmailApp from '@/components/builder/EmailApp.vue'
 
@@ -28,6 +28,9 @@ defineProps<{
         Helvetica, sans-serif; } p, h1, h2, h3, h4, h5, h6 { margin: 0; }
       </Style>
     </Head>
-    <EmailApp :template="template" />
+    <Body>
+      <EmailApp :template="template" />
+      <acr-open-track></acr-open-track>
+    </Body>
   </Html>
 </template>

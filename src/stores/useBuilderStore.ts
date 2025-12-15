@@ -67,6 +67,11 @@ export const useBuilderStore = defineStore('builder', {
         ;(store.action as Action).action = Control.EDIT
       })
     },
+    duplicateElement(index: number) {
+      const item = this.elements[index] as AnyElement
+      console.log(item)
+      this.elements.splice(index + 1, 0, cloneDeep(item))
+    },
   },
 
   getters: {

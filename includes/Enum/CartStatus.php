@@ -1,6 +1,6 @@
 <?php
 
-namespace AbandonedCartRecover;
+namespace AbandonedCartRecover\Enum;
 
 class CartStatus {
 	const ACTIVE = 1;

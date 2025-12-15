@@ -79,4 +79,12 @@ class Api {
 	public static function pingCart( string $id ) {
 		self::patch( sprintf( '/api/v1/carts/%s/ping', $id ) );
 	}
+
+	public static function trackEmailOpen( string $emailId, string $cartId ) {
+		self::nonBlocking()->patch( "/api/v1/recovery-emails/$emailId/carts/$cartId/open" );
+	}
+
+	public static function trackEmailClick( string $emailId, string $cartId ) {
+		self::nonBlocking()->patch( "recovery-emails/$emailId/carts/$cartId/click" );
+	}
 }

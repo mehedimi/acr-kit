@@ -2,7 +2,8 @@
 
 namespace AbandonedCartRecover\Support;
 
-use AbandonedCartRecover\CartStatus;
+use AbandonedCartRecover\Enum\CartStatus;
+use AbandonedCartRecover\Enum\ClientAction;
 use WC_Product_Variation;
 
 class Cart {
@@ -24,7 +25,7 @@ class Cart {
 		add_action( 'woocommerce_store_api_checkout_order_processed', array( self::class, 'afterCheckout' ) );
 		add_action( 'woocommerce_checkout_order_created', array( self::class, 'afterCheckout' ) );
 
-		add_action( 'template_redirect', array( self::class, 'restoreCart' ) );
+		add_action( 'template_redirect', array( self::class, 'handleCartAction' ) );
 	}
 
 	public static function handleCartChanges() {
@@ -135,5 +136,23 @@ class Cart {
 
 		wp_safe_redirect( wc_get_checkout_url() );
 		exit;
+	}
+
+	public static function handleCartAction() {
+		if ( empty( $_GET['acr_action'] ) ) {
+			return;
+		}
+
+		switch ( $_GET['acr_action'] ) {
+			case ClientAction::RECOVER:
+				self::restoreCart();
+				break;
+			case ClientAction::OPEN_EMAIL:
+				Email::openTrack();
+				break;
+			case ClientAction::CLICK_EMAIL:
+				Email::clickTrack();
+				break;
+		}
 	}
 }

@@ -17,14 +17,12 @@ const emit = defineEmits<{
 }>()
 
 function mountIframe() {
-  const body = iframeEl.value?.contentDocument?.body
-  if (!body) {
-    return
-  }
+  const document = iframeEl.value?.contentDocument as Document
+  const appEl = document.body
 
   if (props.isEditing) {
-    body.style.paddingTop = '30px'
-    body.style.paddingBottom = '30px'
+    document.body.style.paddingTop = '30px'
+    document.body.style.paddingBottom = '30px'
 
     window.addEventListener('message', (e: MessageEvent<ControlData>) => {
       if (e.data.name !== 'acr:action') {
@@ -37,12 +35,12 @@ function mountIframe() {
 
   const iframeApp = createApp(EmailApp, props)
 
-  iframeApp.mount(body)
+  iframeApp.mount(appEl)
 
   watch(
-    () => props.template.bodyStyle,
+    () => props.template.bodyStyle.backgroundColor,
     (value) => {
-      body.style.backgroundColor = value.backgroundColor || '#eee'
+      document.body.style.backgroundColor = value || '#eee'
     },
     {
       immediate: true,
@@ -51,12 +49,11 @@ function mountIframe() {
 
   resizeIframe()
 
-  new MutationObserver(resizeIframe).observe(body, {
-    childList: true,
-    subtree: true,
+  let observer = new ResizeObserver(() => {
+    resizeIframe()
   })
 
-  setTimeout(resizeIframe, 100)
+  observer.observe(appEl)
 }
 
 function resizeIframe() {

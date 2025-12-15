@@ -17,6 +17,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Dialog, DialogHeader, DialogScrollContent, DialogTitle } from '@/components/ui/dialog'
 import { useEmailTemplateStore } from '@/stores/useEmailTemplateStore.ts'
 import Content from '@/components/Content.vue'
+import { toast } from 'vue-sonner'
 
 const route = useRoute()
 const router = useRouter()
@@ -63,6 +64,9 @@ function handleAction(action: ControlAction, index: number) {
     case Control.MOVE_DOWN:
       builderStore.moveElement(index, index + 1)
       break
+    case Control.DUPLICATE:
+      builderStore.duplicateElement(index)
+      break
   }
 }
 
@@ -76,22 +80,36 @@ async function handleSave() {
     elements: builderStore.elements,
   }
 
-  const body = await render(EmailPreview, {
-    template,
-  })
+  toast.promise(
+    async function () {
+      const body = await render(EmailPreview, {
+        template,
+      })
 
-  await emailStore.updateTemplate({
-    template,
-    body,
-  })
+      await emailStore.updateTemplate({
+        template,
+        body,
+      })
 
-  isSaving.value = false
-  await router.push({
-    name: 'recovery.options.email',
-    query: {
-      emailId: emailStore.firstEmail?.id as string,
+      await router.push({
+        name: 'recovery.options.email',
+        query: {
+          emailId: emailStore.firstEmail?.id as string,
+        },
+      })
     },
-  })
+    {
+      success() {
+        isSaving.value = false
+        return 'The template has updated.'
+      },
+      loading: 'Updating...',
+      error() {
+        isSaving.value = false
+        return 'Failed to update the template.'
+      },
+    },
+  )
 }
 
 const selectedView = ref(0)
@@ -223,14 +241,18 @@ async function applyTemplate(id: number) {
     <DialogScrollContent class="acr:max-w-[1000px]">
       <DialogHeader>
         <DialogTitle>Choose Email Template</DialogTitle>
-        <div class="acr:grid acr:md:grid-cols-3 acr:mt-4">
+        <div class="acr:grid acr:gap-x-4 acr:md:grid-cols-3 acr:mt-4">
           <div
             @click="applyTemplate(template.id)"
             v-for="template in emailTemplateStore.data"
-            class="acr:rounded acr:cursor-pointer acr:border-2 acr:hover:-translate-y-1 acr:hover:shadow acr:transition-all acr:p-4 acr:hover:border-primary"
+            class="acr:rounded-lg acr:cursor-pointer acr:border-2 acr:hover:-translate-y-1 acr:hover:shadow acr:transition-all acr:p-4 acr:hover:border-primary"
             :key="template.id"
           >
-            <img :src="template.thumbnail" :alt="template.name" class="acr:rounded" />
+            <img
+              :src="template.thumbnail"
+              :alt="template.name"
+              class="acr:rounded acr:object-contain"
+            />
             <div class="acr:mt-4">
               <h2 class="acr:mb-2!">{{ template.name }}</h2>
               <p class="acr:my-0! acr:text-muted-foreground">{{ template.description }}</p>
