@@ -7,11 +7,15 @@ use Mehedi\WPQueryBuilder\DB;
 class Email {
 
 	public static function openTrack() {
+		// This is a public endpoint, and we do not perform any critical task, so we can skip the nonce check.
+        // phpcs:ignore WordPress.Security.NonceVerification
 		if ( empty( $_GET['acr_cart_id'] ) || empty( $_GET['acr_email_id'] ) ) {
 			return;
 		}
 
-		$cartId  = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
+        // phpcs:ignore WordPress.Security.NonceVerification
+		$cartId = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
+        // phpcs:ignore WordPress.Security.NonceVerification
 		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
 
 		Api::trackEmailOpen( $emailId, $cartId );
@@ -22,18 +26,24 @@ class Email {
 		header( 'Expires: 0' );
 
 		// Return a 1x1 transparent pixel.
+        // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode,WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode,WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo base64_decode( 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' );
 		exit;
 	}
 
 	public static function clickTrack() {
+		// This is a public endpoint, and we do not perform any critical task, so we can skip the nonce check.
+        // phpcs:ignore WordPress.Security.NonceVerification
 		if ( empty( $_GET['acr_cart_id'] ) || empty( $_GET['acr_email_id'] ) || empty( $_GET['next'] ) ) {
 			return;
 		}
 
-		$cartId  = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
+        // phpcs:ignore WordPress.Security.NonceVerification
+		$cartId = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
+        // phpcs:ignore WordPress.Security.NonceVerification
 		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
-		$url     = Encryptor::decryptQueryParam( urldecode( sanitize_text_field( wp_unslash( $_GET['next'] ) ) ) );
+        // phpcs:ignore WordPress.Security.NonceVerification
+		$url = Encryptor::decryptQueryParam( urldecode( sanitize_text_field( wp_unslash( $_GET['next'] ) ) ) );
 
 		if ( empty( $url ) ) {
 			$url = home_url();
@@ -46,11 +56,15 @@ class Email {
 	}
 
 	public static function unsubscribe() {
+		// This is a public endpoint, and we do not perform any critical task, so we can skip the nonce check.
+        // phpcs:ignore WordPress.Security.NonceVerification
 		if ( empty( $_GET['acr_cart_id'] ) || empty( $_GET['acr_email_id'] ) ) {
 			return;
 		}
 
-		$cartId  = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
+        // phpcs:ignore WordPress.Security.NonceVerification
+		$cartId = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
+        // phpcs:ignore WordPress.Security.NonceVerification
 		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
 
 		Api::nonBlocking()

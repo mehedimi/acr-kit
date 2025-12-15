@@ -27,6 +27,6 @@
   },
   "scripts": {
     "format": "phpcbf",
-    "lint": "phpcs"
+    "lint": "phpcs -s"
   }
 }

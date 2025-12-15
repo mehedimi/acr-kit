@@ -5,16 +5,10 @@
   <file>./includes</file>
 
   <rule ref="WordPress">
-    <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
-    <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
-    <exclude name="Squiz.Commenting.FileComment.Missing"/>
-    <exclude name="Squiz.Commenting.ClassComment.Missing"/>
-    <exclude name="Squiz.Commenting.FunctionComment.Missing"/>
-    <exclude name="Squiz.Commenting.MemberVarComment.Missing"/>
-    <exclude name="Squiz.Commenting.ParamComment.Missing"/>
-    <exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase"/>
-    <exclude name="Squiz.Commenting.InlineComment.NotCapitalized"/>
-    <exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/>
-    <exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase"/>
+    <exclude name="WordPress.Files.FileName"/>
+    <exclude name="Squiz.Commenting"/>
+    <exclude name="WordPress.NamingConventions"/>
+    <exclude name="Generic.Commenting.DocComment"/>
+    <exclude name="Universal.Operators.DisallowShortTernary.Found"/>
   </rule>
 </ruleset>

@@ -40,13 +40,15 @@ class Encryptor {
 
 		$hmac          = hash_hmac( 'sha256', $combined, self::getHmacKey(), true );
 		$authenticated = $hmac . $combined;
-
+		// We just encode an url
+        // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 		return rtrim( strtr( base64_encode( $authenticated ), '+/', '-_' ), '=' );
 	}
 
 	public static function decryptQueryParam( string $encryptedData ) {
 		$key = self::getKey();
-
+		// Just decode the url
+        // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 		$decoded = base64_decode( strtr( $encryptedData, '-_', '+/' ) );
 
 		if ( false === $decoded || strlen( $decoded ) < 32 ) {
