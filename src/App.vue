@@ -11,7 +11,7 @@ if (!acrApp.appToken) {
 
 <template>
   <router-view />
-  <Toaster position="top-center" />
+  <Toaster position="top-right" />
 </template>
 
 <style>

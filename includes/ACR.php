@@ -3,6 +3,7 @@
 namespace AbandonedCartRecover;
 
 class ACR {
+	const VERSION = '0.0.1';
 
 	public static function defineConstants() {
 		if ( ! defined( 'ACR_APP_URL' ) ) {
@@ -20,7 +21,7 @@ class ACR {
 					'manage_options',
 					'abandoned-cart-recover',
 					function () {
-						// Keeping the mount point ID unchanged to match existing JS entry (src/admin.ts)
+						// Keeping the mount point ID unchanged to match existing JS entry (src/admin.ts).
 						echo '<div style="margin-left: -20px" id="acr-admin-app"></div>';
 					},
 				);

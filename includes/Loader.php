@@ -5,7 +5,7 @@ namespace AbandonedCartRecover;
 use AbandonedCartRecover\Support\Options;
 
 class Loader {
-	public static $distUrl;
+	public static string $distUrl;
 	public static function isDev(): bool {
 		return defined( 'ACR_DEV' ) && ACR_DEV;
 	}
@@ -52,7 +52,7 @@ class Loader {
 			function ( $tag, $handle ) {
 
 				if ( strpos( $handle, 'acr-' ) === 0 ) {
-					// Ensure we only add a type module once and keep other attributes
+					// Ensure we only add a type module once and keep other attributes.
 					if ( false === strpos( $tag, 'type=' ) ) {
 						$tag = str_replace( '<script ', '<script type="module" ', $tag );
 					}
@@ -69,7 +69,7 @@ class Loader {
 			'acr-vite-client',
 			'http://localhost:5174/@vite/client',
 			array(),
-			null,
+			null, // phpcs:ignore
 			true
 		);
 	}
@@ -80,23 +80,26 @@ class Loader {
 			'acr-admin',
 			'http://localhost:5174/src/admin.ts',
 			array( 'acr-vite-client' ),
-			null
-		);
-		self::adminLocalizeScript();
-		self::setGlobalAssetLoader();
-	}
-
-	public static function enqueueAdminProdScripts() {
-		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin.css', );
-		wp_enqueue_script(
-			'acr-admin',
-			self::$distUrl . 'assets/admin.js',
-			array(),
-			null,
+			null, // phpcs:ignore
 			true
 		);
 		self::adminLocalizeScript();
 		self::setGlobalAssetLoader();
+		wp_enqueue_media();
+	}
+
+	public static function enqueueAdminProdScripts() {
+		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin.css', array(), ACR::VERSION );
+		wp_enqueue_script(
+			'acr-admin',
+			self::$distUrl . 'assets/admin.js',
+			array(),
+			ACR::VERSION,
+			true
+		);
+		self::adminLocalizeScript();
+		self::setGlobalAssetLoader();
+		wp_enqueue_media();
 	}
 
 	public static function enqueueFrontendDevScripts() {
@@ -105,7 +108,8 @@ class Loader {
 			'acr-frontend',
 			'http://localhost:5174/src/frontend.ts',
 			array( 'acr-vite-client' ),
-			null
+			null, // phpcs:ignore
+			true
 		);
 
 		self::frontendLocalizeScript();
@@ -115,6 +119,9 @@ class Loader {
 		wp_enqueue_script(
 			'acr-frontend',
 			self::$distUrl . 'assets/frontend.js',
+			array(),
+			ACR::VERSION,
+			true
 		);
 		self::frontendLocalizeScript();
 	}

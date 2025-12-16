@@ -15,8 +15,8 @@ import Content from '@/components/Content.vue'
         <div class="acr:flex acr:gap-x-4 acr:items-center">
           <MailCheck class="acr:w-16 acr:h-16 acr:text-primary acr:-mt-3" />
           <div class="acr:flex-1">
-            <h2 class="acr:!my-0 acr:!text-2xl acr:!text-muted-foreground">Email Recovery</h2>
-            <p class="acr:!mt-1 acr:!text-sm acr:text-muted-foreground">
+            <h2 class="acr:my-0! acr:text-2xl! acr:text-muted-foreground!">Email Recovery</h2>
+            <p class="acr:mt-1! acr:text-sm! acr:text-muted-foreground">
               Configure automated email notifications triggered when a cart is marked as abandoned.
             </p>
           </div>

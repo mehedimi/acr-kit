@@ -4,14 +4,14 @@ import { appHttp } from '@/lib/http.ts'
 
 export const useRecoveryOptionStore = defineStore('recoveryOptionStore', {
   state: (): {
-    data: RecoveryOption<undefined>[]
+    data: RecoveryOption[]
   } => ({
     data: [],
   }),
   actions: {
     fetch() {
       appHttp
-        .get<{ data: RecoveryOption<undefined>[] }>('/api/v1/recovery-options')
+        .get<{ data: RecoveryOption[] }>('/api/v1/recovery-options')
         .then(({ data: { data } }) => {
           this.data = data
         })

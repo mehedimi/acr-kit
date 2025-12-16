@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Heading from '@/pages/recover/components/Heading.vue'
+
 import {
   Accordion,
   AccordionItem,
@@ -22,10 +23,18 @@ import { ref } from 'vue'
 import { toast } from 'vue-sonner'
 import { minutesToHumanReadable } from '@/lib/utils'
 import EmailOptions from '@/pages/recover/components/EmailOptions.vue'
+import { useRoute } from 'vue-router'
 
 const store = useEmailStore()
+const route = useRoute()
 
-store.fetch()
+const openedEmail = ref(route.query.emailId ? [route.query.emailId as string] : [])
+
+store.fetch().then(() => {
+  if (openedEmail.value.length === 0) {
+    openedEmail.value = store.firstEmail?.id ? [store.firstEmail.id] : []
+  }
+})
 
 const isCreating = ref(false)
 
@@ -35,6 +44,9 @@ async function createEmail() {
     loading: 'Creating email...',
     success: () => {
       isCreating.value = false
+      if (openedEmail.value.length === 0) {
+        openedEmail.value = [store.data[store.data.length - 1]?.id as string]
+      }
       return 'Email created!'
     },
     error: () => {
@@ -54,11 +66,11 @@ async function createEmail() {
 
   <Content>
     <template v-if="store.data.length">
-      <Accordion type="multiple" collapsible>
+      <Accordion v-model="openedEmail" type="multiple" collapsible>
         <AccordionItem :value="email.id" v-for="email in store.data" :key="email.id">
           <AccordionTrigger>
             <div>
-              <p class="acr:!my-0 acr:!text-lg acr:capitalize">{{ email.title }}</p>
+              <p class="acr:my-0! acr:text-lg! acr:capitalize">{{ email.title }}</p>
               <span class="acr:text-xs acr:font-normal acr:text-muted-foreground"
                 >After {{ minutesToHumanReadable(email.recovery.runAfter) }}</span
               >
@@ -88,7 +100,7 @@ async function createEmail() {
     </Empty>
   </Content>
   <div class="acr:text-center acr:my-4" v-if="store.data.length">
-    <Button @click="createEmail" :disabled="isCreating" variant="outline"
+    <Button @click="createEmail" :disabled="isCreating" variant="outline" size="lg"
       ><MailPlus /> Add New Email</Button
     >
   </div>

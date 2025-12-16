@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Item, ItemContent, ItemDescription } from '@/components/ui/item'
+import { Item, ItemContent } from '@/components/ui/item'
 import { type RouteLocationRaw, RouterLink } from 'vue-router'
 import {
   Breadcrumb,
@@ -29,7 +29,7 @@ const urls: Array<{ title: string; href: RouteLocationRaw }> = [
   <Item variant="outline" class="acr:bg-white acr:border-t acr:rounded-none">
     <ItemContent>
       <Breadcrumb class="acr-header-breadcrumb">
-        <BreadcrumbList class="acr:!mx-0 acr:!text-base">
+        <BreadcrumbList class="acr:mx-0! acr:text-base!">
           <template v-for="({ title, href }, index) in urls" :key="index">
             <BreadcrumbItem>
               <BreadcrumbLink class="acr:text-sm" :as="RouterLink" :to="href">{{
@@ -40,7 +40,7 @@ const urls: Array<{ title: string; href: RouteLocationRaw }> = [
           </template>
         </BreadcrumbList>
       </Breadcrumb>
-      <Help class="acr:[&]:!mb-0 acr:[&]:!mt-1">{{ description }}</Help>
+      <Help class="acr:[&]:mb-0! acr:[&]:mt-1!">{{ description }}</Help>
     </ItemContent>
   </Item>
 </template>

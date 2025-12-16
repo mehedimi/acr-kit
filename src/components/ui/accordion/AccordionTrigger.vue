@@ -12,7 +12,7 @@ const delegatedProps = reactiveOmit(props, 'class')
 </script>
 
 <template>
-  <AccordionHeader class="acr:!my-0 acr:transition-colors acr:px-4 acr:hover:bg-gray-50">
+  <AccordionHeader class="acr:my-0! acr:transition-colors acr:px-4">
     <AccordionTrigger
       data-slot="accordion-trigger"
       v-bind="delegatedProps"

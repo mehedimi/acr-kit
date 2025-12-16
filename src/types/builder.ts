@@ -1,7 +1,9 @@
+import type { CSSProperties } from 'vue'
+
 export interface Element<T> {
   type: T
-  style: Partial<CSSStyleDeclaration>
-  sectionStyle: Partial<CSSStyleDeclaration>
+  style: CSSProperties
+  sectionStyle: CSSProperties
 }
 
 export interface ButtonElement extends Element<'Button'> {
@@ -23,11 +25,12 @@ export interface ImageElement extends Element<'Image'> {
   alt: string
 }
 
-export type AnyElement = ButtonElement | TextElement | HeadingElement | ImageElement
+export type AnyElement = ButtonElement | TextElement | ImageElement
 
 export type ElementType = AnyElement['type']
 
 export interface Template {
-  style: Partial<CSSStyleDeclaration>
+  style: CSSProperties
+  bodyStyle: CSSProperties
   elements: Array<AnyElement>
 }

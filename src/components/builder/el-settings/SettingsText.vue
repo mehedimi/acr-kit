@@ -2,14 +2,97 @@
 import Editor from '@/components/editor/Editor.vue'
 import type { TextElement } from '@/types/builder.ts'
 import { useBuilderStore } from '@/stores/useBuilderStore.ts'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Label } from '@/components/ui/label'
+import Spacing from '@/components/builder/controls/Spacing.vue'
+import { Slider } from '@/components/ui/slider'
+import { ALargeSmallIcon, PaletteIcon } from 'lucide-vue-next'
+import { storeToRefs } from 'pinia'
+import { type ComputedRef, ref, watch } from 'vue'
+import { ColorPicker } from 'vue3-colorpicker'
 
 const store = useBuilderStore()
 
-const currentElement: TextElement = store.currentElement as TextElement
+const renderEditor = ref(true)
+
+const { currentElement } = storeToRefs(store) as {
+  currentElement: ComputedRef<TextElement>
+}
+
+watch(
+  () => store.action,
+  () => {
+    renderEditor.value = false
+    setTimeout(() => (renderEditor.value = true), 100)
+  },
+  {
+    deep: true,
+  },
+)
 </script>
 
 <template>
-  <div>
-    <Editor v-model="currentElement.text" />
-  </div>
+  <Tabs default-value="content" class="acr:m-4 acr:items-center">
+    <TabsList>
+      <TabsTrigger value="content"><ALargeSmallIcon /> Content</TabsTrigger>
+      <TabsTrigger value="style"><PaletteIcon /> Style</TabsTrigger>
+    </TabsList>
+    <TabsContent value="content">
+      <Editor v-if="renderEditor" v-model="currentElement.text" />
+    </TabsContent>
+    <TabsContent value="style" class="acr:w-full acr:space-y-6">
+      <div class="acr:space-y-2">
+        <Label>Color</Label>
+        <div class="acr:p-1 acr:border acr: acr:rounded acr:inline-block">
+          <ColorPicker
+            v-model:pure-color="currentElement.style.color"
+            format="hex6"
+            class="acr:w-full"
+          />
+        </div>
+      </div>
+      <div class="acr:space-y-2">
+        <Label>Background Color</Label>
+        <div class="acr:p-1 acr:border acr: acr:rounded acr:inline-block">
+          <ColorPicker
+            v-model:pure-color="currentElement.style.backgroundColor"
+            format="hex6"
+            class="acr:w-full"
+          />
+        </div>
+      </div>
+      <div class="acr:space-y-2">
+        <Label>Padding</Label>
+        <Spacing v-model="currentElement.style.padding as string" />
+      </div>
+      <div class="acr:space-y-2.5">
+        <Label class="acr:justify-between"
+          >Margin Top
+          <span class="acr:text-muted-foreground">{{
+            currentElement.sectionStyle.marginTop || '0px'
+          }}</span></Label
+        >
+        <Slider
+          :min="0"
+          :max="100"
+          :modelValue="[parseInt((currentElement.sectionStyle.marginTop as string) || '0', 10)]"
+          @update:model-value="(v) => (currentElement.sectionStyle.marginTop = v?.[0] + 'px')"
+        />
+      </div>
+      <div class="acr:space-y-2.5">
+        <Label class="acr:justify-between"
+          >Margin Bottom
+          <span class="acr:text-muted-foreground">{{
+            currentElement.sectionStyle.marginBottom || '0px'
+          }}</span></Label
+        >
+        <Slider
+          :min="0"
+          :max="100"
+          :modelValue="[parseInt((currentElement.sectionStyle.marginBottom as string) || '0', 10)]"
+          @update:model-value="(v) => (currentElement.sectionStyle.marginBottom = v?.[0] + 'px')"
+        />
+      </div>
+    </TabsContent>
+  </Tabs>
 </template>

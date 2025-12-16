@@ -3,8 +3,8 @@ import type { AnyElement } from '@/types/builder.ts'
 export const elements: Array<AnyElement> = [
   {
     type: 'Button',
-    href: '#',
-    text: 'Click here',
+    href: '[cart-link]',
+    text: 'Go to your cart!',
     style: {
       display: 'inline-block',
       padding: '12px 20px',
@@ -14,47 +14,27 @@ export const elements: Array<AnyElement> = [
       borderRadius: '4px',
       fontSize: '14px',
       fontWeight: 'bold',
-      textAlign: 'center',
       lineHeight: '1.2',
-      fontFamily: 'Arial, sans-serif',
     },
     sectionStyle: {
-      textAlign: 'left',
-      margin: '16px 0',
+      textAlign: 'center',
+      marginTop: '10px',
+      marginBottom: '10px',
     },
   },
   {
     type: 'Text',
-    text: 'Your default text goes here.',
+    text: '<p>Your default text goes here.</p>',
     style: {
       fontSize: '14px',
       lineHeight: '1.5',
       color: '#333333',
       fontFamily: 'Arial, sans-serif',
-      margin: '0 0 12px 0',
+      padding: '0 10px 0 10px',
     },
     sectionStyle: {
-      padding: '0',
-      margin: '0 0 12px 0',
-    },
-  },
-  {
-    type: 'Heading',
-    heading: 'h2',
-    text: 'Your Heading',
-    style: {
-      fontSize: '20px',
-      lineHeight: '1.3',
-      color: '#111111',
-      fontFamily: 'Arial, sans-serif',
-      fontWeight: 'bold',
-      margin: '16px 0 8px 0',
-      textAlign: 'left',
-    },
-    sectionStyle: {
-      padding: '0',
-      margin: '16px 0 8px 0',
-      backgroundColor: 'transparent',
+      marginTop: '10px',
+      marginBottom: '10px',
     },
   },
   {
@@ -62,14 +42,13 @@ export const elements: Array<AnyElement> = [
     src: '',
     alt: 'Image description',
     style: {
-      width: '100%',
-      maxWidth: '600px',
-      display: 'block',
-      border: '0',
+      maxWidth: '100%',
+      display: 'inline-block',
     },
     sectionStyle: {
       textAlign: 'center',
-      margin: '0 0 16px 0',
+      marginTop: '10px',
+      marginBottom: '10px',
     },
   },
 ]

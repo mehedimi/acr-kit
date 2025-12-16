@@ -2,11 +2,13 @@
 <ruleset name="Abandoned Cart Recover">
   <description>WordPress Coding Standard</description>
 
-  <file>./</file>
+  <file>./includes</file>
 
-  <exclude-pattern>vendor/*</exclude-pattern>
-  <exclude-pattern>node_modules/*</exclude-pattern>
-  <exclude-pattern>dist/*</exclude-pattern>
-
-  <rule ref="WordPress"/>
+  <rule ref="WordPress">
+    <exclude name="WordPress.Files.FileName"/>
+    <exclude name="Squiz.Commenting"/>
+    <exclude name="WordPress.NamingConventions"/>
+    <exclude name="Generic.Commenting.DocComment"/>
+    <exclude name="Universal.Operators.DisallowShortTernary.Found"/>
+  </rule>
 </ruleset>

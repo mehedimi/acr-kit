@@ -2,9 +2,10 @@ import { defineStore } from 'pinia'
 import type {
   EmailRecovery,
   EmailRecoveryCreatePayload,
+  EmailRecoveryTemplateUpdatePayload,
   RecoveryOption,
 } from '@/types/recovery-option.ts'
-import { appHttp } from '@/lib/http.ts'
+import { appHttp, wpHttp } from '@/lib/http.ts'
 
 const BASE_ENDPOINT = '/api/v1/recovery/emails' as const
 
@@ -53,8 +54,8 @@ export const useEmailStore = defineStore('email', {
     data: [],
   }),
   actions: {
-    fetch() {
-      appHttp
+    async fetch() {
+      return appHttp
         .get<{ data: EmailRecovery<RecoveryOption>[] }>(BASE_ENDPOINT)
         .then(({ data: { data } }) => {
           this.data = data
@@ -69,7 +70,6 @@ export const useEmailStore = defineStore('email', {
           runAfter: (abandonedEmailSchedule[this.data.length] ||
             abandonedEmailSchedule[abandonedEmailSchedule.length - 1]) as number,
         },
-        template: [],
         body: 'Hello',
         subject: 'Cart recovery',
       } satisfies EmailRecoveryCreatePayload)
@@ -84,10 +84,35 @@ export const useEmailStore = defineStore('email', {
 
       this.data = [data]
     },
+
+    async delete(id: string) {
+      await appHttp.delete(`${BASE_ENDPOINT}/${id}`)
+      const index = this.data.findIndex((email) => email.id === id)
+
+      if (index !== -1) {
+        this.data.splice(index, 1)
+      }
+    },
+
+    async updateTemplate(data: EmailRecoveryTemplateUpdatePayload) {
+      if (!this.firstEmail) {
+        return
+      }
+
+      return wpHttp.patch(`emails/${this.firstEmail.id}`, data)
+    },
+
+    updateEmail(data: EmailRecovery<RecoveryOption>) {
+      return appHttp.patch<{ data: EmailRecovery<RecoveryOption> }>(`${BASE_ENDPOINT}/${data.id}`, {
+        title: data.title,
+        recovery: data.recovery,
+        subject: data.subject,
+      } satisfies EmailRecoveryCreatePayload)
+    },
   },
   getters: {
-    firstEmail() {
-      return this.data[0]
+    firstEmail(store) {
+      return store.data[0]
     },
   },
 })

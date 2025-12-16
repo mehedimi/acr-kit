@@ -7,8 +7,9 @@ import type { ControlAction, ControlData } from '@/enum/control.ts'
 const iframeEl = ref<HTMLIFrameElement>()
 
 const props = defineProps<{
-  isEditing: boolean
+  isEditing?: boolean
   template: Template
+  width?: string
 }>()
 
 const emit = defineEmits<{
@@ -16,14 +17,12 @@ const emit = defineEmits<{
 }>()
 
 function mountIframe() {
-  const body = iframeEl.value?.contentDocument?.body
-  if (!body) {
-    return
-  }
+  const document = iframeEl.value?.contentDocument as Document
+  const appEl = document.body
 
   if (props.isEditing) {
-    body.style.paddingTop = '30px'
-    body.style.paddingBottom = '30px'
+    document.body.style.paddingTop = '30px'
+    document.body.style.paddingBottom = '30px'
 
     window.addEventListener('message', (e: MessageEvent<ControlData>) => {
       if (e.data.name !== 'acr:action') {
@@ -32,30 +31,29 @@ function mountIframe() {
 
       emit('action', e.data.action, e.data.index)
     })
-
-    watch(
-      props.template.style,
-      (value) => {
-        body.style.backgroundColor = value.backgroundColor || '#eee'
-      },
-      {
-        immediate: true,
-      },
-    )
   }
 
   const iframeApp = createApp(EmailApp, props)
 
-  iframeApp.mount(body)
+  iframeApp.mount(appEl)
+
+  watch(
+    () => props.template.bodyStyle.backgroundColor,
+    (value) => {
+      document.body.style.backgroundColor = value || '#eee'
+    },
+    {
+      immediate: true,
+    },
+  )
 
   resizeIframe()
 
-  new MutationObserver(resizeIframe).observe(body, {
-    childList: true,
-    subtree: true,
+  let observer = new ResizeObserver(() => {
+    resizeIframe()
   })
 
-  setTimeout(resizeIframe, 100)
+  observer.observe(appEl)
 }
 
 function resizeIframe() {
@@ -63,7 +61,7 @@ function resizeIframe() {
     return
   }
 
-  iframeEl.value.style.height =
+  iframeEl.value.style.minHeight =
     (iframeEl.value?.contentDocument?.body?.scrollHeight || 0) + 1 + 'px'
 }
 
@@ -71,5 +69,11 @@ const iframeSrc = acrApp.assetUrl.replace('dist/', 'assets/email.html')
 </script>
 
 <template>
-  <iframe @load="mountIframe" :src="iframeSrc" width="100%" height="100%" ref="iframeEl" />
+  <iframe
+    @load="mountIframe"
+    :src="iframeSrc"
+    :width="width || '100%'"
+    height="100%"
+    ref="iframeEl"
+  />
 </template>

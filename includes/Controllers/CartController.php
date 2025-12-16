@@ -10,7 +10,7 @@ use WP_REST_Response;
 
 class CartController extends Controller {
 
-	static function register() {
+	public static function register() {
 		register_rest_route(
 			Rest::NAMESPACE,
 			'/ping',

@@ -5,6 +5,7 @@ export const Control = {
   MOVE_DOWN: 4,
   EDIT: 5,
   DELETE: 6,
+  DUPLICATE: 7,
 } as const
 
 export type ControlAction = (typeof Control)[keyof typeof Control]

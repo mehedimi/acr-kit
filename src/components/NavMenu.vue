@@ -5,7 +5,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
-import { Home, ShoppingCart, Repeat, Wrench, Settings } from 'lucide-vue-next'
+import { Home, ShoppingCart, Repeat, Settings } from 'lucide-vue-next'
 
 const links = [
   {
@@ -23,14 +23,14 @@ const links = [
     title: 'Recovery Options',
     icon: Repeat,
   },
-  {
-    name: 'utilities',
-    title: 'Utilities',
-    icon: Wrench,
-  },
+  // {
+  //   name: 'utilities',
+  //   title: 'Utilities',
+  //   icon: Wrench,
+  // },
   {
     name: 'configurations',
-    title: 'Configurations',
+    title: 'Settings',
     icon: Settings,
   },
 ]
@@ -40,11 +40,11 @@ const links = [
   <div class="acr:bg-white acr:p-4">
     <NavigationMenu class="acr-nav-menu">
       <NavigationMenuList class="acr:gap-x-2">
-        <NavigationMenuItem class="acr:!mb-0" v-for="(link, index) in links" :key="index">
+        <NavigationMenuItem class="acr:mb-0!" v-for="(link, index) in links" :key="index">
           <NavigationMenuLink as-child>
             <RouterLink
               :to="{ name: link.name }"
-              class="acr:flex-row acr:items-center acr:gap-2 acr:!text-gray-500 acr:px-4 acr:!rounded-full"
+              class="acr:flex-row acr:items-center acr:gap-2 acr:text-gray-500! acr:px-4 acr:rounded-full!"
               ><component :is="link.icon" />
               <span class="acr:flex-1">{{ link.title }}</span></RouterLink
             >
@@ -62,6 +62,6 @@ const links = [
 }
 
 .acr-nav-menu .router-link-active * {
-  @apply acr:!text-white;
+  @apply acr:text-white!;
 }
 </style>

@@ -9,7 +9,7 @@ class Helper {
 	public static function getIpAddress(): ?string {
 		foreach ( self::KEYS as $key ) {
 			if ( ! empty( $_SERVER[ $key ] ) ) {
-				$ips = explode( ',', $_SERVER[ $key ] );
+				$ips = explode( ',', sanitize_text_field( wp_unslash( $_SERVER[ $key ] ) ) );
 				foreach ( $ips as $ip ) {
 					$ip = trim( $ip );
 					if ( filter_var( $ip, FILTER_VALIDATE_IP ) ) {

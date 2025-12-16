@@ -7,8 +7,12 @@ use AbandonedCartRecover\Rest;
 use WP_Error;
 
 /**
+ * Wrapper for the AppHttp class.
+ *
+ * We use this class to make the code more readable.
+ *
  * @method static AppHttp blocking(bool $state = true)
- * @method static AppHttp noBlocking()
+ * @method static AppHttp nonBlocking()
  * @method static array|WP_Error get(string $path, array $query = [])
  * @method static array|WP_Error post(string $path, array $data = [])
  * @method static array|WP_Error patch(string $path, array $data = [])
@@ -17,12 +21,11 @@ use WP_Error;
  * @see AppHttp
  */
 class Api {
-    public static function __callStatic(string $name, array $arguments)
-    {
-        $http = new AppHttp();
+	public static function __callStatic( string $name, array $arguments ) {
+		$http = new AppHttp();
 
-        return call_user_func_array([$http, $name], $arguments);
-    }
+		return call_user_func_array( array( $http, $name ), $arguments );
+	}
 
 	public static function getConnectionUrl(): string {
 		return ACR::getAppUrl() . '/stores/create?' . http_build_query(
@@ -37,40 +40,34 @@ class Api {
 		);
 	}
 
-	/**
-	 * @param string|null $carId
-	 * @param array       $content
-	 * @return null|string
-	 */
 	public static function sendCart( ?string $carId, array $content ): ?string {
-        $http = new AppHttp;
+		$http = new AppHttp();
 
-        $body = array_filter(
-            $content,
-            function ( $item ) {
-                return ! is_null( $item );
-            }
-        );
+		$body = array_filter(
+			$content,
+			function ( $item ) {
+				return ! is_null( $item );
+			}
+		);
 
-        if ( is_null( $carId ) ) {
-            $response = $http->blocking()->post('/api/v1/carts', $body);
+		if ( is_null( $carId ) ) {
+			$response = $http->blocking()->post( '/api/v1/carts', $body );
 
-            $body = wp_remote_retrieve_body( $response );
+			$body = wp_remote_retrieve_body( $response );
 
-            if ( is_wp_error( $body ) ) {
-                error_log( $body );
-                return null;
-            }
+			if ( is_wp_error( $body ) || ! ( wp_remote_retrieve_response_code( $response ) < 300 ) ) {
+				return null;
+			}
 
-            return json_decode( $body )->data->id;
-        } else {
-            $http->patch(sprintf('/api/v1/carts/%s', $carId), $body);
-            return null;
-        }
+			return json_decode( $body )->data->id;
+		} else {
+			$http->patch( sprintf( '/api/v1/carts/%s', $carId ), $body );
+			return null;
+		}
 	}
 
 	public static function cartMarkAsCompleted( string $id ) {
-        Api::noBlocking()->patch(sprintf( '/api/v1/carts/%s/completed', $id ));
+		self::nonBlocking()->patch( sprintf( '/api/v1/carts/%s/completed', $id ) );
 	}
 
 	/**
@@ -78,6 +75,14 @@ class Api {
 	 * @return void
 	 */
 	public static function pingCart( string $id ) {
-        Api::patch(sprintf( '/api/v1/carts/%s/ping', $id ));
+		self::patch( sprintf( '/api/v1/carts/%s/ping', $id ) );
+	}
+
+	public static function trackEmailOpen( string $emailId, string $cartId ) {
+		self::nonBlocking()->patch( "/api/v1/recovery-emails/$emailId/carts/$cartId/open" );
+	}
+
+	public static function trackEmailClick( string $emailId, string $cartId ) {
+		self::nonBlocking()->patch( "recovery-emails/$emailId/carts/$cartId/click" );
 	}
 }
