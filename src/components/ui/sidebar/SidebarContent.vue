@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue"
-import { cn } from "@/lib/utils"
+import type { HTMLAttributes } from 'vue'
+import { cn } from '@/lib/utils'
 
 const props = defineProps<{
-  class?: HTMLAttributes["class"]
+  class?: HTMLAttributes['class']
 }>()
 </script>
 
@@ -11,7 +11,12 @@ const props = defineProps<{
   <div
     data-slot="sidebar-content"
     data-sidebar="content"
-    :class="cn('acr:flex acr:min-h-0 acr:flex-1 acr:flex-col acr:gap-2 acr:overflow-auto acr:group-data-[collapsible=icon]:overflow-hidden', props.class)"
+    :class="
+      cn(
+        'acr:flex acr:min-h-0 acr:flex-1 acr:flex-col acr:gap-2 acr:overflow-auto acr:group-data-[collapsible=icon]:overflow-hidden',
+        props.class,
+      )
+    "
   >
     <slot />
   </div>

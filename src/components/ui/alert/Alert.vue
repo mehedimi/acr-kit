@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
+import type { AlertVariants } from '.'
 import { cn } from '@/lib/utils'
+import { alertVariants } from '.'
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
+  variant?: AlertVariants['variant']
 }>()
 </script>
 
 <template>
-  <li
-    data-slot="sidebar-menu-item"
-    data-sidebar="menu-item"
-    :class="cn('acr:group/menu-item acr:relative', props.class)"
-  >
+  <div data-slot="alert" :class="cn(alertVariants({ variant }), props.class)" role="alert">
     <slot />
-  </li>
+  </div>
 </template>

@@ -8,17 +8,15 @@ const props = defineProps<{
 </script>
 
 <template>
-  <ul
-    data-slot="sidebar-menu-sub"
-    data-sidebar="menu-badge"
+  <div
+    data-slot="alert-description"
     :class="
       cn(
-        'acr:border-sidebar-border acr:mx-3.5 acr:flex acr:min-w-0 acr:translate-x-px acr:flex-col acr:gap-1 acr:border-l acr:px-2.5 acr:py-0.5',
-        'acr:group-data-[collapsible=icon]:hidden',
+        'acr:text-muted-foreground acr:col-start-2 acr:grid acr:justify-items-start acr:gap-1 acr:text-sm acr:[&_p]:leading-relaxed',
         props.class,
       )
     "
   >
     <slot />
-  </ul>
+  </div>
 </template>
