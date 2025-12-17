@@ -8,6 +8,7 @@ declare global {
     appToken?: string
     appUrl: string
     locale: string
+    currency: string
   }
 
   const acrApp: AcrApp

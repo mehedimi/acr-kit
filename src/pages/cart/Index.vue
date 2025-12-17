@@ -83,7 +83,7 @@ async function deleteCart() {
           <TableRow>
             <TableHead>Identity</TableHead>
             <TableHead>Contact</TableHead>
-            <TableHead class="acr:min-w-[150px]">Line Items</TableHead>
+            <TableHead class="acr:min-w-37.5">Line Items</TableHead>
             <TableHead>Total</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Created At</TableHead>

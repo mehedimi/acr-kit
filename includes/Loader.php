@@ -31,6 +31,7 @@ class Loader {
 				'appToken' => Options::getAppToken(),
 				'appUrl'   => ACR::getAppUrl(),
 				'locale'   => get_locale(),
+				'currency' => get_woocommerce_currency(),
 			)
 		);
 	}

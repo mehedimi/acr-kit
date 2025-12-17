@@ -17,7 +17,6 @@ export const useOverviewStore = defineStore('overview', {
       const {
         data: { data },
       } = await appHttp.get<{ data: Overview }>('/api/v1/overview')
-      console.log(data)
       this.$patch(data)
     },
   },
