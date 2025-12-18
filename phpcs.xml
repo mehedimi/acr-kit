@@ -10,5 +10,6 @@
     <exclude name="WordPress.NamingConventions"/>
     <exclude name="Generic.Commenting.DocComment"/>
     <exclude name="Universal.Operators.DisallowShortTernary.Found"/>
+    <exclude name="WordPress.WP.EnqueuedResourceParameters.MissingVersion"/>
   </rule>
 </ruleset>

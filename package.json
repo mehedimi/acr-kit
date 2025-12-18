@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "vue-tsc -b && vite build && php set-assets-path.php",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

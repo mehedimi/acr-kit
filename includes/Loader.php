@@ -14,10 +14,6 @@ class Loader {
 		self::$distUrl = $url;
 	}
 
-	public static function setGlobalAssetLoader() {
-		wp_add_inline_script( 'acr-admin', 'function __acrAssetLoader(file){return acrApp.assetUrl + file}', 'before' );
-	}
-
 	public static function adminLocalizeScript() {
 		wp_localize_script(
 			'acr-admin',
@@ -85,21 +81,19 @@ class Loader {
 			true
 		);
 		self::adminLocalizeScript();
-		self::setGlobalAssetLoader();
 		wp_enqueue_media();
 	}
 
 	public static function enqueueAdminProdScripts() {
-		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin.css', array(), ACR::VERSION );
+		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin-CeLxvWsd.css', array(), null );
 		wp_enqueue_script(
 			'acr-admin',
-			self::$distUrl . 'assets/admin.js',
+			self::$distUrl . 'assets/admin-Bfyoo5vL.js',
 			array(),
-			ACR::VERSION,
+			null,
 			true
 		);
 		self::adminLocalizeScript();
-		self::setGlobalAssetLoader();
 		wp_enqueue_media();
 	}
 
@@ -119,9 +113,9 @@ class Loader {
 	public static function enqueueFrontendProdScripts() {
 		wp_enqueue_script(
 			'acr-frontend',
-			self::$distUrl . 'assets/frontend.js',
+			self::$distUrl . 'assets/frontend-DY8TU_p3.js',
 			array(),
-			ACR::VERSION,
+			null,
 			true
 		);
 		self::frontendLocalizeScript();

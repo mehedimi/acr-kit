@@ -21,17 +21,11 @@ export default defineConfig((config) => {
 
     build: {
       outDir: 'dist',
-      sourcemap: true,
-
+      manifest: true,
       rollupOptions: {
         input: {
           frontend: path.resolve(__dirname, 'src/frontend.ts'),
           admin: path.resolve(__dirname, 'src/admin.ts'),
-        },
-        output: {
-          entryFileNames: 'assets/[name].js',
-          chunkFileNames: 'assets/[name]-[hash].js',
-          assetFileNames: 'assets/[name].[ext]',
         },
       },
     },
