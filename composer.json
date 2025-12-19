@@ -15,7 +15,7 @@
   },
   "require": {
     "php": ">=7.4",
-    "mehedimi/wp-query-builder": "^0.16"
+    "mehedimi/wp-query-builder": "^0.17"
   },
   "config": {
     "allow-plugins": {

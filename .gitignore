@@ -44,7 +44,6 @@ lerna-debug.log*
 
 # PHP / Composer (uncomment vendor/ if you don't commit vendor code)
 vendor/
-composer.lock
 composer.phar
 
 # PHPUnit / testing
@@ -70,4 +69,3 @@ cache/
 # Notes:
 # - If distributing without a build step, you may want to commit dist/.
 #   Remove it from this ignore or create a separate export script.
-# - Consider committing composer.lock if you prefer deterministic installs.
