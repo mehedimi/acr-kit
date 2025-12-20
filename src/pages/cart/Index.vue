@@ -56,15 +56,20 @@ const { isLoaded } = cartStore.fetch(route.query.cursor as string)
 
 watch(
   () => route.query,
-  (newQuery) => {
-    cartStore.fetch(newQuery.cursor as string)
+  (newQuery, oldQuery) => {
+    if (newQuery.cursor !== oldQuery.cursor) {
+      cartStore.fetch(newQuery.cursor as string)
+    }
   },
 )
 
 function openCart(cart: Cart) {
   router.push({
     name: 'cart.show',
-    params: { id: cart.id },
+    params: {
+      id: cart.id,
+    },
+    query: route.query,
   })
 }
 
