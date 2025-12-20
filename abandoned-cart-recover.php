@@ -12,6 +12,7 @@
  */
 
 use AbandonedCartRecover\ACR;
+use AbandonedCartRecover\Installer;
 use AbandonedCartRecover\Loader;
 use AbandonedCartRecover\Rest;
 use AbandonedCartRecover\Support\Cart;
@@ -35,6 +36,7 @@ if ( Loader::isDev() ) {
 
 if ( is_admin() ) {
 	ACR::registerMenuPage();
+    register_activation_hook( __FILE__, [Installer::class, 'activation'] );
 } else {
 	Cart::registerHooks();
 }

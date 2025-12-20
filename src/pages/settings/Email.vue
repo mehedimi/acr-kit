@@ -70,6 +70,7 @@ async function handleSubmit() {
         placeholder="support@yourstore.com"
         v-model="settingsStore.email.fromEmail"
         id="email-settings-from-email"
+        type="email"
         autocomplete="email"
       />
       <Help
@@ -96,6 +97,7 @@ async function handleSubmit() {
         placeholder="help@yourstore.com"
         v-model="settingsStore.email.replyToEmail"
         id="email-settings-from-email"
+        type="email"
         autocomplete="email"
       />
       <Help

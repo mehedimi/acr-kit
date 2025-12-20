@@ -85,24 +85,6 @@ class Email {
 		exit;
 	}
 
-	public static function getEmailOptions(): array {
-		$options = DB::table( 'options' )
-			->whereIn( 'option_name', array_map( fn( $attr ) => 'acr_' . $attr, self::getEmailAttrs() ) )
-			->get();
-
-		return array_column(
-			array_map(
-				function ( $option ) {
-					$option->option_name = str_replace( 'acr_', '', $option->option_name );
-					return (array) $option;
-				},
-				$options
-			),
-			'option_value',
-			'option_name'
-		);
-	}
-
 
 	public static function getEmailAttrs(): array {
 		return array(

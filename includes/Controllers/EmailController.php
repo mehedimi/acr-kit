@@ -7,6 +7,7 @@ use AbandonedCartRecover\Rest;
 use AbandonedCartRecover\Support\Api;
 use AbandonedCartRecover\Support\Email;
 use AbandonedCartRecover\Support\Encryptor;
+use AbandonedCartRecover\Support\OptionExt;
 use DOMDocument;
 use WP_Error;
 use WP_REST_Request;
@@ -70,7 +71,7 @@ class EmailController extends Controller {
 		$subject = $request->get_param( 'subject' );
 		$content = $request->get_param( 'content' );
 
-		$emailOptions = Email::getEmailOptions();
+		$emailOptions = OptionExt::get( Email::getEmailAttrs() );
 
 		$headers = array(
 			'Content-Type: text/html; charset=UTF-8',

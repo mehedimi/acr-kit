@@ -4,7 +4,7 @@ namespace AbandonedCartRecover\Controllers;
 
 use AbandonedCartRecover\Rest;
 use AbandonedCartRecover\Support\Email;
-use Mehedi\WPQueryBuilder\DB;
+use AbandonedCartRecover\Support\OptionExt;
 use WP_REST_Request;
 
 class SettingsController extends Controller {
@@ -60,27 +60,13 @@ class SettingsController extends Controller {
 	}
 
 	public static function email( WP_REST_Request $request ): array {
-		$options = Email::getEmailOptions();
-
 		if ( $request->get_method() === 'GET' ) {
-			return $options;
+			return OptionExt::get( Email::getEmailAttrs() );
 		}
 
-		foreach ( Email::getEmailAttrs() as $attr ) {
-			if ( ! isset( $options[ $attr ] ) ) {
-				DB::table( 'options' )->insert(
-					array(
-						'option_name'  => 'acr_' . $attr,
-						'option_value' => $request->get_param( $attr ) ?: '',
-						'autoload'     => 'no',
-					)
-				);
-			} elseif ( $request->get_param( $attr ) !== $options[ $attr ] ) {
-				DB::table( 'options' )
-					->where( 'option_name', 'acr_' . $attr )
-					->update( array( 'option_value' => $request->get_param( $attr ) ?: '' ) );
-			}
-		}
+		$data = Rest::getValidated( $request );
+
+		OptionExt::set( $data );
 
 		return array( 'ok' => true );
 	}

@@ -3,6 +3,8 @@
 namespace AbandonedCartRecover;
 
 use AbandonedCartRecover\Support\Options;
+use AbandonedCartRecover\Utilities\Tab;
+use AbandonedCartRecover\Utilities\Utilities;
 
 class Loader {
 	public static string $distUrl;
@@ -37,8 +39,9 @@ class Loader {
 			'acr-frontend',
 			'acrApp',
 			array(
-				'apiUrl' => Rest::getApiUrl(),
-				'nonce'  => wp_create_nonce( 'wp_rest' ),
+				'apiUrl'    => Rest::getApiUrl(),
+				'nonce'     => wp_create_nonce( 'wp_rest' ),
+				'utilities' => Utilities::toFrontEnd(),
 			)
 		);
 	}
@@ -85,10 +88,10 @@ class Loader {
 	}
 
 	public static function enqueueAdminProdScripts() {
-		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin-CeLxvWsd.css', array(), null );
+		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin-B1_qPCTf.css', array(), null );
 		wp_enqueue_script(
 			'acr-admin',
-			self::$distUrl . 'assets/admin-Bfyoo5vL.js',
+			self::$distUrl . 'assets/admin-De_VLDuj.js',
 			array(),
 			null,
 			true

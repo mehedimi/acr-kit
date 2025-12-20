@@ -6,6 +6,7 @@ use AbandonedCartRecover\Controllers\CartController;
 use AbandonedCartRecover\Controllers\ConnectionController;
 use AbandonedCartRecover\Controllers\EmailController;
 use AbandonedCartRecover\Controllers\SettingsController;
+use AbandonedCartRecover\Controllers\UtilitiesController;
 use AbandonedCartRecover\Support\Options;
 use WP_REST_Request;
 
@@ -21,6 +22,7 @@ class Rest {
 				CartController::register();
 				EmailController::register();
 				SettingsController::register();
+				UtilitiesController::register();
 			}
 		);
 	}
@@ -40,5 +42,13 @@ class Rest {
 	public static function nonceCallback( WP_REST_Request $request ): bool {
 		$nonce = $request->get_header( 'X-WP-Nonce' );
 		return $nonce && wp_verify_nonce( $nonce, 'wp_rest' );
+	}
+
+	public static function getValidated( WP_REST_Request $request ): array {
+		$allowed = array_keys( $request->get_attributes()['args'] );
+		return array_intersect_key(
+			$request->get_params(),
+			array_flip( $allowed )
+		);
 	}
 }

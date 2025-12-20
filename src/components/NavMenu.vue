@@ -5,7 +5,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
-import { Home, ShoppingCart, Repeat, Settings } from 'lucide-vue-next'
+import { Home, ShoppingCart, Repeat, Settings, Wrench } from 'lucide-vue-next'
 
 const links = [
   {
@@ -23,11 +23,11 @@ const links = [
     title: 'Recovery Options',
     icon: Repeat,
   },
-  // {
-  //   name: 'utilities',
-  //   title: 'Utilities',
-  //   icon: Wrench,
-  // },
+  {
+    name: 'utilities.index',
+    title: 'Utilities',
+    icon: Wrench,
+  },
   {
     name: 'configurations',
     title: 'Settings',

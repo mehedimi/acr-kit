@@ -1,3 +1,5 @@
+import type { TabUtilities } from '@/types/utilities.ts'
+
 declare global {
   interface AcrApp {
     apiUrl: string
@@ -9,6 +11,9 @@ declare global {
     appUrl: string
     locale: string
     currency: string
+    utilities?: {
+      tab?: TabUtilities['config']
+    }
   }
 
   const acrApp: AcrApp
