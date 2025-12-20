@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build && php set-assets-path.php",
+    "check": "vue-tsc -b --noEmit",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

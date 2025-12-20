@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Heading from '@/pages/recover/components/Heading.vue'
-
 import {
   Accordion,
   AccordionItem,
@@ -24,35 +23,31 @@ import { toast } from 'vue-sonner'
 import { minutesToHumanReadable } from '@/lib/utils'
 import EmailOptions from '@/pages/recover/components/EmailOptions.vue'
 import { useRoute } from 'vue-router'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const store = useEmailStore()
 const route = useRoute()
 
 const openedEmail = ref(route.query.emailId ? [route.query.emailId as string] : [])
 
-store.fetch().then(() => {
-  if (openedEmail.value.length === 0) {
-    openedEmail.value = store.firstEmail?.id ? [store.firstEmail.id] : []
+const { isLoaded } = store.fetch(() => {
+  if (openedEmail.value.length === 0 && store.firstEmail?.id) {
+    openedEmail.value = [store.firstEmail.id]
   }
 })
 
-const isCreating = ref(false)
+const { isCreating, create } = store.create()
 
 async function createEmail() {
-  isCreating.value = true
-  toast.promise(store.create(), {
+  toast.promise(create(), {
     loading: 'Creating email...',
     success: () => {
-      isCreating.value = false
-      if (openedEmail.value.length === 0) {
-        openedEmail.value = [store.data[store.data.length - 1]?.id as string]
+      if (openedEmail.value.length === 0 && store.lastEmail?.id) {
+        openedEmail.value = [store.lastEmail.id]
       }
       return 'Email created!'
     },
-    error: () => {
-      isCreating.value = false
-      return 'Failed to create email!'
-    },
+    error: 'Failed to create email!',
   })
 }
 </script>
@@ -65,7 +60,13 @@ async function createEmail() {
   />
 
   <Content>
-    <template v-if="store.data.length">
+    <template v-if="!isLoaded">
+      <div class="acr:p-6 acr:border-b acr:space-y-2" v-for="_i in 5">
+        <Skeleton class="acr:w-full acr:md:w-6/12 acr:h-4" />
+        <Skeleton class="acr:w-40 acr:h-3" />
+      </div>
+    </template>
+    <template v-else-if="store.data.length">
       <Accordion v-model="openedEmail" type="multiple" collapsible>
         <AccordionItem :value="email.id" v-for="email in store.data" :key="email.id">
           <AccordionTrigger>

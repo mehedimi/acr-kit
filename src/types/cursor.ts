@@ -14,6 +14,6 @@ export interface PaginationLinks {
 export interface PaginationMeta {
   path: string
   per_page: number
-  next_cursor?: string | null
-  prev_cursor?: string | null
+  next_cursor?: string
+  prev_cursor?: string
 }

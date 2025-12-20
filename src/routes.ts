@@ -57,7 +57,7 @@ export const routes: RouteRecordRaw[] = [
         path: 'tab-notification',
         component: () => import('./pages/utilities/TabNotification.vue'),
         name: 'utilities.tab-notification',
-      }
+      },
     ],
   },
   {
