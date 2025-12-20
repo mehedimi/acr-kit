@@ -46,8 +46,19 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: '/utilities',
-    component: () => import('./pages/Utilities.vue'),
-    name: 'utilities',
+    component: () => import('./pages/utilities/Utilities.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('./pages/utilities/Index.vue'),
+        name: 'utilities.index',
+      },
+      {
+        path: 'tab-notification',
+        component: () => import('./pages/utilities/TabNotification.vue'),
+        name: 'utilities.tab-notification',
+      },
+    ],
   },
   {
     path: '/settings',

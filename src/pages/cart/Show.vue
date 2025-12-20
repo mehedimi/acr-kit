@@ -34,7 +34,10 @@ const cart = computed(() => {
 watch(open, () => {
   if (!open.value) {
     setTimeout(() => {
-      router.push({ name: 'cart.index' })
+      router.push({
+        name: 'cart.index',
+        query: router.currentRoute.value.query,
+      })
     }, 200)
   }
 })

@@ -6,6 +6,7 @@ import type {
   RecoveryOption,
 } from '@/types/recovery-option.ts'
 import { appHttp, wpHttp } from '@/lib/http.ts'
+import { ref } from 'vue'
 
 const BASE_ENDPOINT = '/api/v1/recovery/emails' as const
 
@@ -50,31 +51,52 @@ const abandonedEmailSchedule: number[] = [
 export const useEmailStore = defineStore('email', {
   state: (): {
     data: EmailRecovery<RecoveryOption>[]
+    isLoading: boolean
   } => ({
+    isLoading: false,
     data: [],
   }),
   actions: {
-    async fetch() {
-      return appHttp
+    fetch(afterLoaded?: () => void) {
+      const isLoaded = ref(false)
+
+      appHttp
         .get<{ data: EmailRecovery<RecoveryOption>[] }>(BASE_ENDPOINT)
         .then(({ data: { data } }) => {
           this.data = data
+          if (afterLoaded) {
+            afterLoaded()
+          }
         })
-    },
-    async create() {
-      const {
-        data: { data },
-      } = await appHttp.post<{ data: EmailRecovery<RecoveryOption> }>(BASE_ENDPOINT, {
-        title: (ordinalWords[this.data.length] || 'Untitled') + ' email',
-        recovery: {
-          runAfter: (abandonedEmailSchedule[this.data.length] ||
-            abandonedEmailSchedule[abandonedEmailSchedule.length - 1]) as number,
-        },
-        body: 'Hello',
-        subject: 'Cart recovery',
-      } satisfies EmailRecoveryCreatePayload)
+        .finally(() => {
+          isLoaded.value = true
+        })
 
-      this.data.push(data)
+      return { isLoaded }
+    },
+    create() {
+      const isCreating = ref(false)
+      const create = async () => {
+        isCreating.value = true
+        return appHttp
+          .post<{ data: EmailRecovery<RecoveryOption> }>(BASE_ENDPOINT, {
+            title: (ordinalWords[this.data.length] || 'Untitled') + ' email',
+            recovery: {
+              runAfter: (abandonedEmailSchedule[this.data.length] ||
+                abandonedEmailSchedule[abandonedEmailSchedule.length - 1]) as number,
+            },
+            body: 'Hello',
+            subject: 'Cart recovery',
+          } satisfies EmailRecoveryCreatePayload)
+          .then(({ data: { data } }) => {
+            this.data.push(data)
+          })
+          .finally(() => {
+            isCreating.value = false
+          })
+      }
+
+      return { isCreating, create }
     },
 
     async find(id: string) {
@@ -113,6 +135,13 @@ export const useEmailStore = defineStore('email', {
   getters: {
     firstEmail(store) {
       return store.data[0]
+    },
+
+    lastEmail(store) {
+      if (store.data.length === 0) {
+        return undefined
+      }
+      return store.data[store.data.length - 1]
     },
   },
 })

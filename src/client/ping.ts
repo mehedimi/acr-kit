@@ -1,8 +1,8 @@
 import { wpHttp } from '@/lib/http.ts'
+import { hasAnyItemsInCart } from '@/client/helper.ts'
 
 function pingCart() {
-  const cookies = document.cookie.split('; ')
-  if (!cookies.includes('woocommerce_items_in_cart=1')) {
+  if (!hasAnyItemsInCart()) {
     return
   }
 
