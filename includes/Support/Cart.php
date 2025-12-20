@@ -132,6 +132,8 @@ class Cart {
 
 		WC()->cart->empty_cart();
 
+		self::setCartId( $cartId );
+
 		foreach ( $cart['lineItems'] as $item ) {
 			WC()->cart->add_to_cart(
 				$item['id'],

@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Abandoned Cart Recover
- * Plugin URI:  https://example.com/abandoned-cart-recover
+ * Plugin URI:  https://abandonedcartrecover.com/
  * Description: Recover abandoned carts in WooCommerce with automated reminders and smart recovery links.
  * Version:     0.1.0
- * Author:      Abandoned Cart Recover
- * Author URI:  https://example.com
+ * Author:      Mehedi Hasan
+ * Author URI:  https://mehedi.im/
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: abandoned-cart-recover
