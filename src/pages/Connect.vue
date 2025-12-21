@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
-import { CircleCheckBig, Plug } from 'lucide-vue-next'
+import { CircleCheckBig, ZapIcon } from 'lucide-vue-next'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { get } from '@/composables/useHttp.ts'
 import { ref } from 'vue'
@@ -42,10 +42,12 @@ async function connect() {
 <template>
   <Card class="acr:max-w-lg acr:mx-auto acr:mt-10">
     <CardContent>
-      <h2 class="acr:!text-2xl acr:text-center">Connect Your Store</h2>
-      <p>
-        Your plugin is installed! Connect to <b>Abandoned Cart Recover</b> to activate powerful cart
-        recovery features and start converting abandoned carts into completed orders.
+      <h2 class="acr:text-2xl! acr:text-center">Connect Your Store</h2>
+      <p class="acr:text-center acr:mt-4">
+        Your plugin is installed! Connect to
+        <a href="https://abandonedcartrecover.com/" target="_blank">Abandoned Cart Recover</a> to
+        activate powerful cart recovery features and start converting abandoned carts into completed
+        orders.
       </p>
       <ul>
         <li v-for="feature in features" class="acr:flex acr:items-center acr:gap-2">
@@ -54,10 +56,13 @@ async function connect() {
         </li>
       </ul>
       <CardFooter class="acr:justify-center acr:mt-8">
-        <Button size="lg" :disabled="isSending" @click="connect">
-          <Plug class="acr:w-5" /> Connect now!</Button
-        >
+        <Button size="lg" :disabled="isSending" @click="connect"> <ZapIcon /> Connect now!</Button>
       </CardFooter>
     </CardContent>
   </Card>
+  <p class="acr:text-center acr:text-muted-foreground">
+    By connecting, you agree to the
+    <a href="https://abandonedcartrecover.com/terms-and-conditions/" target="_blank">Terms</a> and
+    <a href="https://abandonedcartrecover.com/privacy-policy/" target="_blank">Privacy Policy</a>
+  </p>
 </template>
