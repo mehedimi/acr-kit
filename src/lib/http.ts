@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { router } from '@/admin-router.ts'
 
 export const wpHttp = axios.create({
   baseURL: acrApp.apiUrl,
@@ -17,6 +18,18 @@ export const appHttp = axios.create({
     Authorization: `Bearer ${acrApp.appToken}`,
   },
 })
+
+appHttp.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      router.push({
+        name: 'connect',
+      })
+    }
+    return Promise.reject(error)
+  },
+)
 
 export const wpEndpoint = function (path: string) {
   return acrApp.apiUrl.replace(/\/wp-json\/.*$/, '/wp-json' + path)
