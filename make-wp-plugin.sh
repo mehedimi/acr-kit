@@ -3,11 +3,8 @@
 # Get the current directory name (plugin folder name)
 DIR_NAME=$(basename "$PWD")
 
-# Create timestamp for unique naming
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-
 # Set output filename
-OUTPUT_NAME="${DIR_NAME}_${TIMESTAMP}.zip"
+OUTPUT_NAME="${DIR_NAME}.zip"
 
 # Array of files and directories to include
 INCLUDE_ITEMS=(
@@ -17,6 +14,7 @@ INCLUDE_ITEMS=(
   "vendor"
   "abandoned-cart-recover.php"
   "readme.txt"
+  "composer.json"
 )
 
 # Check if required items exist
