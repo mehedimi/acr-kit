@@ -20,10 +20,11 @@ import { Button } from '@/components/ui/button'
 import { MailQuestionMark, MailPlus } from 'lucide-vue-next'
 import { ref } from 'vue'
 import { toast } from 'vue-sonner'
-import { minutesToHumanReadable } from '@/lib/utils'
+import { minutesToHumanReadable, percentFrom } from '@/lib/utils'
 import EmailOptions from '@/pages/recover/components/EmailOptions.vue'
 import { useRoute } from 'vue-router'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Badge } from '@/components/ui/badge'
 
 const store = useEmailStore()
 const route = useRoute()
@@ -68,15 +69,108 @@ async function createEmail() {
     </template>
     <template v-else-if="store.data.length">
       <Accordion v-model="openedEmail" type="multiple" collapsible>
-        <AccordionItem :value="email.id" v-for="email in store.data" :key="email.id">
-          <AccordionTrigger>
+        <AccordionItem
+          :value="email.id"
+          v-for="email in store.data"
+          :key="email.id"
+          class="acr:[&>h3[data-state=open]]:border-dashed acr:[&>h3[data-state=open]]:border-b!"
+        >
+          <AccordionTrigger class="acr:group acr:gap-x-8 acr:relative">
             <div>
               <p class="acr:my-0! acr:text-lg! acr:capitalize">{{ email.title }}</p>
               <span class="acr:text-xs acr:font-normal acr:text-muted-foreground"
                 >After {{ minutesToHumanReadable(email.recovery.runAfter) }}</span
               >
             </div>
+            <div
+              class="acr:flex-1 acr:items-center acr:gap-y-2 acr:*:mt-1 acr:grid acr:grid-cols-3 acr:sm:grid-cols-5 acr:[&>div>h3]:text-gray-600! acr:[&>div>h3]:text-lg!"
+            >
+              <div class="acr:*:my-0!">
+                <p
+                  class="acr:text-muted-foreground! acr:font-normal! acr:text-xs! acr:group-hover:hidden"
+                >
+                  Queued
+                </p>
+                <p
+                  class="acr:text-muted-foreground! acr:font-normal! acr:text-xs! acr:hidden acr:group-hover:block"
+                >
+                  Sent
+                </p>
+                <h3 class="acr:group-hover:hidden!">{{ email.queued }}</h3>
+                <h3 class="acr:hidden! acr:group-hover:block!">{{ email.sent }}</h3>
+              </div>
+              <div class="acr:*:my-0!">
+                <p
+                  class="acr:text-muted-foreground! acr:font-normal! acr:text-xs! acr:group-hover:hidden"
+                >
+                  Open rate
+                </p>
+                <p
+                  class="acr:text-muted-foreground! acr:font-normal! acr:text-xs! acr:hidden acr:group-hover:block"
+                >
+                  Open count
+                </p>
+                <h3 class="acr:group-hover:hidden!">
+                  {{ percentFrom(email.opened, email.sent) }}%
+                </h3>
+                <h3 class="acr:hidden! acr:group-hover:block!">{{ email.opened }}</h3>
+              </div>
+              <div class="acr:*:my-0!">
+                <p
+                  class="acr:text-muted-foreground! acr:font-normal! acr:text-xs! acr:group-hover:hidden"
+                >
+                  Click rate
+                </p>
+                <p
+                  class="acr:text-muted-foreground! acr:font-normal! acr:text-xs! acr:hidden acr:group-hover:block"
+                >
+                  Click count
+                </p>
+                <h3 class="acr:group-hover:hidden!">
+                  {{ percentFrom(email.clicked, email.sent) }}%
+                </h3>
+                <h3 class="acr:hidden! acr:group-hover:block!">{{ email.clicked }}</h3>
+              </div>
+              <div class="acr:*:my-0!">
+                <p
+                  class="acr:text-muted-foreground! acr:font-normal! acr:text-xs! acr:group-hover:hidden"
+                >
+                  Recover rate
+                </p>
+                <p
+                  class="acr:text-muted-foreground! acr:font-normal! acr:text-xs! acr:hidden acr:group-hover:block"
+                >
+                  Recover count
+                </p>
+                <h3 class="acr:group-hover:hidden!">
+                  {{ percentFrom(email.recovered, email.sent) }}%
+                </h3>
+                <h3 class="acr:hidden! acr:group-hover:block!">{{ email.recovered }}</h3>
+              </div>
+              <div class="acr:*:my-0!">
+                <p
+                  class="acr:text-muted-foreground! acr:font-normal! acr:text-xs! acr:group-hover:hidden"
+                >
+                  Unsubscribe rate
+                </p>
+                <p
+                  class="acr:text-muted-foreground! acr:font-normal! acr:text-xs! acr:hidden acr:group-hover:block"
+                >
+                  Unsubscribe count
+                </p>
+                <h3 class="acr:group-hover:hidden!">
+                  {{ percentFrom(email.unsubscribed, email.sent) }}%
+                </h3>
+                <h3 class="acr:hidden! acr:group-hover:block!">{{ email.unsubscribed }}</h3>
+              </div>
+            </div>
+            <Badge
+              :variant="email.recovery.enabled ? 'default' : 'outline'"
+              class="acr:absolute acr:top-[50%] acr:-translate-y-[50%] acr:right-6"
+              >{{ email.recovery.enabled ? 'Active' : 'Inactive' }}</Badge
+            >
           </AccordionTrigger>
+
           <AccordionContent class="acr:bg-gray-50">
             <EmailOptions :email="email" />
           </AccordionContent>

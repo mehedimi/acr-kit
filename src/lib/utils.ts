@@ -29,3 +29,8 @@ export function minutesToHumanReadable(totalMinutes: number): string {
   if (hours >= 1) return hours === 1 ? '1 hour' : `${hours} hours`
   return minutes === 1 ? '1 minute' : `${minutes} minutes`
 }
+
+export function percentFrom(part: number, total: number): number {
+  if (total === 0) return 0
+  return (part / total) * 100
+}

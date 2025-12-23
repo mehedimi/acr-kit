@@ -75,5 +75,6 @@ const iframeSrc = acrApp.assetUrl.replace('dist/', 'assets/email.html')
     :width="width || '100%'"
     height="100%"
     ref="iframeEl"
+    class="acr:transition-all"
   />
 </template>
