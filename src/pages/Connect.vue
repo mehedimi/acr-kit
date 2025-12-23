@@ -11,6 +11,7 @@ const features = [
   'Smart email recovery campaigns',
   'Real-time analytics and recovery insights',
   'Recover up to 30% of abandoned carts',
+  'And more...',
 ]
 
 const { execute } = get<{ redirectUrl: string }>('/connect')
@@ -42,13 +43,18 @@ async function connect() {
 <template>
   <Card class="acr:max-w-lg acr:mx-auto acr:mt-10">
     <CardContent>
-      <h2 class="acr:text-2xl! acr:text-center">Connect Your Store</h2>
-      <p class="acr:text-center acr:mt-4">
-        Your plugin is installed! Connect to
-        <a href="https://abandonedcartrecover.com/" target="_blank">Abandoned Cart Recover</a> to
-        activate powerful cart recovery features and start converting abandoned carts into completed
-        orders.
-      </p>
+      <div class="acr:text-center acr:mt-4">
+        <img class="acr:mx-auto acr:max-w-32" src="./../assets/logo.svg" alt="ACR">
+        <h2 class="acr:text-2xl!">Connect Your Store</h2>
+        <p>Your plugin is installed!</p>
+        <p>
+          Connect to
+          <a href="https://abandonedcartrecover.com/" target="_blank">Abandoned Cart Recover</a>
+          to activate powerful cart recovery features and start converting abandoned carts into
+          completed orders.
+        </p>
+      </div>
+
       <ul>
         <li v-for="feature in features" class="acr:flex acr:items-center acr:gap-2">
           <CircleCheckBig class="acr:w-4 acr:text-primary" />

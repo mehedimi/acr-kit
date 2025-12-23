@@ -119,11 +119,7 @@ Absolutely! You can:
 * Add your logo and branding
 * Create multiple email sequences with different messaging
 
-= What are the available merge tags for emails? =
-
-* `{unsubscribe_link}` - Opt-out link for compliance
-
-= Is this GDPR compliant? =
+= Is this GDPR-compliant? =
 
 Yes. The plugin includes:
 * Automatic opt-out/unsubscribe links in all emails
