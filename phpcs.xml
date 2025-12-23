@@ -3,6 +3,8 @@
   <description>WordPress Coding Standard</description>
 
   <file>./includes</file>
+  <file>./uninstall.php</file>
+  <file>./abandoned-cart-recover.php</file>
 
   <rule ref="WordPress">
     <exclude name="WordPress.Files.FileName"/>

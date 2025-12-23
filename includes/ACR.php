@@ -2,8 +2,10 @@
 
 namespace AbandonedCartRecover;
 
+use AbandonedCartRecover\Support\Api;
+
 class ACR {
-	const VERSION = '0.0.1';
+	const VERSION = '0.1.0';
 
 	public static function defineConstants() {
 		if ( ! defined( 'ACR_APP_URL' ) ) {
@@ -31,5 +33,9 @@ class ACR {
 
 	public static function getAppUrl(): string {
 		return ACR_APP_URL;
+	}
+
+	public static function uninstall() {
+		Api::uninstall();
 	}
 }

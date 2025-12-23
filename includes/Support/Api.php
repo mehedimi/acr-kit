@@ -83,6 +83,10 @@ class Api {
 	}
 
 	public static function trackEmailClick( string $emailId, string $cartId ) {
-		self::nonBlocking()->patch( "recovery-emails/$emailId/carts/$cartId/click" );
+		self::nonBlocking()->patch( "/api/v1/recovery-emails/$emailId/carts/$cartId/click" );
+	}
+
+	public static function uninstall() {
+		self::nonBlocking()->post( '/api/v1/uninstall' );
 	}
 }
