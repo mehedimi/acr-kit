@@ -1,4 +1,5 @@
 import type { AnyElement } from '@/types/builder.ts'
+import { ItemLayoutStyle } from '@/enum/item-layout-style.ts'
 
 export const elements: Array<AnyElement> = [
   {
@@ -47,6 +48,32 @@ export const elements: Array<AnyElement> = [
     },
     sectionStyle: {
       textAlign: 'center',
+      marginTop: '10px',
+      marginBottom: '10px',
+    },
+  },
+  {
+    type: 'CartItems',
+    options: {
+      layout: ItemLayoutStyle.LIST,
+      gridItems: 2,
+      listItemSize: 40,
+      gap: 4,
+    },
+    imgStyle: {
+      maxWidth: '100%',
+      display: 'inline-block',
+    },
+    style: {
+      padding: '0',
+    },
+    titleStyle: {
+      margin: '2px 0 2px 0',
+    },
+    priceStyle: {
+      margin: '2px 0 2px 0',
+    },
+    sectionStyle: {
       marginTop: '10px',
       marginBottom: '10px',
     },

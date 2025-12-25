@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Input } from '@/components/ui/input'
+import { spaceNormalize } from '@/lib/utils.ts'
 
 const props = withDefaults(
   defineProps<{
@@ -15,35 +16,7 @@ const props = withDefaults(
 
 const emit = defineEmits(['update:modelValue'])
 
-const normalizedValue = normalize(props.modelValue)
-
-function normalize(value?: string): [number, number, number, number] {
-  if (!value) return [0, 0, 0, 0]
-
-  // Split by space and convert to integer
-  const parts = value
-    .trim()
-    .split(/\s+/)
-    .map((v) => parseInt(v, 10))
-
-  // CSS shorthand expansion rules
-  switch (parts.length) {
-    case 1:
-      // @ts-ignore
-      return [parts[0], parts[0], parts[0], parts[0]]
-    case 2:
-      // @ts-ignore
-      return [parts[0], parts[1], parts[0], parts[1]]
-    case 3:
-      // @ts-ignore
-      return [parts[0], parts[1], parts[2], parts[1]]
-    case 4:
-      // @ts-ignore
-      return [parts[0], parts[1], parts[2], parts[3]]
-    default:
-      return [0, 0, 0, 0]
-  }
-}
+const normalizedValue = spaceNormalize(props.modelValue)
 
 function handleInput(index: number, value: number) {
   normalizedValue[index] = value

@@ -30,7 +30,6 @@ defineProps<{
     </Head>
     <Body>
       <EmailApp :template="template" />
-      <acr-open-track></acr-open-track>
     </Body>
   </Html>
 </template>

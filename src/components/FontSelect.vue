@@ -12,10 +12,15 @@ import { emailSafeFonts } from '@/components/data.ts'
 <template>
   <Select>
     <SelectTrigger>
-      <SelectValue placeholder="Select a fruit" />
+      <SelectValue placeholder="Select a font" />
     </SelectTrigger>
     <SelectContent>
-      <SelectItem v-for="font in emailSafeFonts" :value="font.value">{{ font.label }}</SelectItem>
+      <SelectItem
+        :style="{ fontFamily: font.value }"
+        v-for="font in emailSafeFonts"
+        :value="font.value"
+        >{{ font.label }}</SelectItem
+      >
     </SelectContent>
   </Select>
 </template>

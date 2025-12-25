@@ -2,6 +2,7 @@
 import { ColorPicker } from 'vue3-colorpicker'
 import { Label } from '@/components/ui/label'
 import { useBuilderStore } from '@/stores/useBuilderStore.ts'
+import FontSelect from '@/components/FontSelect.vue'
 
 const builder = useBuilderStore()
 </script>
@@ -27,6 +28,10 @@ const builder = useBuilderStore()
           format="hex6"
         />
       </div>
+    </div>
+    <div class="acr:space-y-2 acr:p-4">
+      <Label>Font</Label>
+      <FontSelect v-model="builder.style.fontFamily" />
     </div>
   </div>
 </template>

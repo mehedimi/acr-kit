@@ -241,18 +241,14 @@ async function applyTemplate(id: number) {
     <DialogScrollContent class="acr:max-w-250">
       <DialogHeader>
         <DialogTitle>Choose Email Template</DialogTitle>
-        <div class="acr:grid acr:gap-x-4 acr:md:grid-cols-3 acr:mt-4">
+        <div class="acr:grid acr:gap-4 acr:md:grid-cols-3 acr:mt-4">
           <div
             @click="applyTemplate(template.id)"
             v-for="template in emailTemplateStore.data"
             class="acr:rounded-lg acr:shadow acr:cursor-pointer acr:border-2 acr:hover:-translate-y-1 acr:hover:shadow-lg acr:transition-all acr:p-4 acr:hover:border-primary"
             :key="template.id"
           >
-            <img
-              :src="template.thumbnail"
-              :alt="template.name"
-              class="acr:rounded acr:object-contain"
-            />
+            <img :src="template.thumbnail" :alt="template.name" class="acr:rounded acr:shadow" />
             <div class="acr:mt-4">
               <h2 class="acr:mb-2!">{{ template.name }}</h2>
               <p class="acr:my-0! acr:text-muted-foreground">{{ template.description }}</p>

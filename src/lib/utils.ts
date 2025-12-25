@@ -34,3 +34,31 @@ export function percentFrom(part: number, total: number): number {
   if (total === 0) return 0
   return (part / total) * 100
 }
+
+export function spaceNormalize(value?: string): [number, number, number, number] {
+  if (!value) return [0, 0, 0, 0]
+
+  // Split by space and convert to integer
+  const parts = value
+    .trim()
+    .split(/\s+/)
+    .map((v) => parseInt(v, 10))
+
+  // CSS shorthand expansion rules
+  switch (parts.length) {
+    case 1:
+      // @ts-ignore
+      return [parts[0], parts[0], parts[0], parts[0]]
+    case 2:
+      // @ts-ignore
+      return [parts[0], parts[1], parts[0], parts[1]]
+    case 3:
+      // @ts-ignore
+      return [parts[0], parts[1], parts[2], parts[1]]
+    case 4:
+      // @ts-ignore
+      return [parts[0], parts[1], parts[2], parts[3]]
+    default:
+      return [0, 0, 0, 0]
+  }
+}
