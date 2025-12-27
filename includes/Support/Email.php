@@ -2,8 +2,6 @@
 
 namespace AbandonedCartRecover\Support;
 
-use Mehedi\WPQueryBuilder\DB;
-
 class Email {
 
 	public static function openTrack() {
@@ -51,7 +49,7 @@ class Email {
 			Api::trackEmailClick( $emailId, $cartId );
 		}
 
-		wp_safe_redirect( $url );
+		wp_redirect( $url );
 		exit;
 	}
 

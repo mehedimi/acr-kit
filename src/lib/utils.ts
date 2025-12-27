@@ -12,7 +12,7 @@ export function names(names: (string | null | undefined)[], defaultName = '—')
 }
 
 export function formatPrice(value: number, currency = 'USD') {
-  return new Intl.NumberFormat(acrApp.locale.replace('_', '-'), {
+  return new Intl.NumberFormat(undefined, {
     style: 'currency',
     currency,
   }).format(value)

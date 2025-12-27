@@ -29,9 +29,5 @@ const builder = useBuilderStore()
         />
       </div>
     </div>
-    <div class="acr:space-y-2 acr:p-4">
-      <Label>Font</Label>
-      <FontSelect v-model="builder.style.fontFamily" />
-    </div>
   </div>
 </template>
