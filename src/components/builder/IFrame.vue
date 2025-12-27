@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createApp, ref, watch } from 'vue'
+import { createApp, onBeforeUnmount, ref, watch } from 'vue'
 import EmailApp from '@/components/builder/EmailApp.vue'
 import type { Template } from '@/types/builder.ts'
 import type { ControlAction, ControlData } from '@/enum/control.ts'
@@ -15,6 +15,11 @@ const props = defineProps<{
 const emit = defineEmits<{
   action: [action: ControlAction, index: number]
 }>()
+
+let observer = new ResizeObserver(() => {
+  resizeIframe()
+})
+const iframeApp = createApp(EmailApp, props)
 
 function mountIframe() {
   const document = iframeEl.value?.contentDocument as Document
@@ -33,8 +38,6 @@ function mountIframe() {
     })
   }
 
-  const iframeApp = createApp(EmailApp, props)
-
   iframeApp.mount(appEl)
 
   watch(
@@ -49,10 +52,6 @@ function mountIframe() {
 
   resizeIframe()
 
-  let observer = new ResizeObserver(() => {
-    resizeIframe()
-  })
-
   observer.observe(appEl)
 }
 
@@ -66,6 +65,13 @@ function resizeIframe() {
 }
 
 const iframeSrc = acrApp.assetUrl.replace('dist/', 'assets/email.html')
+
+onBeforeUnmount(() => {
+  if (iframeEl.value?.contentDocument?.body) {
+    observer.unobserve(iframeEl.value?.contentDocument.body)
+  }
+  iframeApp.unmount()
+})
 </script>
 
 <template>
@@ -75,5 +81,6 @@ const iframeSrc = acrApp.assetUrl.replace('dist/', 'assets/email.html')
     :width="width || '100%'"
     height="100%"
     ref="iframeEl"
+    class="acr:transition-all"
   />
 </template>

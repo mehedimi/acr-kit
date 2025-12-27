@@ -62,6 +62,7 @@ export const useBuilderStore = defineStore('builder', {
           this.elements.splice(store.action.index, 0, cloneDeep(elValue))
         } else {
           this.elements.splice((store.action?.index as number) + 1, 0, cloneDeep(elValue))
+          ;(store.action as Action).index++
         }
 
         ;(store.action as Action).action = Control.EDIT

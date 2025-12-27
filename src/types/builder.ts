@@ -1,9 +1,11 @@
 import type { CSSProperties } from 'vue'
+import type { ItemLayoutStyleType } from '@/enum/item-layout-style.ts'
 
 export interface Element<T> {
   type: T
   style: CSSProperties
   sectionStyle: CSSProperties
+  isEditing?: boolean
 }
 
 export interface ButtonElement extends Element<'Button'> {
@@ -15,17 +17,24 @@ export interface TextElement extends Element<'Text'> {
   text: string
 }
 
-export interface HeadingElement extends Element<'Heading'> {
-  text: string
-  heading: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-}
-
 export interface ImageElement extends Element<'Image'> {
   src: string
   alt: string
 }
 
-export type AnyElement = ButtonElement | TextElement | ImageElement
+export interface CartItemsElement extends Element<'CartItems'> {
+  options: {
+    layout: ItemLayoutStyleType
+    gridItems: number
+    gap: number
+    listItemSize: number
+  }
+  imgStyle: CSSProperties
+  titleStyle: CSSProperties
+  priceStyle: CSSProperties
+}
+
+export type AnyElement = ButtonElement | TextElement | ImageElement | CartItemsElement
 
 export type ElementType = AnyElement['type']
 

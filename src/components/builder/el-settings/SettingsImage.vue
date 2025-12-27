@@ -155,14 +155,14 @@ const imageUrlModalOpen = ref(false)
         <Label class="acr:justify-between"
           >Border Radius
           <span class="acr:text-muted-foreground">{{
-            currentElement.style.borderRadius || '100%'
+            currentElement.style.borderRadius || '-'
           }}</span></Label
         >
         <Slider
           :min="0"
           :max="100"
           :modelValue="[parseInt((currentElement.style.borderRadius as string) || '0', 10)]"
-          @update:model-value="(v) => (currentElement.style.borderRadius = v?.[0] + '%')"
+          @update:model-value="(v) => (currentElement.style.borderRadius = v?.[0] + 'px')"
         />
       </div>
       <div class="acr:space-y-2.5">

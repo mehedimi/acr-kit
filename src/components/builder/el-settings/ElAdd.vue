@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FileText, ImageIcon, LinkIcon } from 'lucide-vue-next'
+import { FileText, ImageIcon, LinkIcon, ShoppingBasketIcon } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import type { ElementType } from '@/types/builder.ts'
 import { useBuilderStore } from '@/stores/useBuilderStore.ts'
@@ -18,6 +18,10 @@ const items: Array<{ title: ElementType; icon: any }> = [
   {
     title: 'Image',
     icon: ImageIcon,
+  },
+  {
+    title: 'CartItems',
+    icon: ShoppingBasketIcon,
   },
 ]
 </script>
