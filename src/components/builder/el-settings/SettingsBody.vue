@@ -2,7 +2,6 @@
 import { ColorPicker } from 'vue3-colorpicker'
 import { Label } from '@/components/ui/label'
 import { useBuilderStore } from '@/stores/useBuilderStore.ts'
-import FontSelect from '@/components/FontSelect.vue'
 
 const builder = useBuilderStore()
 </script>
