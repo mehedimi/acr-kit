@@ -8,7 +8,7 @@ const props = defineProps<{
 
 <template>
   <div class="acr:px-4 acr:my-4">
-    <div :class="props.class" class="acr:bg-white acr:rounded-md acr:overflow-hidden">
+    <div :class="props.class" class="acr:bg-white acr:rounded-md">
       <slot />
     </div>
   </div>

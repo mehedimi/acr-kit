@@ -1,4 +1,4 @@
-import type { TabUtilities } from '@/types/utilities.ts'
+import type { PushUtilities, TabUtilities } from '@/types/utilities.ts'
 
 declare global {
   interface AcrApp {
@@ -13,6 +13,7 @@ declare global {
     currency: string
     utilities?: {
       tab?: TabUtilities['config']
+      push: PushUtilities['config']
     }
   }
 

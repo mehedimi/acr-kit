@@ -7,46 +7,9 @@ import type {
 } from '@/types/recovery-option.ts'
 import { appHttp, wpHttp } from '@/lib/http.ts'
 import { ref } from 'vue'
+import { abandonedSchedule, ordinalWords } from '@/stores/recovery-utils.ts'
 
 const BASE_ENDPOINT = '/api/v1/recovery/emails' as const
-
-const ordinalWords = [
-  'First',
-  'Second',
-  'Third',
-  'Fourth',
-  'Fifth',
-  'Sixth',
-  'Seventh',
-  'Eighth',
-  'Ninth',
-  'Tenth',
-  'Eleventh',
-  'Twelfth',
-  'Thirteenth',
-  'Fourteenth',
-  'Fifteenth',
-  'Sixteenth',
-  'Seventeenth',
-  'Eighteenth',
-  'Nineteenth',
-  'Twentieth',
-] as const
-
-export const MINUTES = {
-  minute: 1,
-  hour: 60,
-  day: 60 * 24,
-  week: 60 * 24 * 7,
-} as const
-
-const abandonedEmailSchedule: number[] = [
-  5 * MINUTES.minute, // 5 minutes
-  MINUTES.day, // 1 day
-  2 * MINUTES.day, // 2 days
-  4 * MINUTES.day, // 4 days
-  MINUTES.week, // 1 week
-]
 
 export const useEmailStore = defineStore('email', {
   state: (): {
@@ -82,8 +45,8 @@ export const useEmailStore = defineStore('email', {
           .post<{ data: EmailRecovery<RecoveryOption> }>(BASE_ENDPOINT, {
             title: (ordinalWords[this.data.length] || 'Untitled') + ' email',
             recovery: {
-              runAfter: (abandonedEmailSchedule[this.data.length] ||
-                abandonedEmailSchedule[abandonedEmailSchedule.length - 1]) as number,
+              runAfter: (abandonedSchedule[this.data.length] ||
+                abandonedSchedule[abandonedSchedule.length - 1]) as number,
             },
             body: 'Hello',
             subject: 'Cart recovery',

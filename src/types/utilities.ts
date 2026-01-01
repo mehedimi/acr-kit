@@ -15,3 +15,12 @@ export type TabUtilities = Utilities<
     emoji: string
   }>
 >
+
+export type PushUtilities = Utilities<Partial<{ publicKey: string }>>
+
+export interface PushMessage {
+  title: string
+  body: string
+  icon?: string
+  actionUrl?: string
+}

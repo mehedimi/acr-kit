@@ -49,6 +49,8 @@ class Email {
 			Api::trackEmailClick( $emailId, $cartId );
 		}
 
+		// no more unsafely redirecting to external sites, before redirecting we are verifying the url.
+		// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		wp_redirect( $url );
 		exit;
 	}

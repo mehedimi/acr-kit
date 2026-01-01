@@ -41,6 +41,7 @@ class Loader {
 			array(
 				'apiUrl'    => Rest::getApiUrl(),
 				'nonce'     => wp_create_nonce( 'wp_rest' ),
+                'assetUrl' => self::$distUrl,
 				'utilities' => Utilities::toFrontEnd(),
 			)
 		);
@@ -88,10 +89,10 @@ class Loader {
 	}
 
 	public static function enqueueAdminProdScripts() {
-		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin-DA8jqiiO.css', array(), null );
+		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin-DLPU1FDb.css', array(), null );
 		wp_enqueue_script(
 			'acr-admin',
-			self::$distUrl . 'assets/admin-BE96q-y6.js',
+			self::$distUrl . 'assets/admin-B9LJxPgy.js',
 			array(),
 			null,
 			true
@@ -116,7 +117,7 @@ class Loader {
 	public static function enqueueFrontendProdScripts() {
 		wp_enqueue_script(
 			'acr-frontend',
-			self::$distUrl . 'assets/frontend-BBLM5yRn.js',
+			self::$distUrl . 'assets/frontend-C1FRmycf.js',
 			array(),
 			null,
 			true
