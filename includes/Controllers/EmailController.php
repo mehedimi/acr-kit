@@ -105,9 +105,9 @@ class EmailController extends Controller {
 
 		$baseUrl = get_home_url() . '?' . http_build_query(
 			array(
-				'acr_action'   => ClientAction::CLICK_EMAIL,
-				'acr_cart_id'  => '__ACR_CART_ID__',
-				'acr_email_id' => $emailId,
+				'acr_action'       => ClientAction::CLICK_EMAIL,
+				'acr_cart_id'      => '__ACR_CART_ID__',
+				'acr_recovered_id' => $emailId,
 			)
 		);
 

@@ -1,4 +1,4 @@
-=== Abandoned Cart Recover ===
+=== Abandoned Cart Recover for WooCommerce ===
 Contributors: mehedimi
 Donate link: https://abandonedcartrecover.com
 Tags: woocommerce, abandoned cart, cart recovery, email marketing, sales recovery
@@ -6,11 +6,11 @@ Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
 Requires Plugins: woocommerce
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Recover lost sales with automated email sequences and builder, one-click recovery links, and smart browser tab notifications for WooCommerce.
+Recover lost sales with automated email sequences with email builder, one-click recovery links, and smart browser tab notifications for WooCommerce.
 
 == Description ==
 
@@ -26,7 +26,7 @@ All cart data is securely transmitted to our central cloud application for advan
 
 **🎯 Key Features:**
 
-* **Drag-and-Drop Email Builder** - Create beautiful, branded recovery emails with zero coding required. Add images, text, buttons, and dynamic content with ease.
+* **Email Builder** - Create beautiful, branded recovery emails with zero coding required. Add images, text, buttons, and dynamic content with ease.
 * **Professional Templates** - Get started instantly with pre-designed, conversion-optimized email templates.
 * **Automated Email Sequences** - Build intelligent timed reminder campaigns (1 hour, 24 hours, 3 days, etc.) with personalized content including customer names, cart items, and unique discount codes.
 * **One-Click Cart Recovery** - Secure recovery links that instantly restore the customer's exact cart for seamless checkout completion.
@@ -34,7 +34,6 @@ All cart data is securely transmitted to our central cloud application for advan
 * **Real-Time Dashboard** - Monitor abandoned carts, track recovery rates, view cart contents, and measure recovered revenue with comprehensive analytics.
 * **Guest Cart Capture** - Recover sales from non-logged-in users who provide their email during checkout.
 * **Performance Analytics** - Track email open rates, click-through rates, conversion rates, and total revenue recovered.
-* **Customizable Timing** - Set your own abandonment thresholds and email send schedules to match your business needs.
 * **GDPR Ready** - Built-in compliance features including opt-out links and privacy controls.
 
 **📊 Track Your Success:**
@@ -56,7 +55,7 @@ All cart data is securely transmitted to our central cloud application for advan
 
 * WooCommerce store owners looking to boost revenue
 * E-commerce businesses with high cart abandonment rates
-* Online retailers wanting automated recovery solutions
+* Online retailers want automated recovery solutions
 * Marketing teams seeking data-driven insights
 
 **Requirements:**
@@ -148,14 +147,6 @@ Yes! The dashboard shows:
 * Time to conversion
 * Recovery success metrics
 
-= Does this work with variable products and subscriptions? =
-
-Yes, Abandoned Cart Recover fully supports:
-* Simple products
-* Variable products with selected variations
-* Grouped products
-* Product bundles
-
 = Will this slow down my site? =
 
 No. The plugin is optimized for performance:
@@ -183,7 +174,7 @@ Initial release of Abandoned Cart Recover. Start recovering lost sales today!
 **Data Collection & Storage:**
 
 Abandoned Cart Recover collects and stores only the essential data needed to recover abandoned carts:
-* Customer email address (if provided)
+* Customer email address, phone number (if provided)
 * Cart contents (products, quantities, variations)
 * Cart abandonment timestamp
 * Recovery email interaction data (opens, clicks)

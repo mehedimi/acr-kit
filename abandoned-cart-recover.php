@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Abandoned Cart Recover
+ * Plugin Name: Abandoned Cart Recover for WooCommerce
  * Plugin URI:  https://abandonedcartrecover.com/
  * Description: Recover abandoned carts in WooCommerce with automated reminders and smart recovery links.
- * Version:     0.1.0
+ * Version:     0.2.0
  * Author:      Mehedi Hasan
  * Author URI:  https://mehedi.im/
  * License:     GPLv2 or later
@@ -39,6 +39,17 @@ if ( Loader::isDev() ) {
 if ( is_admin() ) {
 	ACR::registerMenuPage();
 	register_activation_hook( __FILE__, array( Installer::class, 'activation' ) );
+	add_filter(
+		'plugin_action_links_' . plugin_basename( __FILE__ ),
+		function ( array $links ) {
+			return array_merge(
+				array(
+					'<a href="' . admin_url( 'admin.php?page=abandoned-cart-recover' ) . '">Overview</a>',
+				),
+				$links
+			);
+		}
+	);
 } else {
 	Cart::registerHooks();
 }
