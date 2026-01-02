@@ -66,8 +66,13 @@ class Api {
 		}
 	}
 
-	public static function cartMarkAsCompleted( string $id ) {
-		self::nonBlocking()->patch( sprintf( '/api/v1/carts/%s/completed', $id ) );
+	public static function cartMarkAsCompleted( string $id, ?string $recoveredBy = null ) {
+		self::nonBlocking()->patch(
+			sprintf( '/api/v1/carts/%s/completed', $id ),
+			array(
+				'recoveredBy' => $recoveredBy,
+			)
+		);
 	}
 
 	/**

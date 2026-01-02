@@ -7,14 +7,14 @@ class Email {
 	public static function openTrack() {
 		// This is a public endpoint, and we do not perform any critical task, so we can skip the nonce check.
         // phpcs:ignore WordPress.Security.NonceVerification
-		if ( empty( $_GET['acr_cart_id'] ) || empty( $_GET['acr_email_id'] ) ) {
+		if ( empty( $_GET['acr_cart_id'] ) || empty( $_GET['acr_recovered_id'] ) ) {
 			return;
 		}
 
         // phpcs:ignore WordPress.Security.NonceVerification
 		$cartId = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
         // phpcs:ignore WordPress.Security.NonceVerification
-		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
+		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_recovered_id'] ) );
 
 		Api::trackEmailOpen( $emailId, $cartId );
 
@@ -30,16 +30,16 @@ class Email {
 	}
 
 	public static function clickTrack() {
-		// This is a public endpoint, and we do not perform any critical task, so we can skip the nonce check.
+		// This is a public endpoint, and we do not perform any db writing, so we can skip the nonce check.
         // phpcs:ignore WordPress.Security.NonceVerification
-		if ( empty( $_GET['acr_cart_id'] ) || empty( $_GET['acr_email_id'] ) || empty( $_GET['next'] ) ) {
+		if ( empty( $_GET['acr_cart_id'] ) || empty( $_GET['acr_recovered_id'] ) || empty( $_GET['next'] ) ) {
 			return;
 		}
 
         // phpcs:ignore WordPress.Security.NonceVerification
 		$cartId = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
         // phpcs:ignore WordPress.Security.NonceVerification
-		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
+		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_recovered_id'] ) );
         // phpcs:ignore WordPress.Security.NonceVerification
 		$url = Encryptor::decryptQueryParam( urldecode( sanitize_text_field( wp_unslash( $_GET['next'] ) ) ) );
 
@@ -49,21 +49,23 @@ class Email {
 			Api::trackEmailClick( $emailId, $cartId );
 		}
 
+		// We have validated and checked it's a safe URL, so we can safely redirect.
+        // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 		wp_redirect( $url );
 		exit;
 	}
 
 	public static function unsubscribe() {
-		// This is a public endpoint, and we do not perform any critical task, so we can skip the nonce check.
+		// This is a public endpoint, and we do not perform any db write, so we can skip the nonce check.
         // phpcs:ignore WordPress.Security.NonceVerification
-		if ( empty( $_GET['acr_cart_id'] ) || empty( $_GET['acr_email_id'] ) ) {
+		if ( empty( $_GET['acr_cart_id'] ) || empty( $_GET['acr_recovered_id'] ) ) {
 			return;
 		}
 
         // phpcs:ignore WordPress.Security.NonceVerification
 		$cartId = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
         // phpcs:ignore WordPress.Security.NonceVerification
-		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
+		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_recovered_id'] ) );
 
 		Api::nonBlocking()
 			->patch( "/api/v1/recovery-emails/$emailId/carts/$cartId/unsubscribe" );

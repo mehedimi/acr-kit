@@ -98,7 +98,14 @@ class Cart {
 
 		self::resetCartId();
 		WC()->session->set( 'acr_cart_hash', null );
-		Api::cartMarkAsCompleted( $id );
+
+		$recoveredBy = WC()->session->get( 'acr_recovered_by' );
+
+		if ( ! empty( $recoveredBy ) ) {
+			WC()->session->set( 'acr_recovered_by', null );
+		}
+
+		Api::cartMarkAsCompleted( $id, $recoveredBy );
 	}
 
 	public static function restoreCart() {
@@ -122,14 +129,6 @@ class Cart {
 			return;
 		}
 
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( ! empty( $_GET['acr_email_id'] ) ) {
-            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
-
-			Api::trackEmailOpen( $emailId, $cartId );
-		}
-
 		WC()->cart->empty_cart();
 
 		self::setCartId( $cartId );
@@ -143,7 +142,15 @@ class Cart {
 			);
 		}
 
-		WC()->session->set( 'acr_cart_restore', true );
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! empty( $_GET['acr_recovered_id'] ) ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$emailId = sanitize_text_field( wp_unslash( $_GET['acr_recovered_id'] ) );
+
+			WC()->session->set( 'acr_recovered_by', $emailId );
+
+			Api::trackEmailOpen( $emailId, $cartId );
+		}
 
 		wp_safe_redirect( wc_get_checkout_url() );
 		exit;
