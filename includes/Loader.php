@@ -90,7 +90,7 @@ class Loader {
 		wp_enqueue_style( 'acr-kit-admin-css', self::$distUrl . 'assets/admin-PiXrwS6Z.css', array(), null );
 		wp_enqueue_script(
 			'acr-kit-admin',
-			self::$distUrl . 'assets/admin-CgPEnw12.js',
+			self::$distUrl . 'assets/admin-DGlJQ8zN.js',
 			array(),
 			null,
 			true
