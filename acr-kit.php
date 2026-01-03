@@ -8,7 +8,7 @@
  * Author URI:  https://mehedi.im/
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: abandoned-cart-recover
+ * Text Domain: acr-kit
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  */
@@ -44,7 +44,7 @@ if ( is_admin() ) {
 		function ( array $links ) {
 			return array_merge(
 				array(
-					'<a href="' . admin_url( 'admin.php?page=abandoned-cart-recover' ) . '">Overview</a>',
+					'<a href="' . admin_url( 'admin.php?page=acr-kit' ) . '">Overview</a>',
 				),
 				$links
 			);

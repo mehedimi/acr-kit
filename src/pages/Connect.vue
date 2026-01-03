@@ -45,11 +45,11 @@ async function connect() {
     <CardContent>
       <div class="acr:text-center acr:mt-4">
         <img class="acr:mx-auto acr:max-w-32" src="./../assets/logo.svg" alt="ACR" />
-        <h2 class="acr:text-2xl!">ACR Kit</h2>
+        <h2 class="acr:text-2xl!">Connect Your Store!</h2>
         <p>ACR Kit is installed!</p>
         <p>
           Connect to
-          <a href="https://abandonedcartrecover.com/" target="_blank">ACR Kit</a>
+          <abbr title="Abandoned Cart Recover"><a href="https://abandonedcartrecover.com/" target="_blank">ACR Kit</a></abbr>
           to activate powerful cart recovery features and start converting abandoned carts into
           completed orders.
         </p>
