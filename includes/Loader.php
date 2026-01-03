@@ -88,10 +88,10 @@ class Loader {
 	}
 
 	public static function enqueueAdminProdScripts() {
-		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin-DA8jqiiO.css', array(), null );
+		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin-PiXrwS6Z.css', array(), null );
 		wp_enqueue_script(
 			'acr-admin',
-			self::$distUrl . 'assets/admin-BE96q-y6.js',
+			self::$distUrl . 'assets/admin-BEG1TJ6-.js',
 			array(),
 			null,
 			true
@@ -116,7 +116,7 @@ class Loader {
 	public static function enqueueFrontendProdScripts() {
 		wp_enqueue_script(
 			'acr-frontend',
-			self::$distUrl . 'assets/frontend-BBLM5yRn.js',
+			self::$distUrl . 'assets/frontend-0bJKT4OJ.js',
 			array(),
 			null,
 			true

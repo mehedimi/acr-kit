@@ -18,10 +18,10 @@ class ACR {
 			function () {
 				add_submenu_page(
 					'woocommerce',
-					__( 'Abandoned Cart Recover', 'abandoned-cart-recover' ),
-					__( 'Abandoned Cart Recover', 'abandoned-cart-recover' ),
+					__( 'ACR Kit', 'acr-kit' ),
+					__( 'ACR Kit', 'acr-kit' ),
 					'manage_options',
-					'abandoned-cart-recover',
+					'acr-kit',
 					function () {
 						// Keeping the mount point ID unchanged to match existing JS entry (src/admin.ts).
 						echo '<div style="margin-left: -20px" id="acr-admin-app"></div>';

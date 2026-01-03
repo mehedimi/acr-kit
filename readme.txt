@@ -1,4 +1,4 @@
-=== Abandoned Cart Recover for WooCommerce ===
+=== ACR Kit for WooCommerce ===
 Contributors: mehedimi
 Donate link: https://abandonedcartrecover.com
 Tags: woocommerce, abandoned cart, cart recovery, email marketing, sales recovery
@@ -16,7 +16,7 @@ Recover lost sales with automated email sequences with email builder, one-click 
 
 **Recover Lost Revenue Automatically**
 
-Over 70% of online shopping carts are abandoned - that's potential revenue slipping away every day. **Abandoned Cart Recover** helps you capture and convert those lost sales effortlessly with powerful automation and smart recovery strategies.
+Over 70% of online shopping carts are abandoned - that's potential revenue slipping away every day. **ACR Kit** helps you capture and convert those lost sales effortlessly with powerful automation and smart recovery strategies.
 
 **How It Works:**
 
@@ -71,17 +71,17 @@ All cart data is securely transmitted to our central cloud application for advan
 **Automatic Installation:**
 
 1. Navigate to Plugins > Add New in your WordPress admin
-2. Search for "Abandoned Cart Recover"
+2. Search for "ACR Kit"
 3. Click "Install Now" and then "Activate"
-4. Go to Abandoned Cart Recover in your admin menu to configure
+4. Go to ACR Kit in your admin menu to configure
 
 **Manual Installation:**
 
 1. Ensure WooCommerce is installed and activated
 2. Download the plugin ZIP file
 3. Upload to `/wp-content/plugins/` directory or use Plugins > Add New > Upload Plugin
-4. Activate "Abandoned Cart Recover" from the Plugins page
-5. Navigate to Abandoned Cart Recover > Settings to configure your preferences
+4. Activate "ACR Kit" from the Plugins page
+5. Navigate to ACR Kit > Settings to configure your preferences
 
 **Initial Setup:**
 
@@ -98,7 +98,7 @@ All cart data is securely transmitted to our central cloud application for advan
 
 = Does this plugin work without WooCommerce? =
 
-No. Abandoned Cart Recover is specifically designed for WooCommerce stores and requires WooCommerce to be active.
+No. ACR Kit is specifically designed for WooCommerce stores and requires WooCommerce to be active.
 
 = How are abandoned carts detected? =
 
@@ -167,13 +167,13 @@ No. The plugin is optimized for performance:
 == Upgrade Notice ==
 
 = 0.1.0 =
-Initial release of Abandoned Cart Recover. Start recovering lost sales today!
+Initial release of ACR Kit. Start recovering lost sales today!
 
 == Privacy ==
 
 **Data Collection & Storage:**
 
-Abandoned Cart Recover collects and stores only the essential data needed to recover abandoned carts:
+ACR Kit collects and stores only the essential data needed to recover abandoned carts:
 * Customer email address, phone number (if provided)
 * Cart contents (products, quantities, variations)
 * Cart abandonment timestamp

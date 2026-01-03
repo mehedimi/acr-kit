@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Abandoned Cart Recover for WooCommerce
+ * Plugin Name: ACR Kit for WooCommerce
  * Plugin URI:  https://abandonedcartrecover.com/
  * Description: Recover abandoned carts in WooCommerce with automated reminders and smart recovery links.
  * Version:     0.2.0
@@ -8,7 +8,7 @@
  * Author URI:  https://mehedi.im/
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: abandoned-cart-recover
+ * Text Domain: acr-kit
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  */
@@ -44,7 +44,7 @@ if ( is_admin() ) {
 		function ( array $links ) {
 			return array_merge(
 				array(
-					'<a href="' . admin_url( 'admin.php?page=abandoned-cart-recover' ) . '">Overview</a>',
+					'<a href="' . admin_url( 'admin.php?page=acr-kit' ) . '">Overview</a>',
 				),
 				$links
 			);
