@@ -17,7 +17,7 @@ const links = [
   <AppLayout>
     <Header
       title="Settings"
-      description="Configure how your abandoned cart recovery emails appear to customers. Set the sender information, reply-to details, and the page customers are redirected to after unsubscribing. These settings ensure your emails look professional, maintain consistent branding, and handle replies correctly."
+      description="Configure how your ACR Kit recovery emails appear to customers. Set the sender information, reply-to details, and the page customers are redirected to after unsubscribing. These settings ensure your emails look professional, maintain consistent branding, and handle replies correctly."
       :href="{ name: 'configurations' }"
       :links="[
         {

@@ -18,8 +18,8 @@ class ACR {
 			function () {
 				add_submenu_page(
 					'woocommerce',
-					__( 'Abandoned Cart Recover', 'abandoned-cart-recover' ),
-					__( 'Abandoned Cart Recover', 'abandoned-cart-recover' ),
+					__( 'ACR Kit', 'abandoned-cart-recover' ),
+					__( 'ACR Kit', 'abandoned-cart-recover' ),
 					'manage_options',
 					'abandoned-cart-recover',
 					function () {

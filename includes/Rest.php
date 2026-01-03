@@ -12,7 +12,7 @@ use WP_REST_Request;
 
 class Rest {
 
-	const NAMESPACE = 'abandoned-cart-recover/v1';
+	const NAMESPACE = 'acr-kit/v1';
 
 	public static function init() {
 		add_action(

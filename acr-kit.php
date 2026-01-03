@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Abandoned Cart Recover for WooCommerce
+ * Plugin Name: ACR Kit for WooCommerce
  * Plugin URI:  https://abandonedcartrecover.com/
  * Description: Recover abandoned carts in WooCommerce with automated reminders and smart recovery links.
  * Version:     0.2.0
