@@ -5,7 +5,7 @@ namespace ACRKit;
 use ACRKit\Support\Api;
 
 class ACRKit {
-	const VERSION = '0.3.0';
+	const VERSION = '0.4.0';
 
 	public static function defineConstants() {
 		if ( ! defined( 'ACR_KIT_APP_URL' ) ) {

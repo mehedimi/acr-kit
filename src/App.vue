@@ -4,7 +4,7 @@ import 'vue-sonner/style.css'
 import 'vue3-colorpicker/style.css'
 import { useRouter } from 'vue-router'
 
-if (!acrApp.appToken) {
+if (!acrKitApp.appToken) {
   useRouter().push({ name: 'connect' })
 }
 </script>

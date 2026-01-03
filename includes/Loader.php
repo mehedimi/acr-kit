@@ -18,7 +18,7 @@ class Loader {
 	public static function adminLocalizeScript() {
 		wp_localize_script(
 			'acr-kit-admin',
-			'acrApp',
+			'acrKitApp',
 			array(
 				'apiUrl'   => Rest::getApiUrl(),
 				'nonce'    => wp_create_nonce( 'wp_rest' ),
@@ -36,7 +36,7 @@ class Loader {
 	public static function frontendLocalizeScript() {
 		wp_localize_script(
 			'acr-kit-frontend',
-			'acrApp',
+			'acrKitApp',
 			array(
 				'apiUrl'    => Rest::getApiUrl(),
 				'nonce'     => wp_create_nonce( 'wp_rest' ),
@@ -90,7 +90,7 @@ class Loader {
 		wp_enqueue_style( 'acr-kit-admin-css', self::$distUrl . 'assets/admin-PiXrwS6Z.css', array(), null );
 		wp_enqueue_script(
 			'acr-kit-admin',
-			self::$distUrl . 'assets/admin-DGlJQ8zN.js',
+			self::$distUrl . 'assets/admin-DGRLxHab.js',
 			array(),
 			null,
 			true
@@ -115,7 +115,7 @@ class Loader {
 	public static function enqueueFrontendProdScripts() {
 		wp_enqueue_script(
 			'acr-kit-frontend',
-			self::$distUrl . 'assets/frontend-0bJKT4OJ.js',
+			self::$distUrl . 'assets/frontend-Pf6Db5CU.js',
 			array(),
 			null,
 			true

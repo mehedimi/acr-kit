@@ -3,6 +3,6 @@ import { bootTabNotification } from '@/client/tab.ts'
 
 startPing(60)
 
-if (acrApp.utilities?.tab) {
-  bootTabNotification(acrApp.utilities?.tab)
+if (acrKitApp.utilities?.tab) {
+  bootTabNotification(acrKitApp.utilities?.tab)
 }

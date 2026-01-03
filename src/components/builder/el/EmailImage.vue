@@ -4,7 +4,7 @@ import type { ImageElement } from '@/types/builder.ts'
 
 defineProps<ImageElement>()
 
-const defaultSrc = acrApp.assetUrl.replace('dist/', 'assets/images/email-image-placeholder.png')
+const defaultSrc = acrKitApp.assetUrl.replace('dist/', 'assets/images/email-image-placeholder.png')
 </script>
 
 <template>

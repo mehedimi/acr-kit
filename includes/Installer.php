@@ -19,5 +19,7 @@ class Installer {
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
+
+		update_option( 'acr_kit_version', ACRKit::VERSION );
 	}
 }

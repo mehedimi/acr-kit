@@ -1,20 +1,20 @@
 import axios, { type AxiosResponse } from 'axios'
 
 export const wpHttp = axios.create({
-  baseURL: acrApp.apiUrl,
+  baseURL: acrKitApp.apiUrl,
   headers: {
-    'X-WP-Nonce': acrApp.nonce,
+    'X-WP-Nonce': acrKitApp.nonce,
     'Content-Type': 'application/json',
     Accept: 'application/json',
   },
 })
 
 export const appHttp = axios.create({
-  baseURL: acrApp.appUrl,
+  baseURL: acrKitApp.appUrl,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    Authorization: `Bearer ${acrApp.appToken}`,
+    Authorization: `Bearer ${acrKitApp.appToken}`,
   },
 })
 
@@ -43,5 +43,5 @@ export function wpErrorInterceptor(callback: (error: AxiosResponse) => void) {
 }
 
 export const wpEndpoint = function (path: string) {
-  return acrApp.apiUrl.replace(/\/wp-json\/.*$/, '/wp-json' + path)
+  return acrKitApp.apiUrl.replace(/\/wp-json\/.*$/, '/wp-json' + path)
 }
