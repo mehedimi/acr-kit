@@ -1,13 +1,13 @@
 {
   "autoload": {
     "psr-4": {
-      "AbandonedCartRecover\\": "includes/"
+      "ACRKit\\": "includes/"
     }
   },
   "authors": [
     {
       "name": "Mehedi Hasan",
-      "email": "mehedihasansabbirmi@gmail.com"
+      "email": "me@mehedi.im"
     }
   ],
   "require-dev": {

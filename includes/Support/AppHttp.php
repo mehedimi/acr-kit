@@ -1,8 +1,8 @@
 <?php
 
-namespace AbandonedCartRecover\Support;
+namespace ACRKit\Support;
 
-use AbandonedCartRecover\ACR;
+use ACRKit\ACRKit;
 use WP_Error;
 
 /**
@@ -42,7 +42,7 @@ class AppHttp {
 		}
 
 		return wp_remote_request(
-			ACR::getAppUrl() . $arguments[0],
+			ACRKit::getAppUrl() . $arguments[0],
 			array(
 				'method'   => strtoupper( $name ),
 				'body'     => ( isset( $arguments[1] ) && 'get' !== $name ) ? wp_json_encode( $arguments[1] ) : null,

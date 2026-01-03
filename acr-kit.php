@@ -13,11 +13,11 @@
  * Requires Plugins: woocommerce
  */
 
-use AbandonedCartRecover\ACR;
-use AbandonedCartRecover\Installer;
-use AbandonedCartRecover\Loader;
-use AbandonedCartRecover\Rest;
-use AbandonedCartRecover\Support\Cart;
+use ACRKit\ACRKit;
+use ACRKit\Installer;
+use ACRKit\Loader;
+use ACRKit\Rest;
+use ACRKit\Support\Cart;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-ACR::defineConstants();
+ACRKit::defineConstants();
 
 Loader::setDistUrl( plugin_dir_url( __FILE__ ) . 'dist/' );
 Loader::allowEsModule();
@@ -37,7 +37,7 @@ if ( Loader::isDev() ) {
 }
 
 if ( is_admin() ) {
-	ACR::registerMenuPage();
+	ACRKit::registerMenuPage();
 	register_activation_hook( __FILE__, array( Installer::class, 'activation' ) );
 	add_filter(
 		'plugin_action_links_' . plugin_basename( __FILE__ ),

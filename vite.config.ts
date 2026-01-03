@@ -11,7 +11,7 @@ export default defineConfig((config) => {
       vue({
         template: {
           transformAssetUrls: {
-            base: config.mode === 'development' ? process.env.ACR_DEV_ASSET : null,
+            base: config.mode === 'development' ? process.env.ACR_KIT_DEV_ASSET : null,
             includeAbsolute: false,
           },
         },

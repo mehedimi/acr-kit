@@ -1,15 +1,15 @@
 <?php
 
-namespace AbandonedCartRecover;
+namespace ACRKit;
 
-use AbandonedCartRecover\Support\Api;
+use ACRKit\Support\Api;
 
-class ACR {
+class ACRKit {
 	const VERSION = '0.3.0';
 
 	public static function defineConstants() {
-		if ( ! defined( 'ACR_APP_URL' ) ) {
-			define( 'ACR_APP_URL', 'https://app.abandonedcartrecover.com' );
+		if ( ! defined( 'ACR_KIT_APP_URL' ) ) {
+			define( 'ACR_KIT_APP_URL', 'https://app.abandonedcartrecover.com' );
 		}
 	}
 	public static function registerMenuPage() {
@@ -23,8 +23,7 @@ class ACR {
 					'manage_options',
 					'acr-kit',
 					function () {
-						// Keeping the mount point ID unchanged to match existing JS entry (src/admin.ts).
-						echo '<div style="margin-left: -20px" id="acr-admin-app"></div>';
+						echo '<div style="margin-left: -20px" id="acr-kit-admin-app"></div>';
 					},
 				);
 			}
@@ -32,7 +31,7 @@ class ACR {
 	}
 
 	public static function getAppUrl(): string {
-		return ACR_APP_URL;
+		return ACR_KIT_APP_URL;
 	}
 
 	public static function uninstall() {

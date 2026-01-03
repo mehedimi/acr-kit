@@ -1,6 +1,6 @@
 === ACR Kit for WooCommerce ===
 Contributors: mehedimi
-Donate link: https://abandonedcartrecover.com
+Donate link: https://buymeacoffee.com/mehedimi
 Tags: woocommerce, abandoned cart, cart recovery, email marketing, sales recovery
 Requires at least: 6.0
 Tested up to: 6.9
@@ -191,3 +191,21 @@ Cart data is securely transmitted to our cloud application using encrypted HTTPS
 Need help? We're here for you!
 
 * **Support Forum:** WordPress.org support forums
+
+== Source Code ==
+
+The full source code for this plugin is available on GitHub:
+
+https://github.com/mehedimi/acr-kit
+
+= Build Instructions =
+
+This plugin uses Vue.js and modern JavaScript tooling. To build from source:
+
+1. Clone the repository: `git clone https://github.com/mehedimi/acr-kit.git`
+2. Install dependencies: `npm install`
+3. Build production files: `npm run build`
+
+The compiled/minified files are located in the `dist` or `assets` directory (adjust based on your actual structure).
+
+For development: `npm run dev`

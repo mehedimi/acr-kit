@@ -1,9 +1,9 @@
 <?php
 
-namespace AbandonedCartRecover\Controllers;
+namespace ACRKit\Controllers;
 
-use AbandonedCartRecover\Rest;
-use AbandonedCartRecover\Utilities\Tab;
+use ACRKit\Rest;
+use ACRKit\Utilities\Tab;
 use WP_REST_Request;
 
 class UtilitiesController extends Controller {
