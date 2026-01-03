@@ -1,6 +1,6 @@
 <?php
 
-namespace AbandonedCartRecover\Support;
+namespace ACRKit\Support;
 
 class Encryptor {
 

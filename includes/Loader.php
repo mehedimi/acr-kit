@@ -1,15 +1,14 @@
 <?php
 
-namespace AbandonedCartRecover;
+namespace ACRKit;
 
-use AbandonedCartRecover\Support\Options;
-use AbandonedCartRecover\Utilities\Tab;
-use AbandonedCartRecover\Utilities\Utilities;
+use ACRKit\Support\Options;
+use ACRKit\Utilities\Utilities;
 
 class Loader {
 	public static string $distUrl;
 	public static function isDev(): bool {
-		return defined( 'ACR_DEV' ) && ACR_DEV;
+		return defined( 'ACR_KIT_DEV' ) && ACR_KIT_DEV;
 	}
 
 	public static function setDistUrl( string $url ) {
@@ -18,7 +17,7 @@ class Loader {
 
 	public static function adminLocalizeScript() {
 		wp_localize_script(
-			'acr-admin',
+			'acr-kit-admin',
 			'acrApp',
 			array(
 				'apiUrl'   => Rest::getApiUrl(),
@@ -27,7 +26,7 @@ class Loader {
 				'homeUrl'  => home_url(),
 				'assetUrl' => self::$distUrl,
 				'appToken' => Options::getAppToken(),
-				'appUrl'   => ACR::getAppUrl(),
+				'appUrl'   => ACRKit::getAppUrl(),
 				'locale'   => get_locale(),
 				'currency' => get_woocommerce_currency(),
 			)
@@ -36,7 +35,7 @@ class Loader {
 
 	public static function frontendLocalizeScript() {
 		wp_localize_script(
-			'acr-frontend',
+			'acr-kit-frontend',
 			'acrApp',
 			array(
 				'apiUrl'    => Rest::getApiUrl(),
@@ -51,7 +50,7 @@ class Loader {
 			'script_loader_tag',
 			function ( $tag, $handle ) {
 
-				if ( strpos( $handle, 'acr-' ) === 0 ) {
+				if ( strpos( $handle, 'acr-kit-' ) === 0 ) {
 					// Ensure we only add a type module once and keep other attributes.
 					if ( false === strpos( $tag, 'type=' ) ) {
 						$tag = str_replace( '<script ', '<script type="module" ', $tag );
@@ -66,7 +65,7 @@ class Loader {
 
 	public static function enqueueViteClient() {
 		wp_enqueue_script(
-			'acr-vite-client',
+			'acr-kit-vite-client',
 			'http://localhost:5174/@vite/client',
 			array(),
 			null, // phpcs:ignore
@@ -77,9 +76,9 @@ class Loader {
 	public static function enqueueAdminDevScripts() {
 		self::enqueueViteClient();
 		wp_enqueue_script(
-			'acr-admin',
+			'acr-kit-admin',
 			'http://localhost:5174/src/admin.ts',
-			array( 'acr-vite-client' ),
+			array( 'acr-kit-vite-client' ),
 			null, // phpcs:ignore
 			true
 		);
@@ -88,10 +87,10 @@ class Loader {
 	}
 
 	public static function enqueueAdminProdScripts() {
-		wp_enqueue_style( 'acr-admin-css', self::$distUrl . 'assets/admin-PiXrwS6Z.css', array(), null );
+		wp_enqueue_style( 'acr-kit-admin-css', self::$distUrl . 'assets/admin-PiXrwS6Z.css', array(), null );
 		wp_enqueue_script(
-			'acr-admin',
-			self::$distUrl . 'assets/admin-CgPEnw12.js',
+			'acr-kit-admin',
+			self::$distUrl . 'assets/admin-DGlJQ8zN.js',
 			array(),
 			null,
 			true
@@ -103,9 +102,9 @@ class Loader {
 	public static function enqueueFrontendDevScripts() {
 		self::enqueueViteClient();
 		wp_enqueue_script(
-			'acr-frontend',
+			'acr-kit-frontend',
 			'http://localhost:5174/src/frontend.ts',
-			array( 'acr-vite-client' ),
+			array( 'acr-kit-vite-client' ),
 			null, // phpcs:ignore
 			true
 		);
@@ -115,7 +114,7 @@ class Loader {
 
 	public static function enqueueFrontendProdScripts() {
 		wp_enqueue_script(
-			'acr-frontend',
+			'acr-kit-frontend',
 			self::$distUrl . 'assets/frontend-0bJKT4OJ.js',
 			array(),
 			null,

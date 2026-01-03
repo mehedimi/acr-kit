@@ -1,13 +1,13 @@
 <?php
 
-namespace AbandonedCartRecover\Utilities;
+namespace ACRKit\Utilities;
 
 use Mehedi\WPQueryBuilder\DB;
 
 class Utilities {
 
 	public static function toFrontEnd(): array {
-		$data = DB::plugin( new \AbandonedCartRecover\Plugins\Utilities() )
+		$data = DB::plugin( new \ACRKit\Plugins\Utilities() )
 			->where( 'enabled', true )
 			->get();
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace AbandonedCartRecover;
+namespace ACRKit;
 
-use AbandonedCartRecover\Controllers\CartController;
-use AbandonedCartRecover\Controllers\ConnectionController;
-use AbandonedCartRecover\Controllers\EmailController;
-use AbandonedCartRecover\Controllers\SettingsController;
-use AbandonedCartRecover\Controllers\UtilitiesController;
-use AbandonedCartRecover\Support\Options;
+use ACRKit\Controllers\CartController;
+use ACRKit\Controllers\ConnectionController;
+use ACRKit\Controllers\EmailController;
+use ACRKit\Controllers\SettingsController;
+use ACRKit\Controllers\UtilitiesController;
+use ACRKit\Support\Options;
 use WP_REST_Request;
 
 class Rest {

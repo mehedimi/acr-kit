@@ -1,8 +1,8 @@
 <?php
 
-namespace AbandonedCartRecover\Utilities;
+namespace ACRKit\Utilities;
 
-use AbandonedCartRecover\Plugins\Utilities;
+use ACRKit\Plugins\Utilities;
 use Mehedi\WPQueryBuilder\DB;
 use stdClass;
 

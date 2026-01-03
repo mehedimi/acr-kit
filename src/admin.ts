@@ -9,7 +9,7 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.mount('#acr-admin-app')
+app.mount('#acr-kit-admin-app')
 
 appErrorInterceptor((response) => {
   if (response.status !== 401) {

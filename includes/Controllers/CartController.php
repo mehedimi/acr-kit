@@ -1,10 +1,10 @@
 <?php
 
-namespace AbandonedCartRecover\Controllers;
+namespace ACRKit\Controllers;
 
-use AbandonedCartRecover\Rest;
-use AbandonedCartRecover\Support\Api;
-use AbandonedCartRecover\Support\Cart;
+use ACRKit\Rest;
+use ACRKit\Support\Api;
+use ACRKit\Support\Cart;
 use WP_Error;
 use WP_REST_Response;
 

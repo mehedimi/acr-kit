@@ -1,13 +1,13 @@
 <?php
 
-namespace AbandonedCartRecover;
+namespace ACRKit;
 
 class Installer {
 
 	public static function activation() {
 		global $wpdb;
 
-		$table_name      = $wpdb->prefix . 'acr_utilities';
+		$table_name      = $wpdb->prefix . 'acr_kit_utilities';
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "CREATE TABLE IF NOT EXISTS $table_name (

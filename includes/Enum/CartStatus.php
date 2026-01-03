@@ -1,6 +1,6 @@
 <?php
 
-namespace AbandonedCartRecover\Enum;
+namespace ACRKit\Enum;
 
 class CartStatus {
 	const ACTIVE = 1;
