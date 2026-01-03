@@ -5,7 +5,7 @@ namespace AbandonedCartRecover;
 use AbandonedCartRecover\Support\Api;
 
 class ACR {
-	const VERSION = '0.1.0';
+	const VERSION = '0.3.0';
 
 	public static function defineConstants() {
 		if ( ! defined( 'ACR_APP_URL' ) ) {
