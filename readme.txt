@@ -53,7 +53,7 @@ All cart data is securely transmitted to our central cloud application for advan
 
 **💼 Perfect For:**
 
-* WooCommerce store owners looking to boost revenue
+* WooCommerce store owners look to boost revenue
 * E-commerce businesses with high cart abandonment rates
 * Online retailers want automated recovery solutions
 * Marketing teams seeking data-driven insights
@@ -61,8 +61,6 @@ All cart data is securely transmitted to our central cloud application for advan
 **Requirements:**
 
 * Active WooCommerce installation
-* WordPress Cron enabled (enabled by default on most hosting)
-* Working email configuration (wp_mail() or SMTP plugin)
 * PHP 7.4 or higher
 * WordPress 6.0 or higher
 
@@ -161,12 +159,12 @@ No. The plugin is optimized for performance:
 
 == Changelog ==
 
-= 0.1.0 =
+= 0.4.0 =
 * Initial release
 
 == Upgrade Notice ==
 
-= 0.1.0 =
+= 0.4.0 =
 Initial release of ACR Kit. Start recovering lost sales today!
 
 == Privacy ==
