@@ -51,7 +51,7 @@ async function askForPushPermission(config: PushUtilities['config']) {
   const subscription = await registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: urlBase64ToUint8Array(config.publicKey as string),
-  });
+  })
 }
 
 function bindCartWithPush() {}

@@ -4,7 +4,7 @@ import type { Woo } from '@/composables/useWP.ts'
 import { formatPrice } from '@/lib/utils.ts'
 
 defineProps<CartItemsElement & { products: Woo.Product[] }>()
-const currency = acrApp.currency
+const currency = acrKitApp.currency
 </script>
 
 <template>

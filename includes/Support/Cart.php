@@ -1,23 +1,23 @@
 <?php
 
-namespace AbandonedCartRecover\Support;
+namespace ACRKit\Support;
 
-use AbandonedCartRecover\Enum\CartStatus;
-use AbandonedCartRecover\Enum\ClientAction;
+use ACRKit\Enum\CartStatus;
+use ACRKit\Enum\ClientAction;
 use WC_Product_Variation;
 
 class Cart {
 
 	public static function getCartId() {
-		return WC()->session->get( 'acr_cart_id' );
+		return WC()->session->get( 'acr_kit_cart_id' );
 	}
 
 	protected static function setCartId( $cartId ) {
-		WC()->session->set( 'acr_cart_id', $cartId );
+		WC()->session->set( 'acr_kit_cart_id', $cartId );
 	}
 
 	protected static function resetCartId() {
-		WC()->session->set( 'acr_cart_id', null );
+		WC()->session->set( 'acr_kit_cart_id', null );
 	}
 
 	public static function registerHooks(): void {
@@ -51,11 +51,11 @@ class Cart {
 
 		$hash = md5( wp_json_encode( $payload ) );
 
-		if ( WC()->session->get( 'acr_cart_hash' ) === $hash ) {
+		if ( WC()->session->get( 'acr_kit_cart_hash' ) === $hash ) {
 			return;
 		}
 
-		WC()->session->set( 'acr_cart_hash', $hash );
+		WC()->session->set( 'acr_kit_cart_hash', $hash );
 
 		$id = Api::sendCart( $cartId, $payload );
 
@@ -97,18 +97,25 @@ class Cart {
 		}
 
 		self::resetCartId();
-		WC()->session->set( 'acr_cart_hash', null );
-		Api::cartMarkAsCompleted( $id );
+		WC()->session->set( 'acr_kit_cart_hash', null );
+
+		$recoveredBy = WC()->session->get( 'acr_kit_recovered_by' );
+
+		if ( ! empty( $recoveredBy ) ) {
+			WC()->session->set( 'acr_kit_recovered_by', null );
+		}
+
+		Api::cartMarkAsCompleted( $id, $recoveredBy );
 	}
 
 	public static function restoreCart() {
 		// Its came from public endpoint, which was sent to email
-		if ( empty( $_GET['acr_cart_id'] ) || ! WC()->cart ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( empty( $_GET['acr_kit_cart_id'] ) || ! WC()->cart ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$cartId = sanitize_text_field( wp_unslash( $_GET['acr_cart_id'] ) );
+		$cartId = sanitize_text_field( wp_unslash( $_GET['acr_kit_cart_id'] ) );
 
 		$response = Api::blocking()->get( '/api/v1/carts/' . $cartId );
 
@@ -120,14 +127,6 @@ class Cart {
 
 		if ( CartStatus::ABANDONED !== $cart['status'] ) {
 			return;
-		}
-
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( ! empty( $_GET['acr_email_id'] ) ) {
-            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$emailId = sanitize_text_field( wp_unslash( $_GET['acr_email_id'] ) );
-
-			Api::trackEmailOpen( $emailId, $cartId );
 		}
 
 		WC()->cart->empty_cart();
@@ -143,7 +142,15 @@ class Cart {
 			);
 		}
 
-		WC()->session->set( 'acr_cart_restore', true );
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! empty( $_GET['acr_kit_recovered_id'] ) ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$emailId = sanitize_text_field( wp_unslash( $_GET['acr_kit_recovered_id'] ) );
+
+			WC()->session->set( 'acr_kit_recovered_by', $emailId );
+
+			Api::trackEmailOpen( $emailId, $cartId );
+		}
 
 		wp_safe_redirect( wc_get_checkout_url() );
 		exit;
@@ -152,12 +159,12 @@ class Cart {
 	public static function handleCartAction() {
 		// it came from an email link
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( empty( $_GET['acr_action'] ) ) {
+		if ( empty( $_GET['acr_kit_action'] ) ) {
 			return;
 		}
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		switch ( $_GET['acr_action'] ) {
+		switch ( $_GET['acr_kit_action'] ) {
 			case ClientAction::RECOVER:
 				self::restoreCart();
 				break;

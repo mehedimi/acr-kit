@@ -1,22 +1,22 @@
-=== Abandoned Cart Recover ===
+=== ACR Kit for WooCommerce ===
 Contributors: mehedimi
-Donate link: https://abandonedcartrecover.com
+Donate link: https://buymeacoffee.com/mehedimi
 Tags: woocommerce, abandoned cart, cart recovery, email marketing, sales recovery
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
 Requires Plugins: woocommerce
-Stable tag: 0.1.0
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Recover lost sales with automated email sequences and builder, one-click recovery links, and smart browser tab notifications for WooCommerce.
+Recover lost sales with automated email sequences with email builder, one-click recovery links, and smart browser tab notifications for WooCommerce.
 
 == Description ==
 
 **Recover Lost Revenue Automatically**
 
-Over 70% of online shopping carts are abandoned - that's potential revenue slipping away every day. **Abandoned Cart Recover** helps you capture and convert those lost sales effortlessly with powerful automation and smart recovery strategies.
+Over 70% of online shopping carts are abandoned - that's potential revenue slipping away every day. **ACR Kit** helps you capture and convert those lost sales effortlessly with powerful automation and smart recovery strategies.
 
 **How It Works:**
 
@@ -26,7 +26,7 @@ All cart data is securely transmitted to our central cloud application for advan
 
 **🎯 Key Features:**
 
-* **Drag-and-Drop Email Builder** - Create beautiful, branded recovery emails with zero coding required. Add images, text, buttons, and dynamic content with ease.
+* **Email Builder** - Create beautiful, branded recovery emails with zero coding required. Add images, text, buttons, and dynamic content with ease.
 * **Professional Templates** - Get started instantly with pre-designed, conversion-optimized email templates.
 * **Automated Email Sequences** - Build intelligent timed reminder campaigns (1 hour, 24 hours, 3 days, etc.) with personalized content including customer names, cart items, and unique discount codes.
 * **One-Click Cart Recovery** - Secure recovery links that instantly restore the customer's exact cart for seamless checkout completion.
@@ -34,7 +34,6 @@ All cart data is securely transmitted to our central cloud application for advan
 * **Real-Time Dashboard** - Monitor abandoned carts, track recovery rates, view cart contents, and measure recovered revenue with comprehensive analytics.
 * **Guest Cart Capture** - Recover sales from non-logged-in users who provide their email during checkout.
 * **Performance Analytics** - Track email open rates, click-through rates, conversion rates, and total revenue recovered.
-* **Customizable Timing** - Set your own abandonment thresholds and email send schedules to match your business needs.
 * **GDPR Ready** - Built-in compliance features including opt-out links and privacy controls.
 
 **📊 Track Your Success:**
@@ -54,16 +53,14 @@ All cart data is securely transmitted to our central cloud application for advan
 
 **💼 Perfect For:**
 
-* WooCommerce store owners looking to boost revenue
+* WooCommerce store owners look to boost revenue
 * E-commerce businesses with high cart abandonment rates
-* Online retailers wanting automated recovery solutions
+* Online retailers want automated recovery solutions
 * Marketing teams seeking data-driven insights
 
 **Requirements:**
 
 * Active WooCommerce installation
-* WordPress Cron enabled (enabled by default on most hosting)
-* Working email configuration (wp_mail() or SMTP plugin)
 * PHP 7.4 or higher
 * WordPress 6.0 or higher
 
@@ -72,17 +69,17 @@ All cart data is securely transmitted to our central cloud application for advan
 **Automatic Installation:**
 
 1. Navigate to Plugins > Add New in your WordPress admin
-2. Search for "Abandoned Cart Recover"
+2. Search for "ACR Kit"
 3. Click "Install Now" and then "Activate"
-4. Go to Abandoned Cart Recover in your admin menu to configure
+4. Go to ACR Kit in your admin menu to configure
 
 **Manual Installation:**
 
 1. Ensure WooCommerce is installed and activated
 2. Download the plugin ZIP file
 3. Upload to `/wp-content/plugins/` directory or use Plugins > Add New > Upload Plugin
-4. Activate "Abandoned Cart Recover" from the Plugins page
-5. Navigate to Abandoned Cart Recover > Settings to configure your preferences
+4. Activate "ACR Kit" from the Plugins page
+5. Navigate to ACR Kit > Settings to configure your preferences
 
 **Initial Setup:**
 
@@ -99,7 +96,7 @@ All cart data is securely transmitted to our central cloud application for advan
 
 = Does this plugin work without WooCommerce? =
 
-No. Abandoned Cart Recover is specifically designed for WooCommerce stores and requires WooCommerce to be active.
+No. ACR Kit is specifically designed for WooCommerce stores and requires WooCommerce to be active.
 
 = How are abandoned carts detected? =
 
@@ -148,14 +145,6 @@ Yes! The dashboard shows:
 * Time to conversion
 * Recovery success metrics
 
-= Does this work with variable products and subscriptions? =
-
-Yes, Abandoned Cart Recover fully supports:
-* Simple products
-* Variable products with selected variations
-* Grouped products
-* Product bundles
-
 = Will this slow down my site? =
 
 No. The plugin is optimized for performance:
@@ -170,20 +159,20 @@ No. The plugin is optimized for performance:
 
 == Changelog ==
 
-= 0.1.0 =
+= 0.4.0 =
 * Initial release
 
 == Upgrade Notice ==
 
-= 0.1.0 =
-Initial release of Abandoned Cart Recover. Start recovering lost sales today!
+= 0.4.0 =
+Initial release of ACR Kit. Start recovering lost sales today!
 
 == Privacy ==
 
 **Data Collection & Storage:**
 
-Abandoned Cart Recover collects and stores only the essential data needed to recover abandoned carts:
-* Customer email address (if provided)
+ACR Kit collects and stores only the essential data needed to recover abandoned carts:
+* Customer email address, phone number (if provided)
 * Cart contents (products, quantities, variations)
 * Cart abandonment timestamp
 * Recovery email interaction data (opens, clicks)
@@ -200,3 +189,21 @@ Cart data is securely transmitted to our cloud application using encrypted HTTPS
 Need help? We're here for you!
 
 * **Support Forum:** WordPress.org support forums
+
+== Source Code ==
+
+The full source code for this plugin is available on GitHub:
+
+https://github.com/mehedimi/acr-kit
+
+= Build Instructions =
+
+This plugin uses Vue.js and modern JavaScript tooling. To build from source:
+
+1. Clone the repository: `git clone https://github.com/mehedimi/acr-kit.git`
+2. Install dependencies: `npm install`
+3. Build production files: `npm run build`
+
+The compiled/minified files are located in the `dist` or `assets` directory (adjust based on your actual structure).
+
+For development: `npm run dev`

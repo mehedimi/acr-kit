@@ -1,7 +1,7 @@
 import type { PushUtilities, TabUtilities } from '@/types/utilities.ts'
 
 declare global {
-  interface AcrApp {
+  interface AcrKitApp {
     apiUrl: string
     nonce: string
     name: string
@@ -17,7 +17,7 @@ declare global {
     }
   }
 
-  const acrApp: AcrApp
+  const acrKitApp: AcrKitApp
 }
 
 export {}

@@ -8,7 +8,7 @@ const intervals = [
   ['second', 1],
 ] as const
 
-const formatter = new Intl.RelativeTimeFormat(acrApp.locale.replace('_', '-'), {
+const formatter = new Intl.RelativeTimeFormat(acrKitApp.locale.replace('_', '-'), {
   numeric: 'auto',
 })
 

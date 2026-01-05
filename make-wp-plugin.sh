@@ -12,7 +12,7 @@ INCLUDE_ITEMS=(
   "dist/assets"
   "includes"
   "vendor"
-  "abandoned-cart-recover.php"
+  "acr-kit.php"
   "readme.txt"
   "composer.json"
 )

@@ -1,10 +1,10 @@
 <?php
 
-namespace AbandonedCartRecover\Controllers;
+namespace ACRKit\Controllers;
 
-use AbandonedCartRecover\Rest;
-use AbandonedCartRecover\Support\Email;
-use AbandonedCartRecover\Support\OptionExt;
+use ACRKit\Rest;
+use ACRKit\Support\Email;
+use ACRKit\Support\OptionExt;
 use WP_REST_Request;
 
 class SettingsController extends Controller {

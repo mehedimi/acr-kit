@@ -121,7 +121,7 @@ function createNotification() {
           </AccordionTrigger>
 
           <AccordionContent class="acr:bg-gray-50">
-            <PushNotificationOption :push="push"/>
+            <PushNotificationOption :push="push" />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

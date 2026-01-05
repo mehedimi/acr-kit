@@ -6,7 +6,7 @@ import { Tooltip, TooltipProvider, TooltipContent, TooltipTrigger } from '@/comp
 const props = defineProps<{ date: string }>()
 
 const date = toZoned(parseAbsolute(props.date, 'UTC'), getLocalTimeZone()).toDate()
-const locale = acrApp.locale.replace('_', '-')
+const locale = acrKitApp.locale.replace('_', '-')
 
 const full = new DateFormatter(locale, {
   timeZone: 'UTC',

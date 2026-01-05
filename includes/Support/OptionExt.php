@@ -1,29 +1,16 @@
 <?php
 
-namespace AbandonedCartRecover\Support;
+namespace ACRKit\Support;
 
 use Mehedi\WPQueryBuilder\DB;
 
 class OptionExt {
 
-	protected static string $prefix = 'acr_';
+	protected static string $prefix = 'acr_kit_';
 
-	public static function set( array $options, $autoload = 'no' ) {
+	public static function set( array $options ) {
 		foreach ( $options as $key => $value ) {
-			$insert = DB::table( 'options' )->insert(
-				array(
-					'option_name'  => self::$prefix . $key,
-					'option_value' => $value,
-					'autoload'     => $autoload,
-				),
-				true
-			);
-
-			if ( ! $insert ) {
-				DB::table( 'options' )
-					->where( 'option_name', self::$prefix . $key )
-					->update( array( 'option_value' => $value ) );
-			}
+			update_option( self::$prefix . $key, $value );
 		}
 	}
 

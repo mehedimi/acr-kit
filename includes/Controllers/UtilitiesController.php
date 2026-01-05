@@ -1,10 +1,10 @@
 <?php
 
-namespace AbandonedCartRecover\Controllers;
+namespace ACRKit\Controllers;
 
+use ACRKit\Rest;
+use ACRKit\Utilities\Utilities;
 use WP_REST_Request;
-use AbandonedCartRecover\Rest;
-use AbandonedCartRecover\Utilities\Utilities;
 
 class UtilitiesController extends Controller {
 

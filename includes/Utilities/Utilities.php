@@ -1,7 +1,8 @@
 <?php
 
-namespace AbandonedCartRecover\Utilities;
+namespace ACRKit\Utilities;
 
+use ACRKit\Plugins\UtilitiesPlugin;
 use Mehedi\WPQueryBuilder\DB;
 use stdClass;
 
@@ -25,7 +26,7 @@ class Utilities {
 	}
 
 	public function getOrDefault() {
-		$data = DB::plugin( new \AbandonedCartRecover\Plugins\Utilities( $this->of ) )->first();
+		$data = DB::plugin( new UtilitiesPlugin( $this->of ) )->first();
 
 		if ( is_null( $data ) ) {
 			return self::default();
@@ -40,7 +41,7 @@ class Utilities {
 	public function save( bool $enabled, $config ) {
 		$config = wp_json_encode( $config );
 
-		$inserted = DB::plugin( new \AbandonedCartRecover\Plugins\Utilities( $this->of ) )->insert(
+		$inserted = DB::plugin( new UtilitiesPlugin( $this->of ) )->insert(
 			array(
 				'name'    => $this->of,
 				'enabled' => $enabled,
@@ -53,7 +54,7 @@ class Utilities {
 			return true;
 		}
 
-		return DB::plugin( new \AbandonedCartRecover\Plugins\Utilities( $this->of ) )->update(
+		return DB::plugin( new UtilitiesPlugin( $this->of ) )->update(
 			array(
 				'enabled' => $enabled,
 				'config'  => $config,
@@ -62,7 +63,7 @@ class Utilities {
 	}
 
 	public static function toFrontEnd(): array {
-		$data = DB::plugin( new \AbandonedCartRecover\Plugins\Utilities() )
+		$data = DB::plugin( new UtilitiesPlugin() )
 			->where( 'enabled', true )
 			->get();
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace AbandonedCartRecover\Support;
+namespace ACRKit\Support;
 
-use AbandonedCartRecover\ACR;
-use AbandonedCartRecover\Rest;
+use ACRKit\ACRKit;
+use ACRKit\Rest;
 use WP_Error;
 
 /**
@@ -28,7 +28,7 @@ class Api {
 	}
 
 	public static function getConnectionUrl(): string {
-		return ACR::getAppUrl() . '/stores/create?' . http_build_query(
+		return ACRKit::getAppUrl() . '/stores/create?' . http_build_query(
 			array(
 				'type'     => 1, // 1 for woocommerce
 				'token'    => Options::generateConnectionToken(),
@@ -66,8 +66,13 @@ class Api {
 		}
 	}
 
-	public static function cartMarkAsCompleted( string $id ) {
-		self::nonBlocking()->patch( sprintf( '/api/v1/carts/%s/completed', $id ) );
+	public static function cartMarkAsCompleted( string $id, ?string $recoveredBy = null ) {
+		self::nonBlocking()->patch(
+			sprintf( '/api/v1/carts/%s/completed', $id ),
+			array(
+				'recoveredBy' => $recoveredBy,
+			)
+		);
 	}
 
 	/**

@@ -23,7 +23,7 @@ store.fetch().then(() => {
     {
       title: 'Potential Revenue',
       icon: BadgeEuroIcon,
-      value: formatPrice(store.potentialRevenue, acrApp.currency),
+      value: formatPrice(store.potentialRevenue, acrKitApp.currency),
       help: 'Total money sitting in abandoned carts.',
     },
     {

@@ -1,23 +1,23 @@
 <?php
 /**
- * Plugin Name: Abandoned Cart Recover
+ * Plugin Name: ACR Kit for WooCommerce
  * Plugin URI:  https://abandonedcartrecover.com/
  * Description: Recover abandoned carts in WooCommerce with automated reminders and smart recovery links.
- * Version:     0.1.0
+ * Version:     0.4.0
  * Author:      Mehedi Hasan
  * Author URI:  https://mehedi.im/
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: abandoned-cart-recover
+ * Text Domain: acr-kit
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  */
 
-use AbandonedCartRecover\ACR;
-use AbandonedCartRecover\Installer;
-use AbandonedCartRecover\Loader;
-use AbandonedCartRecover\Rest;
-use AbandonedCartRecover\Support\Cart;
+use ACRKit\ACRKit;
+use ACRKit\Installer;
+use ACRKit\Loader;
+use ACRKit\Rest;
+use ACRKit\Support\Cart;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-ACR::defineConstants();
+ACRKit::defineConstants();
 
 Loader::setDistUrl( plugin_dir_url( __FILE__ ) . 'dist/' );
 Loader::allowEsModule();
@@ -37,8 +37,19 @@ if ( Loader::isDev() ) {
 }
 
 if ( is_admin() ) {
-	ACR::registerMenuPage();
+	ACRKit::registerMenuPage();
 	register_activation_hook( __FILE__, array( Installer::class, 'activation' ) );
+	add_filter(
+		'plugin_action_links_' . plugin_basename( __FILE__ ),
+		function ( array $links ) {
+			return array_merge(
+				array(
+					'<a href="' . admin_url( 'admin.php?page=acr-kit' ) . '">Overview</a>',
+				),
+				$links
+			);
+		}
+	);
 } else {
 	Cart::registerHooks();
 }

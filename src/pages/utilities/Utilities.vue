@@ -18,7 +18,7 @@ const links = [
   <AppLayout>
     <Header
       title="Utilities"
-      description="Enhance your abandoned cart recovery by enabling subtle browser tab notifications. When customers switch away from your site tab (especially with items in their cart), dynamic changes to the tab title and favicon can grab their attention and encourage them to return. This feature helps reduce cart abandonment without being intrusive. Customize messages, animations, and triggers below to match your brand and optimize recovery rates."
+      description="Enhance your ACR Kit recovery by enabling subtle browser tab notifications. When customers switch away from your site tab (especially with items in their cart), dynamic changes to the tab title and favicon can grab their attention and encourage them to return. This feature helps reduce cart abandonment without being intrusive. Customize messages, animations, and triggers below to match your brand and optimize recovery rates."
       :href="{
         name: 'utilities.index',
       }"

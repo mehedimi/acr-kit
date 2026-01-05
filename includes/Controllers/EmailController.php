@@ -1,13 +1,13 @@
 <?php
 
-namespace AbandonedCartRecover\Controllers;
+namespace ACRKit\Controllers;
 
-use AbandonedCartRecover\Enum\ClientAction;
-use AbandonedCartRecover\Rest;
-use AbandonedCartRecover\Support\Api;
-use AbandonedCartRecover\Support\Email;
-use AbandonedCartRecover\Support\Encryptor;
-use AbandonedCartRecover\Support\OptionExt;
+use ACRKit\Enum\ClientAction;
+use ACRKit\Rest;
+use ACRKit\Support\Api;
+use ACRKit\Support\Email;
+use ACRKit\Support\Encryptor;
+use ACRKit\Support\OptionExt;
 use DOMDocument;
 use WP_Error;
 use WP_REST_Request;
@@ -105,9 +105,9 @@ class EmailController extends Controller {
 
 		$baseUrl = get_home_url() . '?' . http_build_query(
 			array(
-				'acr_action'   => ClientAction::CLICK_EMAIL,
-				'acr_cart_id'  => '__ACR_CART_ID__',
-				'acr_email_id' => $emailId,
+				'acr_kit_action'       => ClientAction::CLICK_EMAIL,
+				'acr_kit_cart_id'      => '__ACR_KIT_CART_ID__',
+				'acr_kit_recovered_id' => $emailId,
 			)
 		);
 

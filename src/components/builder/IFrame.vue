@@ -64,7 +64,7 @@ function resizeIframe() {
     (iframeEl.value?.contentDocument?.body?.scrollHeight || 0) + 1 + 'px'
 }
 
-const iframeSrc = acrApp.assetUrl.replace('dist/', 'assets/email.html')
+const iframeSrc = acrKitApp.assetUrl.replace('dist/', 'assets/email.html')
 
 onBeforeUnmount(() => {
   if (iframeEl.value?.contentDocument?.body) {

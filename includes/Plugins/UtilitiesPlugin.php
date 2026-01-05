@@ -1,11 +1,11 @@
 <?php
 
-namespace AbandonedCartRecover\Plugins;
+namespace ACRKit\Plugins;
 
 use Mehedi\WPQueryBuilder\Contracts\Pluggable;
 use Mehedi\WPQueryBuilder\Query\Builder;
 
-class Utilities implements Pluggable {
+class UtilitiesPlugin implements Pluggable {
 
 	protected ?string $name;
 
@@ -14,7 +14,7 @@ class Utilities implements Pluggable {
 	}
 
 	public function apply( Builder $builder ): Builder {
-		$builder->from( 'acr_utilities' );
+		$builder->from( 'acr_kit_utilities' );
 
 		if ( ! is_null( $this->name ) ) {
 			$builder->where( 'name', $this->name );
