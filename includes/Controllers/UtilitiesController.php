@@ -40,13 +40,13 @@ class UtilitiesController extends Controller {
 	}
 
 	public static function handle( WP_REST_Request $request ) {
-		$tab = Utilities::of( $request->get_param( 'type' ) );
+		$utility = Utilities::of( $request->get_param( 'type' ) );
 
 		if ( $request->get_method() === 'GET' ) {
-			return $tab->getOrDefault();
+			return $utility->getOrDefault();
 		}
 
-		$tab->save( $request->get_param( 'enabled' ), $request->get_param( 'config' ) );
+		$utility->save( $request->get_param( 'enabled' ), $request->get_param( 'config' ) );
 
 		return array( 'ok' => true );
 	}

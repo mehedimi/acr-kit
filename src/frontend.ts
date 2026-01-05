@@ -8,6 +8,6 @@ if (acrKitApp.utilities?.tab) {
   bootTabNotification(acrKitApp.utilities?.tab)
 }
 
-if (acrApp.utilities?.push) {
-  bootPushNotification(acrApp.utilities?.push)
+if (acrKitApp.utilities?.push) {
+  bootPushNotification(acrKitApp.utilities?.push)
 }

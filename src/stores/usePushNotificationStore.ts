@@ -68,18 +68,45 @@ export const usePushNotificationStore = defineStore('pushNotificationStore', {
         isUpdating.value = true
         return Promise.all([
           appHttp.patch(`${BASE_ENDPOINT}/${data.id}`, data),
-          wpHttp.put(`/utilities/push`, {
-            enabled: this.data.some((push) => push.recovery.enabled),
-            config: {
-              publicKey: this.publicKey,
-            },
-          } satisfies Utilities<{ publicKey: string }>),
+          this.updateUtilities(),
         ]).finally(() => {
           isUpdating.value = false
         })
       }
 
       return { isUpdating, update }
+    },
+
+    async updateUtilities() {
+      return wpHttp.put(`/utilities/push`, {
+        enabled: this.data.some((push) => push.recovery.enabled),
+        config: {
+          publicKey: this.publicKey,
+        },
+      } satisfies Utilities<{ publicKey: string }>)
+    },
+
+    destroy() {
+      const isDeleting = ref(false)
+
+      const destroy = async (id: string) => {
+        isDeleting.value = true
+        return appHttp
+          .delete(`${BASE_ENDPOINT}/${id}`)
+          .then(() => {
+            const index = this.data.findIndex((push) => push.id === id)
+            if (index !== -1) {
+              this.data.splice(index, 1)
+            }
+
+            return this.updateUtilities()
+          })
+          .finally(() => {
+            isDeleting.value = false
+          })
+      }
+
+      return { isDeleting, destroy }
     },
   },
 })

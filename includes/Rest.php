@@ -5,6 +5,7 @@ namespace ACRKit;
 use ACRKit\Controllers\CartController;
 use ACRKit\Controllers\ConnectionController;
 use ACRKit\Controllers\EmailController;
+use ACRKit\Controllers\PushController;
 use ACRKit\Controllers\SettingsController;
 use ACRKit\Controllers\UtilitiesController;
 use ACRKit\Support\Options;
@@ -23,6 +24,7 @@ class Rest {
 				EmailController::register();
 				SettingsController::register();
 				UtilitiesController::register();
+				PushController::register();
 			}
 		);
 	}

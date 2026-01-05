@@ -35,12 +35,21 @@ const { push } = defineProps<{
 const store = usePushNotificationStore()
 
 const { isUpdating, update } = store.update()
+const { isDeleting, destroy } = store.destroy()
 
 async function handleUpdate() {
   toast.promise(update(push), {
     loading: 'Updating...',
     success: 'The push notification has been updated successfully.',
     error: 'Failed to update the push notification.',
+  })
+}
+
+async function handleDestroy() {
+  toast.promise(destroy(push.id), {
+    loading: 'Deleting...',
+    success: 'The push notification has been deleted successfully.',
+    error: 'Failed to delete the push notification.',
   })
 }
 </script>
@@ -127,7 +136,9 @@ async function handleUpdate() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <Button variant="destructive">Continue</Button>
+                <Button @click="handleDestroy" :disabled="isDeleting" variant="destructive"
+                  >Delete!</Button
+                >
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

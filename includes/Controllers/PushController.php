@@ -3,6 +3,9 @@
 namespace ACRKit\Controllers;
 
 use ACRKit\Rest;
+use ACRKit\Support\Api;
+use ACRKit\Support\Cart;
+use WP_Error;
 use WP_REST_Request;
 
 class PushController extends Controller {
@@ -10,9 +13,9 @@ class PushController extends Controller {
 	public static function register() {
 		register_rest_route(
 			Rest::NAMESPACE,
-			'/pushes/subscriptions',
+			'/push/subscriptions',
 			array(
-				'methods'             => 'POST',
+				'methods'             => 'PUT',
 				'callback'            => array( self::class, 'subscribe' ),
 				'permission_callback' => array( Rest::class, 'nonceCallback' ),
 				'args'                => array(
@@ -25,7 +28,7 @@ class PushController extends Controller {
 								&& filter_var( $value, FILTER_VALIDATE_URL )
 								&& strlen( $value ) <= 2048;
 						},
-						'sanitize_callback' => 'esc_url_raw',
+						'sanitize_callback' => 'sanitize_url',
 					),
 					'public_key' => array(
 						'required'          => true,
@@ -66,5 +69,28 @@ class PushController extends Controller {
 	}
 
 	public static function subscribe( WP_REST_Request $request ) {
+		wc_load_cart();
+
+		$cartId = Cart::getCartId();
+
+		if ( empty( $cartId ) ) {
+			return new WP_Error( 'cart_not_found', 'Cart not found', array( 'status' => 404 ) );
+		}
+
+		$response = Api::put(
+			'/api/v1/push-subscriptions',
+			array(
+				'endpoint'  => $request->get_param( 'endpoint' ),
+				'cartId'    => $cartId,
+				'publicKey' => $request->get_param( 'public_key' ),
+				'authToken' => $request->get_param( 'auth_token' ),
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		return array( 'ok' => true );
 	}
 }

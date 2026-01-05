@@ -1,19 +1,28 @@
 import type { PushUtilities } from '@/types/utilities.ts'
+import { wpHttp } from '@/lib/http.ts'
+import { arrayBufferToBase64, urlBase64ToUint8Array } from '@/client/helper.ts'
+
+let serviceWorkerRegistration: ServiceWorkerRegistration | null = null
+
+const PUSH_ASK_KEY = 'acr_kit_push-request-ask' as const
+const BIND_PUSH_KEY = 'acr_kit_push-bind' as const
 
 export function bootPushNotification(config: PushUtilities['config']) {
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
     return
   }
-
-  registerServiceWorker()
   // @ts-ignore
   jQuery(document.body).on('added_to_cart', () => tryToSendPushInfo(config))
 }
 
-function registerServiceWorker() {
-  navigator.serviceWorker.register(acrApp.assetUrl + 'sw.js').then(() => {
-    //
-  })
+async function getServiceWorkerRegistration() {
+  if (serviceWorkerRegistration) {
+    return serviceWorkerRegistration
+  }
+
+  serviceWorkerRegistration = await navigator.serviceWorker.register(acrKitApp.assetUrl + 'sw.js')
+
+  return serviceWorkerRegistration
 }
 
 function tryToSendPushInfo(config: PushUtilities['config']) {
@@ -25,7 +34,7 @@ function tryToSendPushInfo(config: PushUtilities['config']) {
     return
   }
 
-  if (Notification.permission === 'default' || !sessionStorage.getItem('acr_push-request-ask')) {
+  if (Notification.permission === 'default' || !sessionStorage.getItem(PUSH_ASK_KEY)) {
     askForPushPermission(config).then(() => {
       //
     })
@@ -33,12 +42,14 @@ function tryToSendPushInfo(config: PushUtilities['config']) {
   }
 
   if (Notification.permission === 'granted') {
-    bindCartWithPush()
+    bindCartWithPush(config).then(() => {
+      //
+    })
   }
 }
 
 async function askForPushPermission(config: PushUtilities['config']) {
-  sessionStorage.setItem('acr_push-request-ask', '1')
+  sessionStorage.setItem(PUSH_ASK_KEY, '1')
 
   const permission = await Notification.requestPermission()
 
@@ -46,26 +57,34 @@ async function askForPushPermission(config: PushUtilities['config']) {
     return
   }
 
-  const registration = await navigator.serviceWorker.ready
-
-  const subscription = await registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(config.publicKey as string),
-  })
+  return bindCartWithPush(config)
 }
 
-function bindCartWithPush() {}
-
-function urlBase64ToUint8Array(base64String: string): ArrayBuffer {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
-
-  const rawData = window.atob(base64)
-  const outputArray = new Uint8Array(rawData.length)
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i)
+async function bindCartWithPush(config: PushUtilities['config']) {
+  if (sessionStorage.getItem(BIND_PUSH_KEY)) {
+    return
   }
 
-  return outputArray.buffer
+  const registration = await getServiceWorkerRegistration()
+
+  let subscription = await registration.pushManager.getSubscription()
+
+  if (!subscription) {
+    subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(config.publicKey as string),
+    })
+  }
+
+  await wpHttp.put('/push/subscriptions', {
+    endpoint: subscription.endpoint,
+    public_key: arrayBufferToBase64(subscription.getKey('p256dh')) as string,
+    auth_token: arrayBufferToBase64(subscription.getKey('auth')) as string,
+  } satisfies {
+    endpoint: string
+    public_key: string
+    auth_token: string
+  })
+
+  sessionStorage.setItem(BIND_PUSH_KEY, '1')
 }

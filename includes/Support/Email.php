@@ -16,7 +16,7 @@ class Email {
 		// phpcs:ignore WordPress.Security.NonceVerification
 		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_kit_recovered_id'] ) );
 
-		Api::trackEmailOpen( $emailId, $cartId );
+		Api::trackOpen( $emailId, $cartId );
 
 		header( 'Content-Type: image/gif' );
 		header( 'Cache-Control: no-cache, no-store, must-revalidate' );
@@ -46,7 +46,7 @@ class Email {
 		if ( empty( $url ) ) {
 			$url = home_url();
 		} else {
-			Api::trackEmailClick( $emailId, $cartId );
+			Api::trackClick( $emailId, $cartId );
 		}
 
 		// We have validated and checked it's a safe URL, so we can safely redirect.
@@ -68,7 +68,7 @@ class Email {
 		$emailId = sanitize_text_field( wp_unslash( $_GET['acr_kit_recovered_id'] ) );
 
 		Api::nonBlocking()
-			->patch( "/api/v1/recovery-emails/$emailId/carts/$cartId/unsubscribe" );
+			->patch( "/api/v1/recoveries/$emailId/carts/$cartId/unsubscribed" );
 
 		$url = home_url();
 
