@@ -126,7 +126,8 @@ class Cart {
 		$cart = json_decode( wp_remote_retrieve_body( $response ), true )['data'];
 
 		if ( CartStatus::ABANDONED !== $cart['status'] ) {
-			return;
+			wp_safe_redirect( get_home_url() );
+			exit;
 		}
 
 		WC()->cart->empty_cart();
@@ -145,11 +146,11 @@ class Cart {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ! empty( $_GET['acr_kit_recovered_id'] ) ) {
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$emailId = sanitize_text_field( wp_unslash( $_GET['acr_kit_recovered_id'] ) );
+			$recoveryId = sanitize_text_field( wp_unslash( $_GET['acr_kit_recovered_id'] ) );
 
-			WC()->session->set( 'acr_kit_recovered_by', $emailId );
+			WC()->session->set( 'acr_kit_recovered_by', $recoveryId );
 
-			Api::trackEmailOpen( $emailId, $cartId );
+			Api::trackClick( $recoveryId, $cartId );
 		}
 
 		wp_safe_redirect( wc_get_checkout_url() );

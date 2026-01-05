@@ -22,6 +22,11 @@ class CartController extends Controller {
 		);
 	}
 
+	/**
+	 * Ping the cart.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
 	public static function pingCart() {
 		wc_load_cart();
 

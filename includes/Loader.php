@@ -40,6 +40,7 @@ class Loader {
 			array(
 				'apiUrl'    => Rest::getApiUrl(),
 				'nonce'     => wp_create_nonce( 'wp_rest' ),
+				'assetUrl'  => self::$distUrl,
 				'utilities' => Utilities::toFrontEnd(),
 			)
 		);

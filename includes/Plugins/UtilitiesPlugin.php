@@ -5,7 +5,7 @@ namespace ACRKit\Plugins;
 use Mehedi\WPQueryBuilder\Contracts\Pluggable;
 use Mehedi\WPQueryBuilder\Query\Builder;
 
-class Utilities implements Pluggable {
+class UtilitiesPlugin implements Pluggable {
 
 	protected ?string $name;
 

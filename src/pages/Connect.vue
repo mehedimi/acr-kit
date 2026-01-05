@@ -49,7 +49,9 @@ async function connect() {
         <p>ACR Kit is installed!</p>
         <p>
           Connect to
-          <abbr title="Abandoned Cart Recover"><a href="https://abandonedcartrecover.com/" target="_blank">ACR Kit</a></abbr>
+          <abbr title="Abandoned Cart Recover"
+            ><a href="https://abandonedcartrecover.com/" target="_blank">ACR Kit</a></abbr
+          >
           to activate powerful cart recovery features and start converting abandoned carts into
           completed orders.
         </p>

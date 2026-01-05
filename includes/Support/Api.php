@@ -83,12 +83,12 @@ class Api {
 		self::patch( sprintf( '/api/v1/carts/%s/ping', $id ) );
 	}
 
-	public static function trackEmailOpen( string $emailId, string $cartId ) {
-		self::nonBlocking()->patch( "/api/v1/recovery-emails/$emailId/carts/$cartId/open" );
+	public static function trackOpen( string $recoveryId, string $cartId ) {
+		self::nonBlocking()->patch( "/api/v1/recoveries/$recoveryId/carts/$cartId/opened" );
 	}
 
-	public static function trackEmailClick( string $emailId, string $cartId ) {
-		self::nonBlocking()->patch( "/api/v1/recovery-emails/$emailId/carts/$cartId/click" );
+	public static function trackClick( string $recoveryId, string $cartId ) {
+		self::nonBlocking()->patch( "/api/v1/recoveries/$recoveryId/carts/$cartId/clicked" );
 	}
 
 	public static function uninstall() {

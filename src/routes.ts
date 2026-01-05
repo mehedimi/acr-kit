@@ -42,6 +42,11 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('./pages/recover/Builder.vue'),
         name: 'recovery.email.builder',
       },
+      {
+        path: 'push-notification',
+        component: () => import('./pages/recover/PushNotification.vue'),
+        name: 'recovery.options.push-notification',
+      },
     ],
   },
   {

@@ -26,6 +26,21 @@ export interface EmailRecovery<R = undefined> {
   updatedAt: string
 }
 
+export interface PushRecovery<R = undefined> {
+  id: string
+  name: string
+  title: string
+  body: string
+  queued: number
+  sent: number
+  failed: number
+  clicked: number
+  recovered: number
+  recovery: R
+  createdAt: string
+  updatedAt: string
+}
+
 export interface EmailRecoveryCreatePayload {
   title: string
   subject: string
