@@ -15,6 +15,7 @@ INCLUDE_ITEMS=(
   "acr-kit.php"
   "readme.txt"
   "composer.json"
+  "dist/sw.js"
 )
 
 # Check if required items exist
