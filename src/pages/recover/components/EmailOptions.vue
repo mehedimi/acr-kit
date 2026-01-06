@@ -18,7 +18,6 @@ import { ButtonGroup } from '@/components/ui/button-group'
 import { CircleCheckBig, Trash2Icon, SaveAllIcon, MailsIcon } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
 import {
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -171,11 +170,8 @@ async function saveEmail() {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  :disabled="isDeleting"
-                  variant="destructive"
-                  @click="handleDelete"
-                  >Continue</AlertDialogAction
+                <Button :disabled="isDeleting" @click="handleDelete" variant="destructive"
+                  >Delete!</Button
                 >
               </AlertDialogFooter>
             </AlertDialogContent>
