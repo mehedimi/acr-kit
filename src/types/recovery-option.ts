@@ -1,8 +1,10 @@
 import type { Template } from '@/types/builder.ts'
+import type { RecoveryType } from '@/enum/recovery-type.ts'
 
 export interface RecoveryOption {
   id: string
   enabled: boolean
+  type: RecoveryType
   runAfter: number
   createdAt: string
   updatedAt: string

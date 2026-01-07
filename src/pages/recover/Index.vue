@@ -5,6 +5,14 @@ import { Button } from '@/components/ui/button'
 import Heading from '@/pages/recover/components/Heading.vue'
 import { RouterLink } from 'vue-router'
 import Content from '@/components/Content.vue'
+import { Badge } from '@/components/ui/badge'
+import { useRecoveryOptionStore } from '@/stores/useRecoveryOptionStore.ts'
+import { storeToRefs } from 'pinia'
+import { RecoveryType } from '@/enum/recovery-type.ts'
+
+const store = useRecoveryOptionStore()
+
+type EnableItems = Map<RecoveryType, number>
 
 const options = [
   {
@@ -13,9 +21,14 @@ const options = [
       'Configure automated email notifications triggered when a cart is marked as abandoned.',
     icon: MailCheck,
     action: {
-      to: { name: 'recovery.options.email' },
+      to: {
+        name: 'recovery.options.email',
+      },
       icon: Cog,
       text: 'Configure',
+    },
+    badge(enableItems: EnableItems): string | number {
+      return enableItems.get(RecoveryType.EMAIL) || 0
     },
   },
   {
@@ -24,12 +37,21 @@ const options = [
       'Send instant reminders to your customers right in their browser when they leave items in their cart. Set it up once, and your visitors will get friendly, timely alerts that encourage them to complete their purchase.',
     icon: MessageSquareMoreIcon,
     action: {
-      to: { name: 'recovery.options.push-notification' },
+      to: {
+        name: 'recovery.options.push-notification',
+      },
       icon: Cog,
       text: 'Configure',
     },
+    badge(enableItems: EnableItems): string | number {
+      return enableItems.get(RecoveryType.PUSH) || 0
+    },
   },
 ]
+
+store.fetch()
+
+const { enableItems } = storeToRefs(store)
 </script>
 
 <template>
@@ -42,7 +64,12 @@ const options = [
     >
       <CardContent>
         <div class="acr:flex acr:gap-x-4 acr:items-center">
-          <component :is="option.icon" class="acr:w-14 acr:h-14 acr:text-[#1F2E4C] acr:-mt-3" />
+          <div class="acr:relative">
+            <Badge v-if="store.isLoaded" class="acr:absolute acr:-left-2 acr:-top-4">{{
+              option.badge(enableItems)
+            }}</Badge>
+            <component :is="option.icon" class="acr:w-14 acr:h-14 acr:text-[#1F2E4C] acr:-mt-3" />
+          </div>
           <div class="acr:flex-1">
             <h2 class="acr:my-0! acr:text-xl! acr:text-gray-700!">{{ option.title }}</h2>
             <p class="acr:mt-1! acr:text-xs! acr:text-muted-foreground acr:italic!">

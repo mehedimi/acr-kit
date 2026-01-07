@@ -97,6 +97,9 @@ importers:
       pinia:
         specifier: ^3.0.4
         version: 3.0.4(typescript@5.9.3)(vue@3.5.25(typescript@5.9.3))
+      pluralize:
+        specifier: ^8.0.0
+        version: 8.0.0
       reka-ui:
         specifier: ^2.6.1
         version: 2.6.1(typescript@5.9.3)(vue@3.5.25(typescript@5.9.3))
@@ -128,6 +131,9 @@ importers:
       '@types/node':
         specifier: ^24.10.4
         version: 24.10.4
+      '@types/pluralize':
+        specifier: ^0.0.33
+        version: 0.0.33
       '@typescript-eslint/eslint-plugin':
         specifier: latest
         version: 8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -1387,6 +1393,12 @@ packages:
     resolution:
       {
         integrity: sha512-vnDVpYPMzs4wunl27jHrfmwojOGKya0xyM3sH+UE5iv5uPS6vX7UIoh6m+vQc5LGBq52HBKPIn/zcSZVzeDEZg==,
+      }
+
+  '@types/pluralize@0.0.33':
+    resolution:
+      {
+        integrity: sha512-JOqsl+ZoCpP4e8TDke9W79FDcSgPAR0l6pixx2JHkhnRjvShyYiAYw2LVsnA7K08Y6DeOnaU6ujmENO4os/cYg==,
       }
 
   '@types/unist@3.0.3':
@@ -3296,6 +3308,13 @@ packages:
       typescript:
         optional: true
 
+  pluralize@8.0.0:
+    resolution:
+      {
+        integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==,
+      }
+    engines: { node: '>=4' }
+
   postcss-selector-parser@6.0.10:
     resolution:
       {
@@ -4819,6 +4838,8 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
+  '@types/pluralize@0.0.33': {}
+
   '@types/unist@3.0.3': {}
 
   '@types/web-bluetooth@0.0.21': {}
@@ -5961,6 +5982,8 @@ snapshots:
       vue: 3.5.25(typescript@5.9.3)
     optionalDependencies:
       typescript: 5.9.3
+
+  pluralize@8.0.0: {}
 
   postcss-selector-parser@6.0.10:
     dependencies:

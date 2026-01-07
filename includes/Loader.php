@@ -88,10 +88,10 @@ class Loader {
 	}
 
 	public static function enqueueAdminProdScripts() {
-		wp_enqueue_style( 'acr-kit-admin-css', self::$distUrl . 'assets/admin-DLPU1FDb.css', array(), null );
+		wp_enqueue_style( 'acr-kit-admin-css', self::$distUrl . 'assets/admin-BqI9HNTc.css', array(), null );
 		wp_enqueue_script(
 			'acr-kit-admin',
-			self::$distUrl . 'assets/admin-3rflVusW.js',
+			self::$distUrl . 'assets/admin-CEtyd_du.js',
 			array(),
 			null,
 			true
