@@ -39,10 +39,11 @@ class PushController extends Controller {
 								return false;
 							}
 
+                            // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 							$decoded = base64_decode( $value, true );
 
 							// p256dh must be 65 bytes (uncompressed P-256 key)
-							return $decoded !== false && strlen( $decoded ) === 65;
+							return false !== $decoded && strlen( $decoded ) === 65;
 						},
 						'sanitize_callback' => 'sanitize_text_field',
 					),
@@ -56,10 +57,11 @@ class PushController extends Controller {
 								return false;
 							}
 
+                            // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode
 							$decoded = base64_decode( $value, true );
 
 							// auth must be 16 bytes
-							return $decoded !== false && strlen( $decoded ) === 16;
+							return false !== $decoded && strlen( $decoded ) === 16;
 						},
 						'sanitize_callback' => 'sanitize_text_field',
 					),

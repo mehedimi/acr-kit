@@ -92,7 +92,7 @@ export const usePushNotificationStore = defineStore('pushNotificationStore', {
       const destroy = async (id: string) => {
         isDeleting.value = true
         return appHttp
-          .delete(`${BASE_ENDPOINT}/${id}`)
+          .delete(`/api/v1/recovery-options/${id}`)
           .then(() => {
             const index = this.data.findIndex((push) => push.id === id)
             if (index !== -1) {

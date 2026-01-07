@@ -70,13 +70,26 @@ export const useEmailStore = defineStore('email', {
       this.data = [data]
     },
 
-    async delete(id: string) {
-      await appHttp.delete(`${BASE_ENDPOINT}/${id}`)
-      const index = this.data.findIndex((email) => email.id === id)
+    delete(id: string) {
+      const isDeleting = ref(false)
 
-      if (index !== -1) {
-        this.data.splice(index, 1)
+      const destroy = async () => {
+        isDeleting.value = true
+        return appHttp
+          .delete(`/api/v1/recovery-options/${id}`)
+          .then(() => {
+            const index = this.data.findIndex((email) => email.id === id)
+
+            if (index !== -1) {
+              this.data.splice(index, 1)
+            }
+          })
+          .finally(() => {
+            isDeleting.value = false
+          })
       }
+
+      return { isDeleting, destroy }
     },
 
     async updateTemplate(data: EmailRecoveryTemplateUpdatePayload) {

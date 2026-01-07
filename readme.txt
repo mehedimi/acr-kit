@@ -158,6 +158,9 @@ No. The plugin is optimized for performance:
 
 
 == Changelog ==
+= 0.5.0 =
+* Add push recovery notifications to the browser
+* Improve performance and reliability
 
 = 0.4.0 =
 * Initial release
