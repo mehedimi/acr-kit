@@ -38,20 +38,13 @@ const { email } = defineProps<{
 
 const emailStore = useEmailStore()
 
-const isDeleting = ref(false)
+const { isDeleting, destroy } = emailStore.delete(email.id)
 
 async function handleDelete() {
-  isDeleting.value = true
-  toast.promise(emailStore.delete(email.id), {
-    loading: 'Deleting',
-    success() {
-      isDeleting.value = false
-      return 'The email has been deleted.'
-    },
-    error() {
-      isDeleting.value = false
-      return 'Failed to delete the email'
-    },
+  toast.promise(destroy(), {
+    loading: 'Deleting...',
+    success: 'The email has been deleted.',
+    error: 'Failed to delete the email',
   })
 }
 
