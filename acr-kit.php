@@ -30,28 +30,19 @@ ACRKit::defineConstants();
 Loader::setDistUrl( plugin_dir_url( __FILE__ ) . 'dist/' );
 Loader::allowEsModule();
 
-if ( Loader::isDev() ) {
-	Loader::loadDevScripts();
-} else {
-	Loader::loadProdScripts();
-}
-
 if ( is_admin() ) {
 	ACRKit::registerMenuPage();
 	register_activation_hook( __FILE__, array( Installer::class, 'activation' ) );
 	add_filter(
 		'plugin_action_links_' . plugin_basename( __FILE__ ),
-		function ( array $links ) {
-			return array_merge(
-				array(
-					'<a href="' . admin_url( 'admin.php?page=acr-kit' ) . '">Overview</a>',
-				),
-				$links
-			);
-		}
+		array( Installer::class, 'links' )
 	);
+	// Load admin scripts.
+	add_action( 'admin_enqueue_scripts', array( Loader::class, 'loadAdminScripts' ) );
 } else {
 	Cart::registerHooks();
+	// Load frontend scripts.
+	add_action( 'wp_enqueue_scripts', array( Loader::class, 'loadFrontendScripts' ) );
 }
 
 Rest::init();

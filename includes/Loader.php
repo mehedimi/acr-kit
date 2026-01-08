@@ -74,69 +74,55 @@ class Loader {
 		);
 	}
 
-	public static function enqueueAdminDevScripts() {
-		self::enqueueViteClient();
-		wp_enqueue_script(
-			'acr-kit-admin',
-			'http://localhost:5174/src/admin.ts',
-			array( 'acr-kit-vite-client' ),
-			null, // phpcs:ignore
-			true
-		);
+	public static function loadAdminScripts( string $hook ) {
+		if ( 'acr-kit' !== substr( $hook, -7 ) ) {
+			return;
+		}
+
+		if ( self::isDev() ) {
+			self::enqueueViteClient();
+			wp_enqueue_script(
+				'acr-kit-admin',
+				'http://localhost:5174/src/admin.ts',
+				array( 'acr-kit-vite-client' ),
+                null, // phpcs:ignore
+				true
+			);
+		} else {
+			wp_enqueue_style( 'acr-kit-admin-css', self::$distUrl . 'assets/admin-BqI9HNTc.css', array(), null );
+			wp_enqueue_script(
+				'acr-kit-admin',
+				self::$distUrl . 'assets/admin-CEtyd_du.js',
+				array(),
+				null,
+				true
+			);
+		}
+
 		self::adminLocalizeScript();
 		wp_enqueue_media();
 	}
 
-	public static function enqueueAdminProdScripts() {
-		wp_enqueue_style( 'acr-kit-admin-css', self::$distUrl . 'assets/admin-BqI9HNTc.css', array(), null );
-		wp_enqueue_script(
-			'acr-kit-admin',
-			self::$distUrl . 'assets/admin-CEtyd_du.js',
-			array(),
-			null,
-			true
-		);
-		self::adminLocalizeScript();
-		wp_enqueue_media();
-	}
-
-	public static function enqueueFrontendDevScripts() {
-		self::enqueueViteClient();
-		wp_enqueue_script(
-			'acr-kit-frontend',
-			'http://localhost:5174/src/frontend.ts',
-			array( 'acr-kit-vite-client' ),
-			null, // phpcs:ignore
-			true
-		);
+	public static function loadFrontendScripts() {
+		if ( self::isDev() ) {
+			self::enqueueViteClient();
+			wp_enqueue_script(
+				'acr-kit-frontend',
+				'http://localhost:5174/src/frontend.ts',
+				array( 'acr-kit-vite-client' ),
+                null, // phpcs:ignore
+				true
+			);
+		} else {
+			wp_enqueue_script(
+				'acr-kit-frontend',
+				self::$distUrl . 'assets/frontend-DpW2eW7-.js',
+				array(),
+				null,
+				true
+			);
+		}
 
 		self::frontendLocalizeScript();
-	}
-
-	public static function enqueueFrontendProdScripts() {
-		wp_enqueue_script(
-			'acr-kit-frontend',
-			self::$distUrl . 'assets/frontend-DpW2eW7-.js',
-			array(),
-			null,
-			true
-		);
-		self::frontendLocalizeScript();
-	}
-
-	public static function loadDevScripts() {
-		if ( is_admin() ) {
-			add_action( 'admin_enqueue_scripts', array( self::class, 'enqueueAdminDevScripts' ) );
-		} else {
-			add_action( 'wp_enqueue_scripts', array( self::class, 'enqueueFrontendDevScripts' ) );
-		}
-	}
-
-	public static function loadProdScripts() {
-		if ( is_admin() ) {
-			add_action( 'admin_enqueue_scripts', array( self::class, 'enqueueAdminProdScripts' ) );
-		} else {
-			add_action( 'wp_enqueue_scripts', array( self::class, 'enqueueFrontendProdScripts' ) );
-		}
 	}
 }
