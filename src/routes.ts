@@ -26,21 +26,12 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/recovery-options',
     component: () => import('./pages/recover/Recover.vue'),
+    name: 'recovery.options',
     children: [
-      {
-        path: '',
-        component: () => import('./pages/recover/Index.vue'),
-        name: 'recovery.options',
-      },
       {
         path: 'emails',
         component: () => import('./pages/recover/Email.vue'),
         name: 'recovery.options.email',
-      },
-      {
-        path: 'emails/:emailId',
-        component: () => import('./pages/recover/Builder.vue'),
-        name: 'recovery.email.builder',
       },
       {
         path: 'push-notification',
@@ -48,6 +39,11 @@ export const routes: RouteRecordRaw[] = [
         name: 'recovery.options.push-notification',
       },
     ],
+  },
+  {
+    path: '/recovery-options/emails/:emailId',
+    component: () => import('./pages/recover/Builder.vue'),
+    name: 'recovery.email.builder',
   },
   {
     path: '/utilities',

@@ -10,19 +10,10 @@ import {
 } from '@/components/ui/breadcrumb'
 import Help from '@/pages/recover/components/Help.vue'
 
-const props = defineProps<{
-  title: string
+defineProps<{
   description: string
-  href: RouteLocationRaw
-  links?: Array<{ title: string; href: RouteLocationRaw }>
+  links: Array<{ title: string; href: RouteLocationRaw }>
 }>()
-
-const urls: Array<{ title: string; href: RouteLocationRaw }> = [
-  {
-    title: props.title,
-    href: props.href,
-  },
-].concat(props.links ?? [])
 </script>
 
 <template>
@@ -30,7 +21,7 @@ const urls: Array<{ title: string; href: RouteLocationRaw }> = [
     <ItemContent>
       <Breadcrumb class="acr-header-breadcrumb">
         <BreadcrumbList class="acr:mx-0! acr:text-base!">
-          <template v-for="({ title, href }, index) in urls" :key="index">
+          <template v-for="({ title, href }, index) in links" :key="index">
             <BreadcrumbItem>
               <BreadcrumbLink class="acr:text-sm" :as="RouterLink" :to="href">{{
                 title
@@ -56,10 +47,10 @@ const urls: Array<{ title: string; href: RouteLocationRaw }> = [
   @apply acr:text-gray-500;
 }
 .acr-header-breadcrumb ol li {
-  @apply acr:!my-0;
+  @apply acr:my-0!;
 }
 
 .acr-header-breadcrumb li a:not(.router-link-exact-active) {
-  @apply acr:!text-primary;
+  @apply acr:text-primary!;
 }
 </style>
