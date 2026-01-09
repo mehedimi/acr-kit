@@ -2,6 +2,7 @@
 
 namespace ACRKit\Controllers;
 
+use ACRKit\Plugins\UtilityModel;
 use ACRKit\Rest;
 use ACRKit\Utilities\Utilities;
 use WP_REST_Request;
@@ -9,6 +10,16 @@ use WP_REST_Request;
 class UtilitiesController extends Controller {
 
 	public static function register() {
+		register_rest_route(
+			Rest::NAMESPACE,
+			'/utilities',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( self::class, 'index' ),
+				'permission_callback' => array( Rest::class, 'authCallback' ),
+			)
+		);
+
 		register_rest_route(
 			Rest::NAMESPACE,
 			'/utilities/(?P<type>tab|push)',
@@ -36,6 +47,13 @@ class UtilitiesController extends Controller {
 					),
 				),
 			)
+		);
+	}
+
+	public static function index(): array {
+
+		return array(
+			'data' => UtilityModel::select( 'name', 'enabled' )->get(),
 		);
 	}
 

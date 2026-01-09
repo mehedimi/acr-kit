@@ -24,3 +24,5 @@ export interface PushMessage {
   icon?: string
   actionUrl?: string
 }
+
+export type UtilityList = Array<Utilities<undefined> & { name: string }>

@@ -122,13 +122,10 @@ const headerProps = computed<{
           <CardContent>
             <div class="acr:flex acr:gap-x-4 acr:items-center">
               <div class="acr:relative">
-                <Badge v-if="store.isLoaded" class="acr:absolute acr:-left-2 acr:-top-4">{{
+                <Badge v-if="store.isLoaded" class="acr:absolute acr:-left-2 acr:-top-1">{{
                   option.badge(enableItems)
                 }}</Badge>
-                <component
-                  :is="option.icon"
-                  class="acr:w-14 acr:h-14 acr:text-[#1F2E4C] acr:-mt-3"
-                />
+                <component :is="option.icon" class="acr:w-14 acr:h-14 acr:text-[#1F2E4C]" />
               </div>
               <div class="acr:flex-1">
                 <h2 class="acr:my-0! acr:text-xl! acr:text-gray-700!">{{ option.title }}</h2>
