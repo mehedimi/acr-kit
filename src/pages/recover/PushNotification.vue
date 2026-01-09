@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Content from '@/components/Content.vue'
 import { Skeleton } from '@/components/ui/skeleton'
 import { usePushNotificationStore } from '@/stores/usePushNotificationStore.ts'
 import { minutesToHumanReadable, percentFrom } from '@/lib/utils.ts'
@@ -117,7 +116,7 @@ function createNotification() {
       </AccordionItem>
     </Accordion>
   </template>
-  <Empty v-else class="border border-dashed">
+  <Empty v-else class="acr:border acr:border-dashed">
     <EmptyHeader>
       <EmptyMedia variant="icon">
         <MessageSquareOffIcon />
@@ -128,7 +127,7 @@ function createNotification() {
       </EmptyDescription>
     </EmptyHeader>
     <EmptyContent>
-      <Button :disabled="isCreating" @click="createNotification" variant="outline">
+      <Button :disabled="isCreating" @click="createNotification" size="lg">
         <MessageSquarePlusIcon /> Create Push Notification
       </Button>
     </EmptyContent>

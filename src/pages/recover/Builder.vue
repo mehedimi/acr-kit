@@ -11,28 +11,42 @@ import { Control, type ControlAction } from '@/enum/control.ts'
 import ControlHeading from '@/components/builder/ControlHeading.vue'
 import ControlBody from '@/components/builder/ControlBody.vue'
 import { useBuilderStore } from '@/stores/useBuilderStore.ts'
-import { render } from '@vue-email/render'
-import EmailPreview from '@/components/builder/EmailPreview.vue'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Dialog, DialogHeader, DialogScrollContent, DialogTitle } from '@/components/ui/dialog'
 import { useEmailTemplateStore } from '@/stores/useEmailTemplateStore.ts'
 import Content from '@/components/Content.vue'
 import { toast } from 'vue-sonner'
 import AppLayout from '@/layouts/AppLayout.vue'
+import { useTemplateRenderer } from '@/composables/useTemplateRenderer.ts'
 
 const route = useRoute()
 const router = useRouter()
+const templateRenderer = useTemplateRenderer()
 
 const emailStore = useEmailStore()
 
 const urls: Array<{ title: string; href: RouteLocationRaw }> = reactive([
   {
+    title: 'Recovery Options',
+    href: {
+      name: 'recovery.options',
+    },
+  },
+  {
     title: 'Email Recovery',
-    href: { name: 'recovery.options.email' },
+    href: {
+      name: 'recovery.options.email',
+      query: {
+        emailId: route.params.emailId,
+      },
+    },
   },
   {
     title: 'Template Editor',
-    href: { name: route.name, params: route.params },
+    href: {
+      name: route.name,
+      params: route.params,
+    },
   },
 ])
 
@@ -83,13 +97,9 @@ async function handleSave() {
 
   toast.promise(
     async function () {
-      const body = await render(EmailPreview, {
-        template,
-      })
-
       await emailStore.updateTemplate({
         template,
-        body,
+        body: await templateRenderer.render(template),
       })
 
       await router.push({
@@ -160,11 +170,7 @@ async function applyTemplate(id: number) {
 <template>
   <AppLayout>
     <Header
-      title="Recovery Options"
       description="Design your email content, add images and buttons, and preview it live before sending. Perfect for automated messages like abandoned cart reminders, welcome emails, and promotions."
-      :href="{
-        name: 'recovery.options',
-      }"
       :links="urls"
     />
 

@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input'
 import IFrame from '@/components/builder/IFrame.vue'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
-import { CircleCheckBig, Trash2Icon, SaveAllIcon, MailsIcon } from 'lucide-vue-next'
+import { CircleCheckBig, Trash2Icon, SaveAllIcon, MailOpenIcon } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
 import {
   AlertDialogCancel,
@@ -125,6 +125,7 @@ async function saveEmail() {
         </div>
       </div>
     </Col>
+    <hr />
     <Col class="acr:py-4">
       <template v-slot:left>
         <h3 class="acr:my-0! acr:text-lg!">Template Overview</h3>
@@ -144,7 +145,7 @@ async function saveEmail() {
             :as="RouterLink"
             :to="{ name: 'recovery.email.builder', params: { emailId: email.id } }"
             variant="outline"
-            ><MailsIcon /> Edit Template</Button
+            ><MailOpenIcon /> Edit Template</Button
           >
         </ButtonGroup>
         <IFrame class="acr:rounded" :template="email.template" />

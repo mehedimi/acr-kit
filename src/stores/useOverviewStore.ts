@@ -9,6 +9,7 @@ export const useOverviewStore = defineStore('overview', {
       potentialRevenue: 0,
       recoveredCarts: 0,
       emailsSent: 0,
+      pushesSent: 0,
     }
   },
 

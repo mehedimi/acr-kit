@@ -41,7 +41,7 @@ async function createEmail() {
   toast.promise(create(), {
     loading: 'Creating email...',
     success: () => {
-      if (openedEmail.value.length === 0 && store.lastEmail?.id) {
+      if (store.lastEmail?.id) {
         openedEmail.value = [store.lastEmail.id]
       }
       return 'Email created!'
@@ -164,7 +164,7 @@ async function createEmail() {
       </AccordionItem>
     </Accordion>
   </template>
-  <Empty v-else class="border border-dashed">
+  <Empty v-else class="acr:border acr:border-dashed">
     <EmptyHeader>
       <EmptyMedia variant="icon">
         <MailQuestionMark />
@@ -175,14 +175,14 @@ async function createEmail() {
       </EmptyDescription>
     </EmptyHeader>
     <EmptyContent>
-      <Button @click="createEmail" :disabled="isCreating" variant="outline"
+      <Button size="lg" @click="createEmail" :disabled="isCreating"
         ><MailPlus /> Create Recovery Email</Button
       >
     </EmptyContent>
   </Empty>
 
   <div class="acr:text-center acr:my-4" v-if="store.data.length">
-    <Button @click="createEmail" :disabled="isCreating" variant="outline" size="lg"
+    <Button @click="createEmail" :disabled="isCreating" size="lg" variant="outline"
       ><MailPlus /> Add New Email</Button
     >
   </div>

@@ -8,8 +8,12 @@ import type {
 import { appHttp, wpHttp } from '@/lib/http.ts'
 import { ref } from 'vue'
 import { abandonedSchedule, ordinalWords } from '@/stores/recovery-utils.ts'
+import { useEmailTemplateStore } from '@/stores/useEmailTemplateStore.ts'
+import { useTemplateRenderer } from '@/composables/useTemplateRenderer.ts'
 
 const BASE_ENDPOINT = '/api/v1/recovery/emails' as const
+
+const templateRenderer = useTemplateRenderer()
 
 export const useEmailStore = defineStore('email', {
   state: (): {
@@ -39,8 +43,13 @@ export const useEmailStore = defineStore('email', {
     },
     create() {
       const isCreating = ref(false)
+      const templateStore = useEmailTemplateStore()
+
       const create = async () => {
         isCreating.value = true
+
+        const { body } = await templateStore.getRandomTemplate()
+
         return appHttp
           .post<{ data: EmailRecovery<RecoveryOption> }>(BASE_ENDPOINT, {
             title: (ordinalWords[this.data.length] || 'Untitled') + ' email',
@@ -48,7 +57,8 @@ export const useEmailStore = defineStore('email', {
               runAfter: (abandonedSchedule[this.data.length] ||
                 abandonedSchedule[abandonedSchedule.length - 1]) as number,
             },
-            body: 'Hello',
+            body: await templateRenderer.render(body),
+            template: body,
             subject: 'Cart recovery',
           } satisfies EmailRecoveryCreatePayload)
           .then(({ data: { data } }) => {

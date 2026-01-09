@@ -2,7 +2,7 @@
 import { Section } from '@vue-email/components'
 import type { ImageElement } from '@/types/builder.ts'
 
-defineProps<ImageElement>()
+defineProps<Omit<ImageElement, 'src'> & { src: string | null }>()
 
 const defaultSrc = acrKitApp.assetUrl.replace('dist/', 'assets/images/email-image-placeholder.png')
 </script>
