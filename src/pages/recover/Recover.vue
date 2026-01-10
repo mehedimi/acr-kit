@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import Content from '@/components/Content.vue'
 import { type RouteLocationRaw, RouterLink, useRoute } from 'vue-router'
 import LeftNav from '@/components/LeftNav.vue'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import Header from '@/components/Header.vue'
 
 const store = useRecoveryOptionStore()
@@ -62,16 +62,26 @@ const links = options.map((option) => {
   }
 })
 
-store.fetch()
-
-const { enableItems } = storeToRefs(store)
-
 const recoveryLink = {
   title: 'Recovery Options',
   href: {
     name: 'recovery.options',
   },
 } as const
+
+watch(
+  route,
+  (r) => {
+    if (r.name === recoveryLink.href.name) {
+      store.fetch()
+    }
+  },
+  {
+    immediate: true,
+  },
+)
+
+const { enableItems } = storeToRefs(store)
 
 const headerProps = computed<{
   description: string
@@ -122,9 +132,9 @@ const headerProps = computed<{
           <CardContent>
             <div class="acr:flex acr:gap-x-4 acr:items-center">
               <div class="acr:relative">
-                <Badge v-if="store.isLoaded" class="acr:absolute acr:-left-2 acr:-top-1">{{
-                  option.badge(enableItems)
-                }}</Badge>
+                <Badge v-if="store.isLoaded" class="acr:absolute acr:-left-2 acr:-top-1">
+                  {{ option.badge(enableItems) }}
+                </Badge>
                 <component :is="option.icon" class="acr:w-14 acr:h-14 acr:text-[#1F2E4C]" />
               </div>
               <div class="acr:flex-1">
@@ -134,9 +144,9 @@ const headerProps = computed<{
                 </p>
               </div>
               <div>
-                <Button size="lg" :as="RouterLink" :to="option.action.to" variant="outline"
-                  ><component :is="option.action.icon" /> {{ option.action.text }}</Button
-                >
+                <Button size="lg" :as="RouterLink" :to="option.action.to" variant="outline">
+                  <component :is="option.action.icon" /> {{ option.action.text }}
+                </Button>
               </div>
             </div>
           </CardContent>
