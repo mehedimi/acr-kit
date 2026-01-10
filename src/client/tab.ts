@@ -34,7 +34,7 @@ function onHiddenTab(params: TabUtilities['config']) {
   setTimeout(() => {
     document.title = originalTitle
     setTimeout(() => onHiddenTab(params), 1000)
-  }, 2000)
+  }, 1000)
 }
 
 function onShownTab() {

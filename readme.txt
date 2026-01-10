@@ -1,7 +1,7 @@
 === ACR Kit for WooCommerce ===
 Contributors: mehedimi
 Donate link: https://buymeacoffee.com/mehedimi
-Tags: woocommerce, abandoned cart, cart recovery, email marketing, sales recovery
+Tags: woocommerce, cart-abandonment, abandoned cart, cart recovery, email marketing, sales recovery
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4

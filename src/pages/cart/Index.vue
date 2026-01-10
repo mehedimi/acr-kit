@@ -89,10 +89,9 @@ async function deleteCart() {
 <template>
   <AppLayout>
     <Header
-      title="Carts"
       description="A centralized view of all customer carts, allowing you to monitor activity, analyze
           abandoned carts, and manage cart-related operations efficiently."
-      :href="{ name: 'cart.index' }"
+      :links="[{ title: 'Carts', href: { name: 'cart.index' } }]"
     />
     <Content>
       <div v-if="!isLoaded" class="acr:min-h-64 acr:flex acr:justify-center acr:items-center">

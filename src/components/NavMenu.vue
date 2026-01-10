@@ -44,7 +44,7 @@ const links = [
           <NavigationMenuLink as-child>
             <RouterLink
               :to="{ name: link.name }"
-              class="acr:flex-row acr:items-center acr:gap-2 acr:text-gray-500! acr:px-4 acr:rounded-full!"
+              class="acr:flex-row acr:items-center acr:gap-2 acr:text-gray-500! acr:px-4 acr:rounded-xl!"
               ><component :is="link.icon" />
               <span class="acr:flex-1">{{ link.title }}</span></RouterLink
             >

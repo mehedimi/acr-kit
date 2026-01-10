@@ -7,15 +7,15 @@ import { Input } from '@/components/ui/input'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { Button } from '@/components/ui/button'
 import { SendIcon, CircleCheckBigIcon } from 'lucide-vue-next'
-import { useUtilitiesStore } from '@/stores/useUtilitiesStore.ts'
+import { useUtilityStore } from '@/stores/useUtilityStore.ts'
 import LoaderView from '@/components/LoaderView.vue'
 import { TabTriggerMode } from '@/enum/tab-trigger-mode.ts'
 import { toast } from 'vue-sonner'
 
-const utilitiesStore = useUtilitiesStore()
+const utilityStore = useUtilityStore()
 
-const { isLoading } = utilitiesStore.fetchTab()
-const { isSubmitted, save } = utilitiesStore.saveTab()
+const { isLoading } = utilityStore.fetchTab()
+const { isSubmitted, save } = utilityStore.saveTab()
 
 const modes = [
   {
@@ -42,7 +42,7 @@ function submit() {
     <form @submit.prevent="submit" class="acr:space-y-8">
       <div>
         <div class="acr:flex acr:items-center acr:space-x-2">
-          <Switch v-model="utilitiesStore.tab.enabled" id="tab-notification-enable" />
+          <Switch v-model="utilityStore.tab.enabled" id="tab-notification-enable" />
           <Label for="tab-notification-enable">Enable Tab Notification</Label>
         </div>
 
@@ -55,18 +55,18 @@ function submit() {
         <Label>Trigger Mode</Label>
         <ButtonGroup>
           <Button
-            @click="utilitiesStore.tab.config.triggerMode = mode.value"
+            @click="utilityStore.tab.config.triggerMode = mode.value"
             type="button"
             v-for="mode in modes"
             variant="outline"
             :class="{
               'acr:text-primary!':
-                mode.value === (utilitiesStore.tab.config.triggerMode || TabTriggerMode.CART_ITEM),
+                mode.value === (utilityStore.tab.config.triggerMode || TabTriggerMode.CART_ITEM),
             }"
           >
             <CircleCheckBigIcon
               v-if="
-                mode.value === (utilitiesStore.tab.config.triggerMode || TabTriggerMode.CART_ITEM)
+                mode.value === (utilityStore.tab.config.triggerMode || TabTriggerMode.CART_ITEM)
               "
             />
             {{ mode.title }}
@@ -82,16 +82,16 @@ function submit() {
         <Label class="acr:flex acr:justify-between acr:items-center"
           >Activation Delay
           <span class="acr:font-normal acr:text-xs">{{
-            utilitiesStore.tab.config.delay || 5
+            utilityStore.tab.config.delay || 5
           }}</span></Label
         >
         <Slider
           :min="1"
           :max="100"
-          :modelValue="[utilitiesStore.tab.config.delay || 5]"
+          :modelValue="[utilityStore.tab.config.delay || 5]"
           @update:modelValue="
             (v) => {
-              utilitiesStore.tab.config.delay = v?.[0] || 5
+              utilityStore.tab.config.delay = v?.[0] || 5
             }
           "
         />
@@ -106,7 +106,7 @@ function submit() {
           id="notification-message"
           placeholder="Enter message that will blink. Supports emojis 😎!"
           required
-          v-model="utilitiesStore.tab.config.message"
+          v-model="utilityStore.tab.config.message"
         />
         <Help>The message that will blink in the tab notification.</Help>
       </div>

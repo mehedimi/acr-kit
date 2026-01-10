@@ -3,4 +3,5 @@ export interface Overview {
   potentialRevenue: number
   recoveredCarts: number
   emailsSent: number
+  pushesSent: number
 }

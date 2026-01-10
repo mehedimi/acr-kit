@@ -11,27 +11,42 @@ import { Control, type ControlAction } from '@/enum/control.ts'
 import ControlHeading from '@/components/builder/ControlHeading.vue'
 import ControlBody from '@/components/builder/ControlBody.vue'
 import { useBuilderStore } from '@/stores/useBuilderStore.ts'
-import { render } from '@vue-email/render'
-import EmailPreview from '@/components/builder/EmailPreview.vue'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Dialog, DialogHeader, DialogScrollContent, DialogTitle } from '@/components/ui/dialog'
 import { useEmailTemplateStore } from '@/stores/useEmailTemplateStore.ts'
 import Content from '@/components/Content.vue'
 import { toast } from 'vue-sonner'
+import AppLayout from '@/layouts/AppLayout.vue'
+import { useTemplateRenderer } from '@/composables/useTemplateRenderer.ts'
 
 const route = useRoute()
 const router = useRouter()
+const templateRenderer = useTemplateRenderer()
 
 const emailStore = useEmailStore()
 
 const urls: Array<{ title: string; href: RouteLocationRaw }> = reactive([
   {
+    title: 'Recovery Options',
+    href: {
+      name: 'recovery.options',
+    },
+  },
+  {
     title: 'Email Recovery',
-    href: { name: 'recovery.options.email' },
+    href: {
+      name: 'recovery.options.email',
+      query: {
+        emailId: route.params.emailId,
+      },
+    },
   },
   {
     title: 'Template Editor',
-    href: { name: route.name, params: route.params },
+    href: {
+      name: route.name,
+      params: route.params,
+    },
   },
 ])
 
@@ -82,13 +97,9 @@ async function handleSave() {
 
   toast.promise(
     async function () {
-      const body = await render(EmailPreview, {
-        template,
-      })
-
       await emailStore.updateTemplate({
         template,
-        body,
+        body: await templateRenderer.render(template),
       })
 
       await router.push({
@@ -157,105 +168,103 @@ async function applyTemplate(id: number) {
 </script>
 
 <template>
-  <Header
-    title="Recovery Options"
-    description="Design your email content, add images and buttons, and preview it live before sending. Perfect for automated messages like abandoned cart reminders, welcome emails, and promotions."
-    :href="{
-      name: 'recovery.options',
-    }"
-    :links="urls"
-  />
+  <AppLayout>
+    <Header
+      description="Design your email content, add images and buttons, and preview it live before sending. Perfect for automated messages like abandoned cart reminders, welcome emails, and promotions."
+      :links="urls"
+    />
 
-  <TooltipProvider>
-    <div class="acr:flex acr:justify-between acr:px-4 acr:my-4">
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            size="icon"
-            variant="outline"
-            :as="RouterLink"
-            :to="{
-              name: 'recovery.options.email',
-              query: { emailId: emailStore.firstEmail?.id as string },
-            }"
-          >
-            <ArrowLeft />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>Back to emails</TooltipContent>
-      </Tooltip>
-
-      <ButtonGroup>
-        <Tooltip v-for="(view, index) in views" :key="index">
+    <TooltipProvider>
+      <div class="acr:flex acr:justify-between acr:px-4 acr:my-4">
+        <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              @click="selectedView = index"
               size="icon"
-              :variant="index === selectedView ? 'secondary' : 'outline'"
+              variant="outline"
+              :as="RouterLink"
+              :to="{
+                name: 'recovery.options.email',
+                query: { emailId: emailStore.firstEmail?.id as string },
+              }"
             >
-              <component :is="view.icon" />
+              <ArrowLeft />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>{{ view.title }}</TooltipContent>
+          <TooltipContent>Back to emails</TooltipContent>
         </Tooltip>
-      </ButtonGroup>
-      <ButtonGroup>
-        <Button @click="pickFromTemplate = true" variant="outline">
-          <LayoutTemplateIcon /> Pick from Template
-        </Button>
-        <Button :disabled="isSaving" @click="handleSave" variant="outline">
-          <Check /> Save & Exit
-        </Button>
-      </ButtonGroup>
-    </div>
-  </TooltipProvider>
 
-  <Content>
-    <div class="acr:flex">
-      <div class="acr:flex-1 acr:[&>iframe]:mx-auto">
-        <IFrame
-          v-if="emailStore.firstEmail"
-          @action="handleAction"
-          isEditing
-          :template="builderStore"
-          :width="iframeWidth"
-        />
+        <ButtonGroup>
+          <Tooltip v-for="(view, index) in views" :key="index">
+            <TooltipTrigger asChild>
+              <Button
+                @click="selectedView = index"
+                size="icon"
+                :variant="index === selectedView ? 'secondary' : 'outline'"
+              >
+                <component :is="view.icon" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{{ view.title }}</TooltipContent>
+          </Tooltip>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button @click="pickFromTemplate = true" variant="outline">
+            <LayoutTemplateIcon /> Pick from Template
+          </Button>
+          <Button :disabled="isSaving" @click="handleSave" variant="outline">
+            <Check /> Save & Exit
+          </Button>
+        </ButtonGroup>
       </div>
-      <div
-        class="acr:w-100 acr:flex-col acr:justify-between acr:bg-white acr:border-l acr:border-gray-200 acr:shrink-0 acr:flex"
-      >
-        <ControlHeading />
-        <ControlBody />
-        <Button
-          @click="builderStore.closeAction()"
-          v-if="builderStore.action"
-          variant="outline"
-          class="acr:m-2"
-          >Close</Button
+    </TooltipProvider>
+
+    <Content>
+      <div class="acr:flex">
+        <div class="acr:flex-1 acr:[&>iframe]:mx-auto">
+          <IFrame
+            v-if="emailStore.firstEmail"
+            @action="handleAction"
+            isEditing
+            :template="builderStore"
+            :width="iframeWidth"
+          />
+        </div>
+        <div
+          class="acr:w-100 acr:flex-col acr:justify-between acr:bg-white acr:border-l acr:border-gray-200 acr:shrink-0 acr:flex"
         >
-      </div>
-    </div>
-  </Content>
-
-  <Dialog v-model:open="pickFromTemplate">
-    <DialogScrollContent class="acr:max-w-250">
-      <DialogHeader>
-        <DialogTitle>Choose Email Template</DialogTitle>
-        <div class="acr:grid acr:gap-4 acr:md:grid-cols-3 acr:mt-4">
-          <div
-            @click="applyTemplate(template.id)"
-            v-for="template in emailTemplateStore.data"
-            class="acr:rounded-lg acr:shadow acr:cursor-pointer acr:border-2 acr:hover:-translate-y-1 acr:hover:shadow-lg acr:transition-all acr:p-4 acr:hover:border-primary"
-            :key="template.id"
+          <ControlHeading />
+          <ControlBody />
+          <Button
+            @click="builderStore.closeAction()"
+            v-if="builderStore.action"
+            variant="outline"
+            class="acr:m-2"
+            >Close</Button
           >
-            <img :src="template.thumbnail" :alt="template.name" class="acr:rounded acr:shadow" />
-            <div class="acr:mt-4">
-              <h2 class="acr:mb-2!">{{ template.name }}</h2>
-              <p class="acr:my-0! acr:text-muted-foreground">{{ template.description }}</p>
+        </div>
+      </div>
+    </Content>
+
+    <Dialog v-model:open="pickFromTemplate">
+      <DialogScrollContent class="acr:max-w-250">
+        <DialogHeader>
+          <DialogTitle>Choose Email Template</DialogTitle>
+          <div class="acr:grid acr:gap-4 acr:md:grid-cols-3 acr:mt-4">
+            <div
+              @click="applyTemplate(template.id)"
+              v-for="template in emailTemplateStore.data"
+              class="acr:rounded-lg acr:shadow acr:cursor-pointer acr:border-2 acr:hover:-translate-y-1 acr:hover:shadow-lg acr:transition-all acr:p-4 acr:hover:border-primary"
+              :key="template.id"
+            >
+              <img :src="template.thumbnail" :alt="template.name" class="acr:rounded acr:shadow" />
+              <div class="acr:mt-4">
+                <h2 class="acr:mb-2!">{{ template.name }}</h2>
+                <p class="acr:my-0! acr:text-muted-foreground">{{ template.description }}</p>
+              </div>
             </div>
           </div>
-        </div>
-      </DialogHeader>
-    </DialogScrollContent>
-  </Dialog>
+        </DialogHeader>
+      </DialogScrollContent>
+    </Dialog>
+  </AppLayout>
 </template>

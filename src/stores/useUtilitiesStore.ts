@@ -1,44 +1,25 @@
 import { defineStore } from 'pinia'
-import type { TabUtilities } from '@/types/utilities.ts'
+import type { UtilityList } from '@/types/utilities.ts'
 import { wpHttp } from '@/lib/http.ts'
-import { ref } from 'vue'
+import { keyBy } from 'lodash'
 
 export const useUtilitiesStore = defineStore('utilitiesStore', {
-  state(): { tab: TabUtilities } {
-    return {
-      tab: {
-        enabled: false,
-        config: {},
-      },
-    }
-  },
+  state: (): { isLoaded: boolean; data: UtilityList } => ({
+    isLoaded: false,
+    data: [],
+  }),
 
   actions: {
-    fetchTab() {
-      const isLoading = ref(true)
-
-      wpHttp
-        .get<TabUtilities>('/utilities/tab')
-        .then(({ data }) => {
-          this.tab = data
-        })
-        .finally(() => {
-          isLoading.value = false
-        })
-
-      return { isLoading }
+    fetch() {
+      wpHttp.get<{ data: UtilityList }>('/utilities').then(({ data: { data } }) => {
+        this.data = data
+      })
     },
-    saveTab() {
-      const isSubmitted = ref(false)
+  },
 
-      const save = async () => {
-        isSubmitted.value = true
-        return wpHttp.put('/utilities/tab', this.tab satisfies TabUtilities).finally(() => {
-          isSubmitted.value = false
-        })
-      }
-
-      return { isSubmitted, save }
+  getters: {
+    asKeyVal(store) {
+      return keyBy(store.data, 'name')
     },
   },
 })

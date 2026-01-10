@@ -22,4 +22,13 @@ class Installer {
 
 		update_option( 'acr_kit_version', ACRKit::VERSION );
 	}
+
+	public static function links( array $links ) {
+		return array_merge(
+			array(
+				'<a href="' . admin_url( 'admin.php?page=acr-kit' ) . '">' . __( 'Overview', 'acr-kit' ) . '</a>',
+			),
+			$links
+		);
+	}
 }

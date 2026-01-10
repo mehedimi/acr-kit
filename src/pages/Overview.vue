@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue'
-import Content from '@/components/Content.vue'
-import Header from '@/components/Header.vue'
-import { ShoppingBagIcon, BadgeEuroIcon, ShoppingBasketIcon, MailCheckIcon } from 'lucide-vue-next'
-import { useOverviewStore } from '@/stores/useOverviewStore.ts'
-import Help from '@/pages/recover/components/Help.vue'
-import { formatPrice } from '@/lib/utils.ts'
 import { ref } from 'vue'
+import Header from '@/components/Header.vue'
+import { formatPrice } from '@/lib/utils.ts'
+import Content from '@/components/Content.vue'
+import AppLayout from '@/layouts/AppLayout.vue'
 import { Skeleton } from '@/components/ui/skeleton'
+import Help from '@/pages/recover/components/Help.vue'
+import { useOverviewStore } from '@/stores/useOverviewStore.ts'
+import {
+  ShoppingBagIcon,
+  BadgeEuroIcon,
+  ShoppingBasketIcon,
+  MailCheckIcon,
+  MessageSquareMoreIcon,
+} from 'lucide-vue-next'
 
 const store = useOverviewStore()
 const blocks = ref<Array<{ title: string; icon: any; value: string | number; help: string }>>([])
@@ -38,6 +44,12 @@ store.fetch().then(() => {
       value: store.emailsSent,
       help: 'Automated emails sent to recover abandoned carts.',
     },
+    {
+      title: 'Pushes Sent',
+      icon: MessageSquareMoreIcon,
+      value: store.pushesSent,
+      help: 'Automated push notifications sent to recover abandoned carts.',
+    },
   ]
 })
 </script>
@@ -45,9 +57,8 @@ store.fetch().then(() => {
 <template>
   <AppLayout>
     <Header
-      title="Overview"
       description="Monitor your cart recovery performance and key metrics, and its updates every 30 minutes to ensure optimal performance."
-      :href="{ name: 'overview' }"
+      :links="[{ title: 'Overview', href: { name: 'overview' } }]"
     />
     <Content class="acr:p-4">
       <div class="acr:grid acr:md:grid-cols-3 acr:lg:grid-cols-4 acr:gap-4">
